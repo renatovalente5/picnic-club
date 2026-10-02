@@ -388,14 +388,14 @@ main.has-hero { padding-top: 0; }
 .philosophy .link-arrow { margin-top: 1.4rem; }
 
 /* locations: the coast from Lisbon to Melides, with the places laid over it */
-.locations { background: var(--olive); color: var(--on-dark); padding-block: var(--space); }
-.locations__inner { display: grid; gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
+.locations { background: var(--olive); color: var(--on-dark); padding-block: clamp(3.5rem, 7vw, 6rem); }
+.locations__inner { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
 @media (min-width: 900px) { .locations__inner { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
 .locations__eyebrow { color: var(--gold); }
 .locations__lead { font: italic 300 clamp(1.35rem, 1.15rem + 0.8vw, 1.8rem)/1.45 var(--font-accent); max-width: 30ch; margin-bottom: 1.6rem; text-wrap: pretty; }
 .locations__note { color: var(--on-dark-soft); }
 
-.coast { width: min(100%, 34rem); justify-self: center; container-type: inline-size; } /* labels follow the map's width, not the screen's */
+.coast { width: min(100%, 29rem); justify-self: center; container-type: inline-size; } /* labels follow the map's width, not the screen's */
 .coast__frame { position: relative; }
 .coast__drawing { width: 100%; }
 .coast__places { position: absolute; inset: 0; }
@@ -432,7 +432,7 @@ main.has-hero { padding-top: 0; }
   .coast__place[data-side-small="s"] span { --left: 0; --top: 12px; transform: translateX(-50%); text-align: center; }
 }
 .coast__ocean {
-  position: absolute; left: 9%; top: 68%;
+  position: absolute; left: 6%; top: 75%;
   margin: 0;
   font: italic 300 clamp(1rem, 0.85rem + 0.6vw, 1.35rem)/1.2 var(--font-accent);
   letter-spacing: 0.06em;
