@@ -85,7 +85,7 @@ export function header(ctx, page) {
 
 export function phone(site) {
   const tel = site.phone.replace(/\s+/g, '');
-  return html`<a href="tel:${tel}">${site.phone}</a> <span class="call-note">Call to a Portuguese mobile network (chamada para a rede móvel nacional)</span>`;
+  return html`<a href="tel:${tel}">${site.phone}</a> <span class="call-note">Call to a Portuguese mobile network</span>`;
 }
 
 export function footer(ctx) {
@@ -119,7 +119,7 @@ export function footer(ctx) {
     </nav>
   </div>
   <div class="wrap site-footer__legal">
-    <p>© ${ctx.year} PICNIC CLUB®. ${site.legal.name}, ${site.legal.status}, NIF ${site.legal.nif}. <a href="/legal-notice/">Legal notice</a></p>
+    <p>© ${ctx.year} PICNIC CLUB® · <a href="/legal-notice/">Legal notice</a></p>
   </div>
 </footer>`;
 }
