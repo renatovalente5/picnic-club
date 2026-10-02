@@ -86,6 +86,51 @@
     if (!userPaused) load();
   }
 
+  // ------------------------------------------------------------ gallery films
+  // Each film loads and plays only while it is on screen, and stops when it leaves.
+  // One button pauses them all (moving pictures need a way to stop them, WCAG 2.2.2).
+  // With reduced motion or data saving they stay as photographs until the visitor asks.
+  const wall = document.querySelector('.moments');
+  const films = wall ? [...wall.querySelectorAll('video[data-src]')] : [];
+  const filmsButton = wall && wall.querySelector('.moments__pause');
+  if (films.length && filmsButton && 'IntersectionObserver' in window) {
+    let filmsPaused = !motionOK || Boolean(saveData);
+    const onScreen = new Set();
+    const label = filmsButton.querySelector('.moments__pause-label');
+    const showState = () => {
+      filmsButton.dataset.state = filmsPaused ? 'paused' : 'playing';
+      label.textContent = filmsPaused ? 'Play videos' : 'Pause videos';
+    };
+    const start = (film) => {
+      if (filmsPaused || document.hidden) return;
+      if (!film.getAttribute('src')) film.src = film.dataset.src;
+      const p = film.play();
+      if (p && p.catch) p.catch(() => {});
+    };
+    films.forEach((film) => film.addEventListener('playing', () => film.classList.add('is-playing')));
+    const watch = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          onScreen.add(entry.target);
+          start(entry.target);
+        } else {
+          onScreen.delete(entry.target);
+          entry.target.pause();
+        }
+      });
+    }, { threshold: 0.2 });
+    films.forEach((film) => watch.observe(film));
+    filmsButton.addEventListener('click', () => {
+      filmsPaused = !filmsPaused;
+      showState();
+      if (filmsPaused) films.forEach((film) => film.pause());
+      else onScreen.forEach(start);
+    });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) onScreen.forEach(start); });
+    showState();
+    filmsButton.hidden = false;
+  }
+
   // ------------------------------------------------------------ reveals
   const revealables = document.querySelectorAll('[data-reveal]');
   if (motionOK && 'IntersectionObserver' in window && revealables.length) {

@@ -30,6 +30,8 @@ WEST, EAST, SOUTH, NORTH = -9.26, -8.40, 38.04, 38.82
 WIDTH = 1000  # SVG units; the height follows from the projection
 TOLERANCE = 0.7  # Douglas-Peucker, in SVG units (about 50 m)
 MIN_ISLAND = 40  # square SVG units; smaller islands are salt marsh specks at this scale
+LAND = '#E7DCC7'  # on the cream band of the home page, which is the sea
+COAST = '#A88A50'
 
 # name as in content/site.json "areas" → OpenStreetMap node, and where the label goes
 # label side (n, e, s, w: above, right, below, left of the dot), and on a narrow map when it differs
@@ -293,8 +295,8 @@ def main():
         f'<mask id="my"><rect width="{WIDTH}" height="{h:g}" fill="url(#fy)"/></mask>'
         f'<mask id="m"><rect width="{WIDTH}" height="{h:g}" fill="url(#fx)" mask="url(#my)"/></mask></defs>'
         '<g mask="url(#m)">'
-        f'<path fill="#35392C" d="{path(simple_land + simple_islands, True)}"/>'
-        f'<path fill="none" stroke="#C6A76A" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" '
+        f'<path fill="{LAND}" d="{path(simple_land + simple_islands, True)}"/>'
+        f'<path fill="none" stroke="{COAST}" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" '
         f'd="{path(simple_pieces, False)}{path(simple_islands, True)}"/>'
         '</g></svg>\n'
     )

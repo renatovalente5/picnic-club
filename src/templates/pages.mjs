@@ -72,6 +72,36 @@ function coastMap(ctx) {
 </div>`;
 }
 
+/**
+ * The gallery wall: photographs and short silent films, laid out in four columns in reading
+ * order (item 1 tops the first column, item 2 the second…). On a phone the first two rows show.
+ * A film is its poster (a real <picture>, with the alt text) and a <video> that site.js fills
+ * and plays only while it is on screen.
+ */
+function moments(ctx, g) {
+  const columns = [[], [], [], []];
+  g.items.forEach((item, i) => columns[i % 4].push({ ...item, extra: i >= 8 }));
+  const sizes = '(min-width: 900px) 23vw, (min-width: 700px) 31vw, 47vw';
+  const tile = (item) => {
+    const extra = attrs({ 'data-extra': item.extra ? '' : false });
+    if (!item.film) return html`<figure class="moment"${extra}>${picture(ctx, item.photo, { sizes })}</figure>`;
+    return html`<figure class="moment moment--film"${extra}>${picture(ctx, `${item.film}-poster`, { sizes, alt: item.alt })}<video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="/assets/video/${item.film}.mp4"></video></figure>`;
+  };
+  return html`<section class="moments" aria-labelledby="moments-title">
+  <div class="wrap moments__head">
+    <div>
+      <p class="eyebrow moments__eyebrow">${g.eyebrow}</p>
+      <h2 class="display" id="moments-title">${g.title}</h2>
+    </div>
+    <div class="moments__aside">
+      <p>${g.text}</p>
+      <p class="moments__actions">${arrowLink(g.link)}<button class="moments__pause" type="button" hidden data-state="paused"><span class="moments__pause-icon" aria-hidden="true"></span><span class="moments__pause-label">Play videos</span></button></p>
+    </div>
+  </div>
+  <div class="wrap moments__wall">${columns.map((col) => html`<div class="moments__col" data-reveal>${col.map(tile)}</div>`)}</div>
+</section>`;
+}
+
 /** The home page shows three reviews side by side, a featured one first. */
 function homeReviews(items) {
   const first = items.find((r) => r.featured) || items[0];
@@ -162,18 +192,14 @@ export function home(ctx) {
   </div>
 </section>
 
-<section class="split split--reverse wrap" aria-labelledby="elopement-title">
-  <div class="split__text">
-    <p class="eyebrow">Elopement weddings</p>
-    <h2 class="display" id="elopement-title">${h.elopement.title}</h2>
-    <div class="prose">${paragraphs(h.elopement.text)}</div>
-    ${arrowLink(h.elopement.link)}
-  </div>
-  <div class="pair" data-reveal>
-    <figure class="pair__big">${picture(ctx, h.elopement.photos[0], { sizes: '(min-width: 900px) 34vw, 80vw' })}</figure>
-    <figure class="pair__small">${picture(ctx, h.elopement.photos[1], { sizes: '(min-width: 900px) 18vw, 45vw' })}</figure>
-  </div>
-</section>
+${moments(ctx, h.gallery)}
+
+${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-title">
+  <h2 class="display kind-words__title" id="reviews-title">${h.reviews.title}</h2>
+  <p class="kind-words__intro">${h.reviews.text}</p>
+  <ul class="kind-words__list">${kind.map((r) => html`<li>${quote(r)}</li>`)}</ul>
+  <p class="kind-words__links">${arrowLink(h.reviews.link)} <a class="link-arrow" href="/reviews/#write">Write a review<span aria-hidden="true">&nbsp;→</span></a></p>
+</section>` : ''}
 
 <section class="locations" aria-labelledby="locations-title">
   <div class="wrap locations__inner">
@@ -186,13 +212,6 @@ export function home(ctx) {
     ${coastMap(ctx)}
   </div>
 </section>
-
-${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-title">
-  <h2 class="display kind-words__title" id="reviews-title">${h.reviews.title}</h2>
-  <p class="kind-words__intro">${h.reviews.text}</p>
-  <ul class="kind-words__list">${kind.map((r) => html`<li>${quote(r)}</li>`)}</ul>
-  <p class="kind-words__links">${arrowLink(h.reviews.link)} <a class="link-arrow" href="/reviews/#write">Write a review<span aria-hidden="true">&nbsp;→</span></a></p>
-</section>` : ''}
 
 <section class="insta" aria-labelledby="insta-title">
   <div class="wrap insta__head">

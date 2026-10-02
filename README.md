@@ -7,6 +7,8 @@ proposals, elopement weddings and private events.
 - `media/` — photos (with alt text and focus points in `media/photos.json`), brand files, film
 - `src/` — templates, styles, script and fonts
 - `scripts/build.mjs` — builds `_site/` (Node 20+, no dependencies; images need Python 3 + Pillow)
+- `scripts/films.py` — cuts the short films of the home gallery from the original videos
+  (`python3 scripts/films.py _cliente/videos`; the originals stay out of git)
 - `scripts/coast-map.py` — redraws `media/map/` (the coast from Lisbon to Melides, from
   OpenStreetMap; the page credits it). Only needed to change the frame or the places
 

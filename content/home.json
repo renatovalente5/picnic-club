@@ -61,19 +61,57 @@
       "href": "/our-story/"
     }
   },
-  "elopement": {
-    "title": "Your wedding. Your way.",
-    "text": [
-      "Elopement weddings are intimate celebrations designed around what truly matters.",
-      "A beautiful place. The person you love. Your closest people. And a day that feels entirely yours."
-    ],
+  "gallery": {
+    "eyebrow": "Gallery",
+    "title": "Moments, as they happened.",
+    "text": "Sunset proposals, weddings on the sand and long afternoons by the pool: a few of the days we have styled.",
     "link": {
-      "label": "Discover elopement weddings",
-      "href": "/experiences/elopement-weddings/"
+      "label": "Plan your experience",
+      "href": "/plan-your-experience/"
     },
-    "photos": [
-      "elopement-ceremony-arch",
-      "elopement-walk"
+    "items": [
+      {
+        "film": "gallery-arch",
+        "alt": "The couple at a heart-shaped arch of white flowers on the beach"
+      },
+      {
+        "photo": "proposal-sunset-sails"
+      },
+      {
+        "film": "gallery-sunset",
+        "alt": "A proposal at sunset: the couple about to kiss among the candles"
+      },
+      {
+        "photo": "picnic-poolside-toast"
+      },
+      {
+        "photo": "proposal-embrace"
+      },
+      {
+        "film": "gallery-rings",
+        "alt": "The ring slipped onto her finger"
+      },
+      {
+        "photo": "behind-the-scenes"
+      },
+      {
+        "film": "gallery-toast",
+        "alt": "A toast by candlelight after dark"
+      },
+      {
+        "film": "gallery-candles",
+        "alt": "Seen from above: a candlelit table on the sand at dusk"
+      },
+      {
+        "photo": "proposal-cliff-candles"
+      },
+      {
+        "film": "gallery-table",
+        "alt": "Bottles on ice beside a picnic table"
+      },
+      {
+        "photo": "proposal-beach-table-waves"
+      }
     ]
   },
   "locations": {
