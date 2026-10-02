@@ -61,12 +61,28 @@ for (const device of DEVICES) {
     await sleep(800);
     const { result } = await send('Page.getLayoutMetrics');
     const h = Math.ceil(result.cssContentSize.height);
-    const shot = await send('Page.captureScreenshot', { format: 'jpeg', quality: 82, captureBeyondViewport: true, clip: { x: 0, y: 0, width: device.width, height: h, scale: 1 } });
-    const name = `${(p === '/' ? 'home' : p.replace(/^\/|\/$/g, '').replace(/\//g, '-'))}-${device.name}.jpg`;
-    fs.writeFileSync(path.join(out, name), Buffer.from(shot.result.data, 'base64'));
-    console.log(name, `${device.width}×${h}`);
+    // Past Chrome's largest texture (16 384 device pixels) a capture wraps round to the top of
+    // the page and the footer never shows, so long pages are taken in parts.
+    const step = Math.floor(16000 / device.scale);
+    const parts = Math.ceil(h / step);
+    const stem = `${(p === '/' ? 'home' : p.replace(/^\/|\/$/g, '').replace(/\//g, '-'))}-${device.name}`;
+    for (let i = 0; i < parts; i++) {
+      const y = i * step;
+      const height = Math.min(step, h - y);
+      const shot = await send('Page.captureScreenshot', { format: 'jpeg', quality: 82, captureBeyondViewport: true, clip: { x: 0, y, width: device.width, height, scale: 1 } });
+      const name = parts > 1 ? `${stem}-${i + 1}.jpg` : `${stem}.jpg`;
+      fs.writeFileSync(path.join(out, name), Buffer.from(shot.result.data, 'base64'));
+      console.log(name, `${device.width}×${height}`);
+    }
   }
 }
+// Close Chrome from the inside so its helper processes stop writing to the profile before it
+// is removed; a profile left behind is only a stray temp folder, never a failed run.
+const exited = new Promise((r) => chrome.once('exit', r));
+send('Browser.close'); // Chrome may go before it answers
+await Promise.race([exited, sleep(5000)]);
+if (chrome.exitCode === null && chrome.signalCode === null) { chrome.kill(); await exited; }
 ws.close();
-await new Promise((r) => { chrome.once('exit', r); chrome.kill(); });
-fs.rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+for (let i = 0; i < 10; i++) {
+  try { fs.rmSync(profile, { recursive: true, force: true }); break; } catch { await sleep(300); }
+}

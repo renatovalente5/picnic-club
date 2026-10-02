@@ -113,19 +113,6 @@ export function home(ctx) {
     ${h.intro.photos.map((p, i) => html`<figure class="collage__item collage__item--${i + 1}">${picture(ctx, p, { sizes: '(min-width: 900px) 30vw, 60vw' })}</figure>`)}
   </div>
 </section>
-
-${pressStrip(ctx)}
-
-<section class="feature" aria-labelledby="proposals-title">
-  <div class="feature__media">${picture(ctx, h.proposals.photo, { sizes: '100vw' })}</div>
-  <div class="feature__panel" data-reveal>
-    <p class="eyebrow">Marriage proposals</p>
-    <h2 class="display" id="proposals-title">${h.proposals.title}</h2>
-    <div class="prose">${paragraphs(h.proposals.text)}</div>
-    ${arrowLink(h.proposals.link)}
-  </div>
-</section>
-
 <section class="experiences wrap" aria-labelledby="experiences-title">
   <div class="section-head">
     <h2 class="display" id="experiences-title">${h.experiences.title}</h2>
@@ -187,9 +174,7 @@ ${featured ? html`<section class="reviews-band wrap" aria-labelledby="reviews-ti
     <a class="link-arrow" href="${ctx.site.instagram.url}">${ctx.site.instagram.handle}<span aria-hidden="true">&nbsp;→</span></a>
   </div>
   <ul class="insta__grid">${h.instagram.photos.map((p) => html`<li><a href="${ctx.site.instagram.url}" tabindex="-1" aria-hidden="true">${picture(ctx, p, { sizes: '(min-width: 900px) 16vw, 33vw' })}</a></li>`)}</ul>
-</section>
-
-${finalCta(ctx)}`;
+</section>`;
   return {
     path: '/',
     title: h.seo.title,
