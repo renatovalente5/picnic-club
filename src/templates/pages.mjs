@@ -206,9 +206,7 @@ ${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-t
 <section class="locations" aria-labelledby="locations-title">
   <div class="wrap locations__inner">
     <div class="locations__text">
-      <p class="eyebrow locations__eyebrow">${h.locations.eyebrow}</p>
       <h2 class="display" id="locations-title">${h.locations.title}</h2>
-      <p class="locations__lead">${h.locations.text}</p>
       <p class="locations__note">${ctx.site.areasNote}</p>
     </div>
     ${coastMap(ctx)}
@@ -216,11 +214,13 @@ ${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-t
 </section>
 
 <section class="insta" aria-labelledby="insta-title">
-  <div class="wrap insta__head">
-    <h2 class="display" id="insta-title">${h.instagram.title}</h2>
-    <a class="link-arrow" href="${ctx.site.instagram.url}">${ctx.site.instagram.handle}<span aria-hidden="true">&nbsp;→</span></a>
+  <div class="wrap">
+    <a class="insta__link" href="${ctx.site.instagram.url}">
+      <img class="insta__mark" src="/assets/brand/monogram-gold.png" width="600" height="590" alt="">
+      <h2 class="display insta__title" id="insta-title">${h.instagram.title}</h2>
+      <span class="insta__handle">${ctx.site.instagram.handle}<span aria-hidden="true">&nbsp;→</span></span>
+    </a>
   </div>
-  <ul class="insta__grid">${h.instagram.photos.map((p) => html`<li><a href="${ctx.site.instagram.url}" tabindex="-1" aria-hidden="true">${picture(ctx, p, { sizes: '(min-width: 900px) 16vw, 33vw' })}</a></li>`)}</ul>
 </section>`;
   return {
     path: '/',

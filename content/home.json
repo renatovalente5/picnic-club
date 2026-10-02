@@ -115,9 +115,7 @@
     ]
   },
   "locations": {
-    "eyebrow": "Where we create",
-    "title": "Beautiful places. Unforgettable settings.",
-    "text": "From the rice fields and dunes of Comporta to the long beaches of Tróia and Melides, and the light of Lisbon."
+    "title": "Where we create"
   },
   "reviews": {
     "title": "Kind words",
@@ -128,14 +126,6 @@
     }
   },
   "instagram": {
-    "title": "Follow our journey",
-    "photos": [
-      "proposal-white-roses",
-      "picnic-deck-pool",
-      "elopement-hands",
-      "proposal-ring-hand",
-      "proposal-one-knee-sunset",
-      "event-beach-stripes"
-    ]
+    "title": "Follow our journey"
   }
 }
