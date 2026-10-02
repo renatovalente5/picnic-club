@@ -1,6 +1,6 @@
 // Every page of the site. Each function returns { path, title, description, image, body, ... }.
 import { html, raw, attrs } from './html.mjs';
-import { picture, arrowLink, paragraphs, whatsappHref, phone, shareImage, organisation, COMPLAINTS_BOOK } from './components.mjs';
+import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, shareImage, organisation, COMPLAINTS_BOOK } from './components.mjs';
 
 const EXPERIENCE_LABELS = {
   'luxury-picnic': 'Luxury Picnic',
@@ -50,27 +50,6 @@ function locationsList(site) {
 }
 
 // ---------------------------------------------------------------- home
-
-/**
- * The coast from Lisbon to Melides (scripts/coast-map.py) with the places laid over it.
- * The places are the list itself: HTML, in the site's fonts, read in order by screen readers.
- * A place in content/site.json that the map does not know is simply not drawn.
- */
-function coastMap(ctx) {
-  const m = ctx.map;
-  const known = new Map(m.places.map((p) => [p.name, p]));
-  const places = ctx.site.areas.map((name) => known.get(name)).filter(Boolean);
-  const tenKm = ((100 * 10) / m.kmAcross).toFixed(2);
-  return html`<div class="coast">
-  <div class="coast__frame">
-    <img class="coast__drawing" src="${m.src}" width="${m.width}" height="${Math.round(m.height)}" alt="" loading="lazy" decoding="async">
-    <p class="coast__ocean" aria-hidden="true">Atlantic Ocean</p>
-    <ul class="coast__places">${places.map((p) => html`<li class="coast__place" data-side="${p.label}"${attrs({ 'data-side-small': p.labelSmall || false })} style="--x: ${p.x}%; --y: ${p.y}%"><span>${p.name.replace(/ (\S+)$/, '\u00a0$1')}</span></li>`)}</ul>
-    <p class="coast__scale" aria-hidden="true" style="--w: ${tenKm}%">10 km</p>
-  </div>
-  <p class="coast__credit">Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></p>
-</div>`;
-}
 
 /**
  * The gallery wall: photographs and short silent films, laid out in four columns in reading
@@ -160,6 +139,7 @@ export function home(ctx) {
   <div class="split__text">
     <h2 class="display" id="intro-title">${h.intro.title}</h2>
     <div class="prose">${paragraphs(h.intro.text)}</div>
+    <p class="intro-places">${areasLine(ctx.site)}</p>
     ${arrowLink(h.intro.link)}
   </div>
   <div class="collage" data-reveal>
@@ -202,16 +182,6 @@ ${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-t
   <ul class="kind-words__list">${kind.map((r) => html`<li>${quote(r)}</li>`)}</ul>
   <p class="kind-words__links">${arrowLink(h.reviews.link)} <a class="link-arrow" href="/reviews/#write">Write a review<span aria-hidden="true">&nbsp;→</span></a></p>
 </section>` : ''}
-
-<section class="locations" aria-labelledby="locations-title">
-  <div class="wrap locations__inner">
-    <div class="locations__text">
-      <h2 class="display" id="locations-title">${h.locations.title}</h2>
-      <p class="locations__note">${ctx.site.areasNote}</p>
-    </div>
-    ${coastMap(ctx)}
-  </div>
-</section>
 
 <section class="insta" aria-labelledby="insta-title">
   <div class="wrap">
@@ -449,7 +419,7 @@ export function plan(ctx) {
         <a class="button button--outline" href="${whatsappHref(site)}">WhatsApp</a>
         <p><a href="mailto:${site.email}">${site.email}</a></p>
         <p>${phone(site)}</p>
-        <p class="small">${site.areas.join(' · ')}. ${site.areasNote}</p>
+        <p class="small">${areasLine(site)}. ${site.areasNote}</p>
       </div>
     </div>
     <div class="plan__main">

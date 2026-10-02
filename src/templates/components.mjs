@@ -84,6 +84,11 @@ export function header(ctx, page) {
 </dialog>`;
 }
 
+/** The places on one line that only breaks between names, never inside «Alcácer do Sal» or before a dot. */
+export function areasLine(site) {
+  return site.areas.map((a) => a.replace(/ /g, '\u00a0')).join('\u00a0· ');
+}
+
 export function phone(site) {
   const tel = site.phone.replace(/\s+/g, '');
   return html`<a href="tel:${tel}">${site.phone}</a> <span class="call-note">Call to a Portuguese mobile network</span>`;
@@ -96,7 +101,7 @@ export function footer(ctx) {
     <div class="site-footer__brand">
       <img class="site-footer__logo" src="/assets/brand/logo-gold.png" width="1200" height="848" alt="Picnic Club">
       <p>Slow luxury experiences, beautifully curated in Portugal.</p>
-      <p class="site-footer__areas">${site.areas.join(' · ')}</p>
+      <p class="site-footer__areas">${areasLine(site)}</p>
     </div>
     <nav class="site-footer__col" aria-label="Explore">
       <h2 class="site-footer__title">Explore</h2>
