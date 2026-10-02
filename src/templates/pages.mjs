@@ -51,6 +51,44 @@ function locationsList(site) {
 
 // ---------------------------------------------------------------- home
 
+/**
+ * The coast from Lisbon to Melides (scripts/coast-map.py) with the places laid over it.
+ * The places are the list itself: HTML, in the site's fonts, read in order by screen readers.
+ * A place in content/site.json that the map does not know is simply not drawn.
+ */
+function coastMap(ctx) {
+  const m = ctx.map;
+  const known = new Map(m.places.map((p) => [p.name, p]));
+  const places = ctx.site.areas.map((name) => known.get(name)).filter(Boolean);
+  const tenKm = ((100 * 10) / m.kmAcross).toFixed(2);
+  return html`<div class="coast">
+  <div class="coast__frame">
+    <img class="coast__drawing" src="${m.src}" width="${m.width}" height="${Math.round(m.height)}" alt="" loading="lazy" decoding="async">
+    <p class="coast__ocean" aria-hidden="true">Atlantic Ocean</p>
+    <ul class="coast__places">${places.map((p) => html`<li class="coast__place" data-side="${p.label}"${attrs({ 'data-side-small': p.labelSmall || false })} style="--x: ${p.x}%; --y: ${p.y}%"><span>${p.name.replace(/ (\S+)$/, '\u00a0$1')}</span></li>`)}</ul>
+    <p class="coast__scale" aria-hidden="true" style="--w: ${tenKm}%">10 km</p>
+  </div>
+  <p class="coast__credit">Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></p>
+</div>`;
+}
+
+/** The home page shows one review large and up to two beside it: the featured one first. */
+function homeReviews(items) {
+  const first = items.find((r) => r.featured) || items[0];
+  if (!first) return [];
+  return [first, ...items.filter((r) => r !== first).slice(0, 2)];
+}
+
+function quote(review, { featured = false } = {}) {
+  const meta = [EXPERIENCE_LABELS[review.experience], review.location].filter(Boolean).join(' · ');
+  return html`<figure class="${featured ? 'quote quote--featured' : 'quote'}">
+  ${review.example ? html`<p class="review__example">Example</p>` : ''}
+  <span class="quote__mark" aria-hidden="true">“</span>
+  <blockquote><p>${review.text}</p></blockquote>
+  <figcaption><span class="quote__names">${review.names}</span>${meta ? html`<span>${meta}</span>` : ''}</figcaption>
+</figure>`;
+}
+
 function heroPoster(ctx, hero) {
   const pick = (name) => ctx.images[name];
   const p = pick(hero.video.posterPortrait);
@@ -69,7 +107,7 @@ function heroPoster(ctx, hero) {
 export function home(ctx) {
   const h = ctx.content.home;
   const experiences = ctx.content.experiences;
-  const featured = ctx.content.reviews.items[0];
+  const kind = homeReviews(ctx.content.reviews.items);
   const body = html`
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__media">
@@ -139,19 +177,29 @@ export function home(ctx) {
 </section>
 
 <section class="locations" aria-labelledby="locations-title">
-  <div class="locations__media">${picture(ctx, h.locations.photo, { sizes: '100vw' })}</div>
-  <div class="locations__veil"></div>
-  <div class="locations__content wrap">
-    <h2 class="display" id="locations-title">${h.locations.title}</h2>
-    ${locationsList(ctx.site)}
-    <p class="locations__text">${h.locations.text} ${ctx.site.areasNote}</p>
+  <div class="wrap locations__inner">
+    <div class="locations__text">
+      <p class="eyebrow locations__eyebrow">${h.locations.eyebrow}</p>
+      <h2 class="display" id="locations-title">${h.locations.title}</h2>
+      <p class="locations__lead">${h.locations.text}</p>
+      <p class="locations__note">${ctx.site.areasNote}</p>
+    </div>
+    ${coastMap(ctx)}
   </div>
 </section>
 
-${featured ? html`<section class="reviews-band wrap" aria-labelledby="reviews-title">
-  <h2 class="eyebrow" id="reviews-title">${h.reviews.title}</h2>
-  ${reviewCard(featured, { large: true })}
-  <p class="reviews-band__links">${arrowLink(h.reviews.link)} <a class="link-arrow" href="/reviews/#write">Write a review<span aria-hidden="true">&nbsp;→</span></a></p>
+${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-title">
+  <div class="section-head">
+    <h2 class="display" id="reviews-title">${h.reviews.title}</h2>
+    <div class="section-head__text">
+      <p>${h.reviews.text}</p>
+      <p class="kind-words__links">${arrowLink(h.reviews.link)} <a class="link-arrow" href="/reviews/#write">Write a review<span aria-hidden="true">&nbsp;→</span></a></p>
+    </div>
+  </div>
+  <div class="kind-words__grid" data-count="${kind.length}">
+    ${quote(kind[0], { featured: true })}
+    ${kind.length > 1 ? html`<div class="kind-words__more">${kind.slice(1).map((r) => quote(r))}</div>` : ''}
+  </div>
 </section>` : ''}
 
 <section class="insta" aria-labelledby="insta-title">

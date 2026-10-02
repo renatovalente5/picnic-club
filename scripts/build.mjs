@@ -189,12 +189,15 @@ function main() {
   let css = fs.readFileSync(path.join(ROOT, 'src', 'styles', 'site.css'), 'utf8') + '\n/* focus points from media/photos.json */\n' + focusCss(images) + '\n';
   if (BASE) css = css.replace(/url\("\/assets\//g, `url("${BASE}/assets/`);
   const js = fs.readFileSync(path.join(ROOT, 'src', 'scripts', 'site.js'), 'utf8');
+  // the coast map: drawn by scripts/coast-map.py, places laid over it by the home template
+  const map = { ...readJson('media/map/coast.json'), src: hashed('coast.svg', fs.readFileSync(path.join(ROOT, 'media', 'map', 'coast.svg'))) };
 
   const site = BASE ? { ...content.site, url: (ORIGIN || 'http://localhost:4800') + BASE } : content.site;
   const ctx = {
     site,
     content,
     images,
+    map,
     usedImages: new Set(),
     year: new Date().getFullYear(),
     preview: !PRODUCTION,
@@ -202,7 +205,7 @@ function main() {
   };
 
   const list = [
-    { ...pages.home(ctx), sources: ['content/home.json', 'content/experiences', 'content/reviews.json', 'content/press.json'] },
+    { ...pages.home(ctx), sources: ['content/home.json', 'content/experiences', 'content/reviews.json', 'media/map'] },
     { ...pages.experiencesIndex(ctx), sources: ['content/experiences'] },
     ...content.experiences.map((e) => ({ ...pages.experiencePage(ctx, e), sources: [`content/experiences/${e.slug}.json`, 'content/reviews.json'] })),
     { ...pages.story(ctx), sources: ['content/story.json', 'content/press.json'] },

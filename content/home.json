@@ -77,12 +77,13 @@
     ]
   },
   "locations": {
+    "eyebrow": "Where we create",
     "title": "Beautiful places. Unforgettable settings.",
-    "text": "From the rice fields and dunes of Comporta to the long beaches of Tróia and Melides, and the light of Lisbon.",
-    "photo": "picnic-under-the-tree"
+    "text": "From the rice fields and dunes of Comporta to the long beaches of Tróia and Melides, and the light of Lisbon."
   },
   "reviews": {
     "title": "Kind words",
+    "text": "Written by our clients after their experience, and approved by Picnic Club before they appear.",
     "link": {
       "label": "Read all reviews",
       "href": "/reviews/"
