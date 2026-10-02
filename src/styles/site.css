@@ -395,7 +395,7 @@ main.has-hero { padding-top: 0; }
 .places { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.2rem 2.2rem; margin: 0 auto 2rem; max-width: 52rem; }
 .places li { font: 400 clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem)/1.5 var(--font-display); text-transform: uppercase; letter-spacing: 0.08em; }
 .locations__text { font: italic 300 clamp(1.5rem, 1.25rem + 0.8vw, 1.85rem)/1.45 var(--font-accent); max-width: 40ch; margin-inline: auto; }
-.places-band { padding-block: var(--space) 0; text-align: center; }
+.places-band { padding-block: var(--space); text-align: center; }
 .places-band .places { margin-bottom: 1rem; }
 .places-band .places li { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2.1rem); }
 
@@ -422,20 +422,6 @@ main.has-hero { padding-top: 0; }
 @media (min-width: 900px) { .insta__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
 .insta__grid a { display: block; aspect-ratio: 1; overflow: hidden; }
 .insta__grid img { width: 100%; height: 100%; object-fit: cover; }
-
-/* final call to action */
-.final { display: grid; }
-.final__media { aspect-ratio: 4 / 5; overflow: hidden; }
-.final__media img { width: 100%; height: 100%; object-fit: cover; }
-.final__panel { position: relative; margin: -4rem var(--gutter) 0; padding: clamp(2rem, 5vw, 3.6rem); background: var(--ivory); text-align: center; }
-.final__panel p { max-width: 40ch; margin-inline: auto; }
-.final__actions { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; margin-top: 2rem; }
-@media (min-width: 900px) {
-  .final { grid-template: 1fr / 1fr; min-height: clamp(34rem, 56vw, 46rem); }
-  .final__media { grid-area: 1 / 1; aspect-ratio: auto; position: relative; }
-  .final__media picture { position: absolute; inset: 0; }
-  .final__panel { grid-area: 1 / 1; align-self: center; justify-self: center; margin: 4rem var(--gutter); max-width: 38rem; }
-}
 
 /* experience page */
 .options { background: var(--cream); padding-block: var(--space); }

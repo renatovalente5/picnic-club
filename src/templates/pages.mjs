@@ -37,20 +37,6 @@ function pressStrip(ctx, label = 'As featured in') {
 </section>`;
 }
 
-function finalCta(ctx, data = ctx.content.home.final) {
-  return html`<section class="final" aria-labelledby="final-title">
-  <div class="final__media">${picture(ctx, data.photo, { sizes: '100vw' })}</div>
-  <div class="final__panel">
-    <h2 class="display" id="final-title">${data.title}</h2>
-    ${paragraphs(data.text)}
-    <div class="final__actions">
-      <a class="button button--dark" href="${data.primary.href}">${data.primary.label}</a>
-      <a class="link-arrow" href="${whatsappHref(ctx.site)}">Message us on WhatsApp<span aria-hidden="true">&nbsp;→</span></a>
-    </div>
-  </div>
-</section>`;
-}
-
 function reviewCard(review, { large = false } = {}) {
   return html`<figure class="${large ? 'review review--large' : 'review'}">
   ${review.example ? html`<p class="review__example">Example</p>` : ''}
@@ -209,8 +195,7 @@ ${list.map((e, i) => html`<section class="${i % 2 ? 'split split--reverse wrap' 
   <h2 class="display" id="places-title">Where we create</h2>
   ${locationsList(ctx.site)}
   <p>${ctx.site.areasNote}</p>
-</section>
-${finalCta(ctx)}`;
+</section>`;
   return {
     path: '/experiences/',
     title: 'Experiences · Luxury picnics, proposals, elopements and private events · Picnic Club',
@@ -261,8 +246,7 @@ ${e.options ? html`<section class="options" aria-labelledby="options-${e.slug}">
     <p class="extras__note">${ctx.site.areasNote}</p>
   </div>
 </section>
-${related.length ? html`<section class="reviews-band wrap" aria-label="Reviews">${related.map((r) => reviewCard(r, { large: true }))}</section>` : ''}
-${finalCta(ctx, { ...ctx.content.home.final, primary: { label: 'Plan your experience', href: planHref } })}`;
+${related.length ? html`<section class="reviews-band wrap" aria-label="Reviews">${related.map((r) => reviewCard(r, { large: true }))}</section>` : ''}`;
   return {
     path: `/experiences/${e.slug}/`,
     title: e.seo.title,
@@ -296,8 +280,7 @@ ${pageHero(ctx, { photo: s.photos[1], eyebrow: s.eyebrow, title: s.title, lead: 
   <div class="prose">${paragraphs(s.approach.text)}</div>
   <a class="link-arrow" href="/experiences/">Discover our experiences<span aria-hidden="true">&nbsp;→</span></a>
 </section>
-${pressStrip(ctx, 'Where you have seen us')}
-${finalCta(ctx)}`;
+${pressStrip(ctx, 'Where you have seen us')}`;
   return { path: '/our-story/', title: s.seo.title, description: s.seo.description, image: shareImage(ctx, s.photos[1]), body };
 }
 
@@ -321,8 +304,7 @@ export function press(ctx) {
     <p>${i.summary}</p>
     <a class="link-arrow" href="${i.url}" rel="noopener">Read the article${i.language === 'pt' ? ' (in Portuguese)' : ''}<span aria-hidden="true">&nbsp;→</span></a>
   </li>`)}</ul>
-</section>
-${finalCta(ctx)}`;
+</section>`;
   return { path: '/press/', title: p.seo.title, description: p.seo.description, image: shareImage(ctx, 'proposal-white-roses'), body };
 }
 
