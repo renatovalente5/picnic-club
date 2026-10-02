@@ -353,14 +353,26 @@ main.has-hero { padding-top: 0; }
 }
 
 /* experiences */
-.experiences { padding-block: var(--space); }
+.experiences { background: var(--cream); padding-block: var(--space); } /* ivory, cream, ivory down the page, then the dark gallery */
 .section-head { display: grid; gap: 1.5rem; margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
 @media (min-width: 900px) {
   .section-head { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; align-items: start; }
   .section-head .display { margin: 0; }
   .section-head__text { border-left: 1px solid var(--sand); padding-left: 3rem; }
 }
+/* on a phone the four cards are a row to swipe, the next one showing at the edge */
 .cards { display: grid; gap: 3rem 1.5rem; }
+@media (max-width: 639px) {
+  .cards {
+    display: flex; gap: 14px;
+    margin-inline: calc(-1 * var(--gutter)); padding: 0 var(--gutter) 0.5rem;
+    overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .cards::-webkit-scrollbar { display: none; }
+  .card { flex: 0 0 78%; scroll-snap-align: start; }
+}
 @media (min-width: 640px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cards > :nth-child(even) { margin-top: 4rem; } }
 @media (min-width: 1100px) { .cards { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; } .cards > :nth-child(even) { margin-top: 5.5rem; } }
 .card__link { display: block; text-decoration: none; }
@@ -375,7 +387,7 @@ main.has-hero { padding-top: 0; }
 }
 
 /* philosophy */
-.philosophy { background: var(--cream); padding-block: var(--space); text-align: center; }
+.philosophy { background: var(--ivory); padding-block: var(--space); text-align: center; }
 .philosophy__inner { max-width: 44rem; }
 .philosophy__lines { font: italic 300 clamp(1.45rem, 1.2rem + 1vw, 2.05rem)/1.55 var(--font-accent); margin: 0 0 2rem; }
 .philosophy__text { max-width: 44ch; margin-inline: auto; }
@@ -537,7 +549,7 @@ main.has-hero { padding-top: 0; }
 .reviews-list .review { height: 100%; padding: 2.2rem 2rem; background: var(--cream); text-align: center; }
 
 /* instagram strip */
-.insta { padding-bottom: var(--space); }
+.insta { padding-block: clamp(3.5rem, 7vw, 6rem); } /* it follows the cream places band: its own space above */
 .insta__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; margin-bottom: 2rem; }
 .insta__head .display { margin: 0; }
 .insta__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }

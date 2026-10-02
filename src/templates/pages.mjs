@@ -166,21 +166,23 @@ export function home(ctx) {
     ${h.intro.photos.map((p, i) => html`<figure class="collage__item collage__item--${i + 1}">${picture(ctx, p, { sizes: '(min-width: 900px) 30vw, 60vw' })}</figure>`)}
   </div>
 </section>
-<section class="experiences wrap" aria-labelledby="experiences-title">
-  <div class="section-head">
-    <h2 class="display" id="experiences-title">${h.experiences.title}</h2>
-    <div class="section-head__text"><p>${h.experiences.text}</p>${arrowLink(h.experiences.link)}</div>
+<section class="experiences" aria-labelledby="experiences-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display" id="experiences-title">${h.experiences.title}</h2>
+      <div class="section-head__text"><p>${h.experiences.text}</p>${arrowLink(h.experiences.link)}</div>
+    </div>
+    <ul class="cards">
+      ${experiences.map((e) => html`<li class="card" data-reveal>
+        <a class="card__link" href="/experiences/${e.slug}/">
+          <div class="card__media">${picture(ctx, e.hero, { sizes: '(min-width: 1100px) 23vw, (min-width: 640px) 46vw, 78vw' })}</div>
+          <h3 class="display card__title">${e.name}</h3>
+          <p class="card__text">${e.short}</p>
+          <span class="card__more">Discover<span aria-hidden="true"> →</span></span>
+        </a>
+      </li>`)}
+    </ul>
   </div>
-  <ul class="cards">
-    ${experiences.map((e) => html`<li class="card" data-reveal>
-      <a class="card__link" href="/experiences/${e.slug}/">
-        <div class="card__media">${picture(ctx, e.hero, { sizes: '(min-width: 1100px) 23vw, (min-width: 720px) 46vw, 100vw' })}</div>
-        <h3 class="display card__title">${e.name}</h3>
-        <p class="card__text">${e.short}</p>
-        <span class="card__more">Discover<span aria-hidden="true"> →</span></span>
-      </a>
-    </li>`)}
-  </ul>
 </section>
 
 <section class="philosophy" aria-labelledby="philosophy-title">
