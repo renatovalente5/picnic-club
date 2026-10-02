@@ -1,0 +1,46 @@
+{
+  "order": 4,
+  "slug": "private-events",
+  "name": "Private Events",
+  "formValue": "private-event",
+  "short": "Private celebrations, birthdays, anniversaries and special occasions curated with intention.",
+  "hero": "event-beach-stripes",
+  "statement": "Gather the people you love. We’ll set the table.",
+  "intro": [
+    "An elegant, relaxed setting, thoughtfully prepared so that everyone can simply arrive, unwind and enjoy creating beautiful memories together.",
+    "Birthdays, anniversaries, bridal showers and celebrations of every size, styled around the occasion and the place."
+  ],
+  "included": [
+    "A setting designed around your guests",
+    "Long tables or low tables with cushions",
+    "Linen, tableware, flowers and candles",
+    "Food and drink chosen for the occasion",
+    "Set-up, coordination and clearing away"
+  ],
+  "addOns": [
+    "A private chef menu",
+    "Champagne",
+    "Photography",
+    "Live music",
+    "Signage and stationery"
+  ],
+  "gallery": [
+    "event-beach-stripes",
+    "picnic-deck-pool",
+    "proposal-beach-table-waves",
+    "picnic-poolside-toast"
+  ],
+  "locations": [
+    "Comporta",
+    "Carvalhal",
+    "Tróia",
+    "Melides",
+    "Alcácer do Sal",
+    "Grândola",
+    "Lisbon"
+  ],
+  "seo": {
+    "title": "Private events and celebrations in Comporta · Picnic Club",
+    "description": "Private celebrations, birthdays, anniversaries and bridal showers in Comporta, Tróia, Melides and Lisbon, styled with intention."
+  }
+}

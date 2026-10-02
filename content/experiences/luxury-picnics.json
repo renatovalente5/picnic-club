@@ -1,0 +1,48 @@
+{
+  "order": 1,
+  "slug": "luxury-picnics",
+  "name": "Luxury Picnics",
+  "formValue": "luxury-picnic",
+  "short": "Beautifully styled picnics designed around the setting, the occasion and the people you love.",
+  "hero": "picnic-under-the-tree",
+  "statement": "A long afternoon, a linen table and nowhere else to be.",
+  "intro": [
+    "An elegant and intimate picnic, thoughtfully curated down to the smallest detail.",
+    "We choose the setting with you — a quiet stretch of beach, the shade of a cork oak, the edge of a pool — and style it around the occasion, so that all you have to bring is the people you love."
+  ],
+  "included": [
+    "Styling and set-up in the location you choose",
+    "A low table dressed in linen, with cushions and blankets",
+    "Tableware, glassware and candles",
+    "Flowers, fresh or everlasting",
+    "Food and drink chosen for the occasion",
+    "Everything cleared away afterwards"
+  ],
+  "addOns": [
+    "Fresh flowers",
+    "Champagne",
+    "A private chef menu",
+    "Photography",
+    "Live music"
+  ],
+  "gallery": [
+    "picnic-poolside-table",
+    "picnic-poolside-toast",
+    "picnic-deck-pool",
+    "proposal-beach-table",
+    "behind-the-scenes"
+  ],
+  "locations": [
+    "Comporta",
+    "Carvalhal",
+    "Tróia",
+    "Melides",
+    "Alcácer do Sal",
+    "Grândola",
+    "Lisbon"
+  ],
+  "seo": {
+    "title": "Luxury picnics in Comporta and Portugal · Picnic Club",
+    "description": "Beautifully styled luxury picnics on the beach, under the cork oaks or by the pool in Comporta, Tróia, Melides and Lisbon."
+  }
+}

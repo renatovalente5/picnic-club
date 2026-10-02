@@ -1,0 +1,41 @@
+{
+  "brand": "Picnic Club",
+  "tagline": "Moments worth keeping",
+  "url": "https://picnicclub.pt",
+  "language": "en",
+  "email": "hello@picnicclub.pt",
+  "phone": "+351 918 721 042",
+  "whatsapp": "351918721042",
+  "whatsappMessage": "Hello Picnic Club, I would like to plan an experience.",
+  "instagram": {
+    "handle": "@picnicclub.pt",
+    "url": "https://www.instagram.com/picnicclub.pt/"
+  },
+  "facebook": "https://www.facebook.com/profile.php?id=61591380502696",
+  "areas": [
+    "Comporta",
+    "Carvalhal",
+    "Tróia",
+    "Melides",
+    "Alcácer do Sal",
+    "Grândola",
+    "Lisbon"
+  ],
+  "areasNote": "Other locations on request.",
+  "responseTime": "We reply within one working day.",
+  "legal": {
+    "name": "Ana Filipa Martins Correia Gonçalves",
+    "status": "Sole trader (Empresária em Nome Individual)",
+    "nif": "254 400 094",
+    "address": [
+      "Rua Pedro Álvares Cabral, 2",
+      "2685-228 Portela, Loures",
+      "Portugal"
+    ],
+    "trademark": "PICNIC CLUB® is a registered trademark, Portuguese national mark no. 769562 (INPI)."
+  },
+  "endpoints": {
+    "enquiry": "",
+    "review": ""
+  }
+}

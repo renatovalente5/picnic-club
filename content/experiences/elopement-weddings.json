@@ -1,0 +1,47 @@
+{
+  "order": 3,
+  "slug": "elopement-weddings",
+  "name": "Elopement Weddings",
+  "formValue": "elopement-wedding",
+  "short": "Intimate wedding celebrations for couples who want something deeply personal and beautifully simple.",
+  "hero": "elopement-ceremony-arch",
+  "statement": "Your wedding. Your way.",
+  "intro": [
+    "Elopement weddings are intimate celebrations designed around what truly matters. A beautiful place. The person you love. Your closest people. And a day that feels entirely yours.",
+    "PICNIC CLUB creates intimate elopement experiences throughout Portugal, from location scouting and styling to food, flowers and the smallest details — for two, or for a very close circle of loved ones."
+  ],
+  "included": [
+    "Location scouting along the coast",
+    "Ceremony styling: the arch, the aisle and the flowers",
+    "A table for the celebration afterwards",
+    "The smallest details, from the rings to the signage",
+    "Coordination on the day, so you can simply be there"
+  ],
+  "addOns": [
+    "Photography and film",
+    "A private chef dinner",
+    "Live music",
+    "Hair and make-up",
+    "Transport"
+  ],
+  "gallery": [
+    "elopement-heart-arch",
+    "elopement-rings-sand",
+    "elopement-at-the-arch",
+    "elopement-walk",
+    "elopement-hands"
+  ],
+  "locations": [
+    "Comporta",
+    "Carvalhal",
+    "Tróia",
+    "Melides",
+    "Alcácer do Sal",
+    "Grândola",
+    "Lisbon"
+  ],
+  "seo": {
+    "title": "Elopement weddings in Portugal and Comporta · Picnic Club",
+    "description": "Intimate elopement weddings in Portugal: ceremony styling, flowers, a private celebration and every detail cared for, from Comporta to Lisbon."
+  }
+}

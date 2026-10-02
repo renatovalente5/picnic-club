@@ -1,0 +1,126 @@
+{
+  "seo": {
+    "title": "Picnic Club · Luxury picnics, proposals and elopements in Portugal",
+    "description": "Slow luxury experiences, beautifully curated in Portugal: luxury picnics, marriage proposals, elopement weddings and private celebrations in Comporta, Tróia, Melides and Lisbon."
+  },
+  "hero": {
+    "video": {
+      "landscape": "hero-landscape.mp4",
+      "portrait": "hero-portrait.mp4",
+      "posterLandscape": "hero-landscape-poster",
+      "posterPortrait": "hero-portrait-poster"
+    },
+    "title": "Moments worth keeping.",
+    "text": "Slow luxury experiences, beautifully curated in Portugal.",
+    "primary": {
+      "label": "Explore experiences",
+      "href": "/experiences/"
+    },
+    "secondary": {
+      "label": "Plan your experience",
+      "href": "/plan-your-experience/"
+    }
+  },
+  "intro": {
+    "title": "Beautifully curated moments, made effortless.",
+    "text": [
+      "PICNIC CLUB creates unforgettable experiences in some of Portugal’s most beautiful places.",
+      "From intimate marriage proposals and elopement weddings to private picnics and celebrations, every detail is thoughtfully curated so you can simply be present in the moment."
+    ],
+    "link": {
+      "label": "Our story",
+      "href": "/our-story/"
+    },
+    "photos": [
+      "picnic-poolside-table",
+      "proposal-heart-arch-pool",
+      "elopement-rings-sand"
+    ]
+  },
+  "proposals": {
+    "title": "For the moments that change everything.",
+    "text": [
+      "From the first glass of Champagne to the moment you ask the question, we take care of every detail.",
+      "Beautiful settings, fresh flowers, thoughtful styling and a setting designed around your story."
+    ],
+    "link": {
+      "label": "Plan your proposal",
+      "href": "/experiences/marriage-proposals/"
+    },
+    "photo": "proposal-sunset-sails"
+  },
+  "experiences": {
+    "title": "A taste of what we create",
+    "text": "Four ways to celebrate by the sea, each one designed around the setting and the people you love.",
+    "link": {
+      "label": "All experiences",
+      "href": "/experiences/"
+    }
+  },
+  "philosophy": {
+    "title": "We’ll handle the rest.",
+    "lines": [
+      "We believe luxury is not about excess.",
+      "It is about time.",
+      "Time to slow down.",
+      "Time to connect.",
+      "Time to celebrate.",
+      "Time to remember."
+    ],
+    "text": "Every PICNIC CLUB experience is thoughtfully designed so that you don’t have to worry about the details. You simply arrive, and enjoy the moment.",
+    "link": {
+      "label": "Meet the founder",
+      "href": "/our-story/"
+    }
+  },
+  "elopement": {
+    "title": "Your wedding. Your way.",
+    "text": [
+      "Elopement weddings are intimate celebrations designed around what truly matters.",
+      "A beautiful place. The person you love. Your closest people. And a day that feels entirely yours."
+    ],
+    "link": {
+      "label": "Discover elopement weddings",
+      "href": "/experiences/elopement-weddings/"
+    },
+    "photos": [
+      "elopement-ceremony-arch",
+      "elopement-walk"
+    ]
+  },
+  "locations": {
+    "title": "Beautiful places. Unforgettable settings.",
+    "text": "From the rice fields and dunes of Comporta to the long beaches of Tróia and Melides, and the light of Lisbon.",
+    "photo": "picnic-under-the-tree"
+  },
+  "reviews": {
+    "title": "Kind words",
+    "link": {
+      "label": "Read all reviews",
+      "href": "/reviews/"
+    }
+  },
+  "instagram": {
+    "title": "Follow our journey",
+    "photos": [
+      "proposal-white-roses",
+      "picnic-deck-pool",
+      "elopement-hands",
+      "proposal-ring-hand",
+      "proposal-one-knee-sunset",
+      "event-beach-stripes"
+    ]
+  },
+  "final": {
+    "title": "Let’s create something beautiful.",
+    "text": [
+      "Planning a proposal, an intimate wedding or a celebration in Portugal?",
+      "Tell us what you’re imagining. We’ll take care of the rest."
+    ],
+    "primary": {
+      "label": "Get in touch",
+      "href": "/plan-your-experience/"
+    },
+    "photo": "proposal-candlelit-night"
+  }
+}

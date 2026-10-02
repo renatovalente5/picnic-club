@@ -1,0 +1,28 @@
+{
+  "cancellation": {
+    "intro": "We understand that plans may change. Our cancellation policy is designed to be fair while covering the costs involved in preparing and delivering each experience.",
+    "rules": [
+      {
+        "when": "More than 7 days before the experience",
+        "what": "A full refund, excluding any non-refundable costs already incurred in preparing the experience."
+      },
+      {
+        "when": "Between 7 days and 48 hours before",
+        "what": "50% of the total amount paid is refunded."
+      },
+      {
+        "when": "Less than 48 hours before",
+        "what": "Cancellations are non-refundable."
+      },
+      {
+        "when": "No-show",
+        "what": "No-shows are non-refundable."
+      }
+    ],
+    "rescheduling": [
+      "Where possible, we are happy to move your experience to another available date.",
+      "The amount already paid can be transferred to the new date. Any additional costs caused by the change, including supplier or venue fees, may apply."
+    ],
+    "exceptional": "In exceptional circumstances, we may review cancellation or rescheduling terms case by case."
+  }
+}

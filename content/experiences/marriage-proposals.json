@@ -1,0 +1,71 @@
+{
+  "order": 2,
+  "slug": "marriage-proposals",
+  "name": "Marriage Proposals",
+  "formValue": "marriage-proposal",
+  "short": "Everything you need to create a proposal that feels intimate, effortless and unforgettable.",
+  "hero": "proposal-sunset-waiting",
+  "statement": "For the moments that change everything.",
+  "intro": [
+    "From the first glass of Champagne to the moment you ask the question, we take care of every detail.",
+    "Beautiful settings, fresh flowers, thoughtful styling and a setting designed around your story. You arrive; the rest is already waiting."
+  ],
+  "options": [
+    {
+      "name": "The Basic Set",
+      "text": "Seasonal fruit, a beautifully prepared blanket, Moët & Chandon and a bouquet of flowers: everything you need to turn a simple moment into an unforgettable proposal."
+    },
+    {
+      "name": "The Decorated Arch",
+      "text": "An elegant floral arch with LED letters, designed to make the moment stand out while creating a romantic, timeless atmosphere. Various phrases available."
+    },
+    {
+      "name": "Picnic & Arch",
+      "text": "A beautifully curated picnic paired with the floral arch and LED letters, for a proposal or a celebration to remember."
+    },
+    {
+      "name": "The Diamond Experience",
+      "text": "For those looking for something truly extraordinary. A proposal designed from the ground up around your vision, with a dedicated concierge, a private driver, exclusive locations, bespoke décor, culinary experiences and photography."
+    }
+  ],
+  "included": [
+    "A first conversation to understand your story",
+    "Location scouting and timing for the best light",
+    "Styling with flowers, linen and candlelight",
+    "Discreet coordination on the day",
+    "Champagne for the moment after the question"
+  ],
+  "addOns": [
+    "Photography",
+    "Live music",
+    "A private dinner",
+    "A private driver",
+    "Fresh flowers"
+  ],
+  "gallery": [
+    "proposal-sunset-sails",
+    "proposal-heart-arch-pool",
+    "proposal-ring-box",
+    "proposal-one-knee-sunset",
+    "proposal-white-roses",
+    "proposal-candlelit-night",
+    "proposal-cliff-candles",
+    "proposal-one-knee-petals",
+    "proposal-embrace",
+    "proposal-ring-moment",
+    "proposal-one-knee-beach"
+  ],
+  "locations": [
+    "Comporta",
+    "Carvalhal",
+    "Tróia",
+    "Melides",
+    "Alcácer do Sal",
+    "Grândola",
+    "Lisbon"
+  ],
+  "seo": {
+    "title": "Marriage proposals in Comporta, Lisbon and Portugal · Picnic Club",
+    "description": "Intimate, effortless marriage proposals on the beaches of Comporta, Tróia, Melides and Lisbon, styled with flowers, linen and candlelight."
+  }
+}

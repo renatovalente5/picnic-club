@@ -1,0 +1,7 @@
+# Client material (photos, audio, chat, documents with personal and bank data). Never committed.
+_cliente/
+# Build output and caches
+_site/
+.cache/
+node_modules/
+.DS_Store

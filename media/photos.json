@@ -1,0 +1,176 @@
+{
+  "proposal-sunset-waiting": {
+    "alt": "He waits on the beach at sunset beside a proposal set-up of linen sails, white flowers and candles",
+    "focus": "50% 62%",
+    "from": "proposals/proposals-01-capa.jpg",
+    "labelledBy": "ana"
+  },
+  "proposal-sunset-sails": {
+    "alt": "A proposal set-up on the sand at sunset, framed by linen sails and white petals",
+    "focus": "50% 58%",
+    "from": "proposals/proposals-02.jpg",
+    "labelledBy": "ana"
+  },
+  "proposal-cliff-candles": {
+    "alt": "Candles on the sand below a cliff as the sun sets over the sea",
+    "focus": "50% 62%",
+    "from": "proposals/proposals-03.jpg",
+    "labelledBy": "ana"
+  },
+  "proposal-heart-arch-pool": {
+    "alt": "A heart-shaped arch of white flowers by a pool at dusk, with a neon sign reading Will you marry me",
+    "focus": "50% 52%",
+    "from": "proposals/proposals-04.jpg",
+    "labelledBy": "ana"
+  },
+  "proposal-linen-sail-flowers": {
+    "alt": "A linen sail, white hydrangeas and candles on a beach set for a proposal",
+    "focus": "50% 50%",
+    "from": "proposals/proposals-05.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-two-sails-sea": {
+    "alt": "Two linen sails on the shore and a low table dressed with flowers facing the sea",
+    "focus": "50% 66%",
+    "from": "proposals/proposals-06.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-beach-table": {
+    "alt": "A low table on linen, cushions, white flowers and Champagne on the sand",
+    "focus": "50% 66%",
+    "from": "proposals/proposals-07.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-beach-table-waves": {
+    "alt": "The same table by the water as a wave breaks behind it",
+    "focus": "50% 66%",
+    "from": "proposals/proposals-08.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-ring-box": {
+    "alt": "An open ring box held in his hands",
+    "focus": "50% 50%",
+    "from": "proposals/proposals-09.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-ring-moment": {
+    "alt": "The moment he slides the ring onto her finger",
+    "focus": "50% 50%",
+    "from": "proposals/proposals-10.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-one-knee-beach": {
+    "alt": "On one knee on the beach, beside the proposal table",
+    "focus": "50% 70%",
+    "from": "proposals/proposals-11.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-ring-hand": {
+    "alt": "Her hand with the engagement ring",
+    "focus": "50% 50%",
+    "from": "proposals/proposals-12.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-one-knee-sunset": {
+    "alt": "A proposal at sunset, surrounded by petals and candles",
+    "focus": "50% 64%",
+    "from": "proposals/proposals-13.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-candlelit-night": {
+    "alt": "The couple by candlelight after sunset",
+    "focus": "50% 60%",
+    "from": "proposals/proposals-14.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-white-roses": {
+    "alt": "She holds a bouquet of white roses after saying yes",
+    "focus": "50% 45%",
+    "from": "proposals/proposals-15.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-embrace": {
+    "alt": "A close embrace in the golden light",
+    "focus": "50% 40%",
+    "from": "proposals/proposals-16.jpg",
+    "labelledBy": "claude"
+  },
+  "proposal-one-knee-petals": {
+    "alt": "On one knee on a path of white petals",
+    "focus": "50% 60%",
+    "from": "proposals/proposals-17.jpg",
+    "labelledBy": "claude"
+  },
+  "picnic-under-the-tree": {
+    "alt": "A picnic on white linen beneath a cork oak, a sheer veil lifting in the wind",
+    "focus": "50% 66%",
+    "from": "luxury-picnics/luxury-picnics-01.jpg",
+    "labelledBy": "ana"
+  },
+  "picnic-poolside-table": {
+    "alt": "A wooden table by the pool with pink flowers, coloured glassware and painted plates",
+    "focus": "50% 55%",
+    "from": "luxury-picnics/luxury-picnics-02.jpg",
+    "labelledBy": "ana"
+  },
+  "picnic-poolside-toast": {
+    "alt": "A glass raised at the poolside table",
+    "focus": "50% 55%",
+    "from": "luxury-picnics/luxury-picnics-03.jpg",
+    "labelledBy": "ana"
+  },
+  "picnic-deck-pool": {
+    "alt": "A low table and floor cushions on a deck beside the pool and the pines",
+    "focus": "50% 60%",
+    "from": "luxury-picnics/luxury-picnics-04.jpg",
+    "labelledBy": "ana"
+  },
+  "elopement-ceremony-arch": {
+    "alt": "An elopement ceremony on the beach beneath a heart-shaped arch of white flowers",
+    "focus": "50% 60%",
+    "from": "elopement-weddings/elopement-weddings-01.jpg",
+    "labelledBy": "ana"
+  },
+  "elopement-heart-arch": {
+    "alt": "The heart-shaped arch of white flowers on the sand, before the ceremony",
+    "focus": "50% 60%",
+    "from": "elopement-weddings/elopement-weddings-02.jpg",
+    "labelledBy": "ana"
+  },
+  "elopement-rings-sand": {
+    "alt": "The wedding rings resting in a glass box filled with sand",
+    "focus": "50% 55%",
+    "from": "elopement-weddings/elopement-weddings-03.jpg",
+    "labelledBy": "ana"
+  },
+  "elopement-at-the-arch": {
+    "alt": "The couple hand in hand at the flower arch",
+    "focus": "50% 58%",
+    "from": "elopement-weddings/elopement-weddings-04.jpg",
+    "labelledBy": "ana"
+  },
+  "elopement-walk": {
+    "alt": "The newlyweds walking together along the beach",
+    "focus": "50% 55%",
+    "from": "elopement-weddings/elopement-weddings-05.jpg",
+    "labelledBy": "ana"
+  },
+  "elopement-hands": {
+    "alt": "Their hands, close, after the vows",
+    "focus": "50% 45%",
+    "from": "elopement-weddings/elopement-weddings-06.jpg",
+    "labelledBy": "claude"
+  },
+  "event-beach-stripes": {
+    "alt": "A beach picnic for a private celebration, with striped cushions under a parasol",
+    "focus": "50% 60%",
+    "from": "events/events-01.jpg",
+    "labelledBy": "ana"
+  },
+  "behind-the-scenes": {
+    "alt": "Setting the table on the sand before the guests arrive",
+    "focus": "50% 70%",
+    "from": "bastidores/bastidores-01.jpg",
+    "labelledBy": "claude"
+  }
+}
