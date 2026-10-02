@@ -61,6 +61,7 @@ export function header(ctx, page) {
   const current = page.path;
   return html`<header class="site-header" id="top">
   <div class="site-header__inner">
+    <a class="header-cta" href="/plan-your-experience/">Enquire</a>
     <nav class="nav nav--left" aria-label="Experiences">${navLinks(NAV_LEFT, current)}</nav>
     <a class="brand" href="/" aria-label="Picnic Club, home">
       <img class="brand__gold" src="/assets/brand/wordmark-gold.png" width="900" height="193" alt="">
@@ -79,7 +80,7 @@ export function header(ctx, page) {
   </div>
   <nav class="menu__nav" aria-label="Main">${navLinks([...NAV_LEFT, ...NAV_RIGHT.filter((i) => !i.cta)], current)}</nav>
   <a class="button button--dark" href="/plan-your-experience/">Plan your experience</a>
-  <p class="menu__contact"><a href="${whatsappHref(ctx.site)}">WhatsApp</a> · <a href="mailto:${ctx.site.email}">${ctx.site.email}</a></p>
+  <p class="menu__contact"><a href="${whatsappHref(ctx.site)}">WhatsApp</a> · <a href="${ctx.site.instagram.url}">Instagram</a> · <a href="mailto:${ctx.site.email}">${ctx.site.email}</a></p>
 </dialog>`;
 }
 

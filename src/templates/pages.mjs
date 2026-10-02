@@ -149,11 +149,11 @@ export function home(ctx) {
     <h1 class="display hero__title" id="hero-title">${h.hero.title}</h1>
     <p class="hero__text">${h.hero.text}</p>
     <div class="hero__actions">
-      <a class="button" href="${h.hero.primary.href}">${h.hero.primary.label}</a>
-      <a class="button button--gold" href="${h.hero.secondary.href}">${h.hero.secondary.label}</a>
+      <a class="button button--gold" href="${h.hero.primary.href}">${h.hero.primary.label}</a>
+      <a class="button button--ghost" href="${h.hero.secondary.href}">${h.hero.secondary.label}</a>
     </div>
   </div>
-  <button class="hero__pause" type="button" hidden data-state="paused"><span class="hero__pause-icon" aria-hidden="true"></span><span class="hero__pause-label">Play video</span></button>
+  <button class="hero__pause" type="button" hidden data-state="paused" title="Play video"><span class="hero__pause-icon" aria-hidden="true"></span><span class="hero__pause-label">Play video</span></button>
 </section>
 
 <section class="split wrap" aria-labelledby="intro-title">

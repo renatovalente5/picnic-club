@@ -67,6 +67,7 @@
     const showState = (playing) => {
       pause.dataset.state = playing ? 'playing' : 'paused';
       label.textContent = playing ? 'Pause video' : 'Play video';
+      pause.title = label.textContent;
     };
     video.addEventListener('playing', () => { video.classList.add('is-playing'); showState(true); });
     video.addEventListener('pause', () => showState(false));
