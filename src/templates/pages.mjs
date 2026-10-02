@@ -14,8 +14,8 @@ const SOURCES = ['Instagram', 'Google', 'NiT', 'A friend or family member', 'A h
 
 // ---------------------------------------------------------------- shared sections
 
-function pageHero(ctx, { photo, eyebrow, title, lead, id = 'page-title' }) {
-  return html`<section class="page-hero" aria-labelledby="${id}">
+function pageHero(ctx, { photo, eyebrow, title, lead, id = 'page-title', portrait = false }) {
+  return html`<section class="${portrait ? 'page-hero page-hero--portrait' : 'page-hero'}" aria-labelledby="${id}">
   <div class="page-hero__media">${picture(ctx, photo, { eager: true, sizes: '100vw' })}</div>
   <div class="page-hero__veil"></div>
   <div class="page-hero__content wrap">
@@ -292,7 +292,7 @@ ${related.length ? html`<section class="reviews-band wrap" aria-label="Reviews">
 export function story(ctx) {
   const s = ctx.content.story;
   const body = html`
-${pageHero(ctx, { photo: s.photos[1], eyebrow: s.eyebrow, title: s.title, lead: s.lead })}
+${pageHero(ctx, { photo: s.photos[1], eyebrow: s.eyebrow, title: s.title, lead: s.lead, portrait: true })}
 <section class="split wrap" aria-labelledby="story-title">
   <div class="split__text">
     <h2 class="display" id="story-title">How it began</h2>
@@ -329,14 +329,18 @@ export function press(ctx) {
   <h1 class="display" id="page-title">${p.title}</h1>
 </section>
 <section class="wrap press-list" aria-label="Articles">
-  <ul>${p.items.map((i) => html`<li class="press-entry">
-    <p class="eyebrow">${i.outlet} · <time datetime="${i.date}">${formatDate(i.date)}</time></p>
-    <h2 class="display press-entry__title"${attrs({ lang: i.language && i.language !== 'en' ? i.language : false })}>${i.title}</h2>
-    <p>${i.summary}</p>
-    <a class="link-arrow" href="${i.url}" rel="noopener">Read the article${i.language === 'pt' ? ' (in Portuguese)' : ''}<span aria-hidden="true">&nbsp;→</span></a>
+  <ul>${p.items.map((i) => html`<li class="${i.image ? 'press-entry press-entry--image' : 'press-entry'}">
+    ${i.image ? html`<figure class="press-entry__media">${picture(ctx, i.image, { sizes: '(min-width: 900px) 42vw, 100vw' })}</figure>` : ''}
+    <div class="press-entry__text">
+      <p class="eyebrow">${i.outlet} · <time datetime="${i.date}">${formatDate(i.date)}</time></p>
+      <h2 class="display press-entry__title"${attrs({ lang: i.language && i.language !== 'en' ? i.language : false })}>${i.title}</h2>
+      <p>${i.summary}</p>
+      <a class="link-arrow" href="${i.url}" rel="noopener">Read the article${i.language === 'pt' ? ' (in Portuguese)' : ''}<span aria-hidden="true">&nbsp;→</span></a>
+    </div>
   </li>`)}</ul>
 </section>`;
-  return { path: '/press/', title: p.seo.title, description: p.seo.description, image: shareImage(ctx, 'proposal-white-roses'), body };
+  const cover = p.items.find((i) => i.image);
+  return { path: '/press/', title: p.seo.title, description: p.seo.description, image: shareImage(ctx, cover ? cover.image : 'proposal-white-roses'), body };
 }
 
 function field({ id, label, type = 'text', required = false, autocomplete, hint, options, rows, attrsExtra = {} }) {

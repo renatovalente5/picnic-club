@@ -172,5 +172,11 @@
     "focus": "50% 70%",
     "from": "bastidores/bastidores-01.jpg",
     "labelledBy": "claude"
+  },
+  "ana-founder-beach": {
+    "alt": "Ana, founder of Picnic Club, beside a picnic she styled on the beach at sunset",
+    "focus": "70% 45%",
+    "from": "fundadora/ana-artigo-nit-2026-08-29.jpg (imagem de abertura do artigo da NiT; trocar pelo original da Ana)",
+    "labelledBy": "claude"
   }
 }

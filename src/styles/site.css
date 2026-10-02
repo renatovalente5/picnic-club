@@ -329,6 +329,18 @@ main.has-hero { padding-top: 0; }
 .page-hero__media, .page-hero__veil { position: absolute; inset: 0; }
 .page-hero__media picture, .page-hero__media img { width: 100%; height: 100%; object-fit: cover; }
 .page-hero__veil { background: var(--veil); }
+/* a portrait: the shade sits under the words and leaves the face in the light */
+.page-hero--portrait .page-hero__veil { background: linear-gradient(to top, rgba(22, 24, 18, 0.8) 0%, rgba(22, 24, 18, 0.62) 42%, rgba(22, 24, 18, 0.28) 72%, rgba(22, 24, 18, 0.2) 100%); }
+@media (min-width: 900px) {
+  .page-hero--portrait .page-hero__veil { background: linear-gradient(90deg, rgba(22, 24, 18, 0.74) 0%, rgba(22, 24, 18, 0.6) 34%, rgba(22, 24, 18, 0.18) 62%, rgba(22, 24, 18, 0.1) 100%); }
+}
+/* on a narrow screen the words would cover her: the photograph first, the words below it */
+@media (max-width: 899px) {
+  .page-hero--portrait { display: block; min-height: 0; background: var(--ivory); color: var(--olive); }
+  .page-hero--portrait .page-hero__media { position: relative; inset: auto; aspect-ratio: 4 / 3; }
+  .page-hero--portrait .page-hero__veil { display: none; }
+  .page-hero--portrait .page-hero__content { padding-block: 2.2rem 0; }
+}
 .page-hero__content { position: relative; align-self: end; padding-block: 6rem 3.5rem; }
 .page-hero__title { margin-bottom: 0.3em; max-width: 18ch; }
 .page-hero__lead { font: italic 300 clamp(1.5rem, 1.25rem + 1vw, 2.1rem)/1.4 var(--font-accent); max-width: 32ch; margin: 0; }
@@ -573,6 +585,12 @@ main.has-hero { padding-top: 0; }
 .press-list { padding-bottom: var(--space); }
 .press-entry { padding-block: 2.5rem; border-top: 1px solid var(--sand); max-width: 52rem; }
 .press-entry__title { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2.1rem); text-transform: none; letter-spacing: 0.01em; }
+/* an article with its photograph: the picture beside the text on a wide screen */
+.press-entry--image { max-width: none; display: grid; gap: 1.8rem; }
+@media (min-width: 900px) { .press-entry--image { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2.5rem, 5vw, 4.5rem); align-items: center; } }
+.press-entry__media { aspect-ratio: 3 / 2; overflow: hidden; }
+.press-entry__media picture, .press-entry__media img { width: 100%; height: 100%; }
+.press-entry__media img { object-fit: cover; }
 
 /* forms */
 /* enquiry page: the film and the ways to talk on one side, the form on the other.
