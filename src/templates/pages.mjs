@@ -72,18 +72,17 @@ function coastMap(ctx) {
 </div>`;
 }
 
-/** The home page shows one review large and up to two beside it: the featured one first. */
+/** The home page shows three reviews side by side, a featured one first. */
 function homeReviews(items) {
   const first = items.find((r) => r.featured) || items[0];
   if (!first) return [];
   return [first, ...items.filter((r) => r !== first).slice(0, 2)];
 }
 
-function quote(review, { featured = false } = {}) {
+function quote(review) {
   const meta = [EXPERIENCE_LABELS[review.experience], review.location].filter(Boolean).join(' · ');
-  return html`<figure class="${featured ? 'quote quote--featured' : 'quote'}">
-  ${review.example ? html`<p class="review__example">Example</p>` : ''}
-  <span class="quote__mark" aria-hidden="true">“</span>
+  return html`<figure class="quote">
+  <div class="quote__top"><span class="quote__mark" aria-hidden="true">“</span>${review.example ? html`<p class="review__example">Example</p>` : ''}</div>
   <blockquote><p>${review.text}</p></blockquote>
   <figcaption><span class="quote__names">${review.names}</span>${meta ? html`<span>${meta}</span>` : ''}</figcaption>
 </figure>`;
@@ -189,17 +188,10 @@ export function home(ctx) {
 </section>
 
 ${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-title">
-  <div class="section-head">
-    <h2 class="display" id="reviews-title">${h.reviews.title}</h2>
-    <div class="section-head__text">
-      <p>${h.reviews.text}</p>
-      <p class="kind-words__links">${arrowLink(h.reviews.link)} <a class="link-arrow" href="/reviews/#write">Write a review<span aria-hidden="true">&nbsp;→</span></a></p>
-    </div>
-  </div>
-  <div class="kind-words__grid" data-count="${kind.length}">
-    ${quote(kind[0], { featured: true })}
-    ${kind.length > 1 ? html`<div class="kind-words__more">${kind.slice(1).map((r) => quote(r))}</div>` : ''}
-  </div>
+  <h2 class="display kind-words__title" id="reviews-title">${h.reviews.title}</h2>
+  <p class="kind-words__intro">${h.reviews.text}</p>
+  <ul class="kind-words__list">${kind.map((r) => html`<li>${quote(r)}</li>`)}</ul>
+  <p class="kind-words__links">${arrowLink(h.reviews.link)} <a class="link-arrow" href="/reviews/#write">Write a review<span aria-hidden="true">&nbsp;→</span></a></p>
 </section>` : ''}
 
 <section class="insta" aria-labelledby="insta-title">

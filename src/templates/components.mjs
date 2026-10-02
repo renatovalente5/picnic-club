@@ -93,7 +93,7 @@ export function footer(ctx) {
   return html`<footer class="site-footer">
   <div class="wrap site-footer__grid">
     <div class="site-footer__brand">
-      <img src="/assets/brand/wordmark-gold.png" width="900" height="193" alt="Picnic Club">
+      <img class="site-footer__monogram" src="/assets/brand/monogram-gold.png" width="600" height="590" alt="Picnic Club">
       <p>Slow luxury experiences, beautifully curated in Portugal.</p>
       <p class="site-footer__areas">${site.areas.join(' · ')}</p>
     </div>
