@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cuts the short films of the home page gallery from the original videos (run by hand).
+"""Cuts the short films of the home gallery and the enquiry page from the original videos (run by hand).
 
     python3 scripts/films.py _cliente/videos
 
@@ -28,6 +28,7 @@ CLIPS = [
     ('gallery-table', FILM, 7.70, 9.62, 0.5, 640, 28),         # bottles on ice beside the table
     ('gallery-toast', FILM, 52.60, 54.78, 0.5, 640, 28),       # the toast at night
     ('gallery-sunset', PROPOSAL, 30.05, 33.00, 1.0, 464, 25),  # the proposal: about to kiss, at sunset
+    ('plan-candles', FILM, 47.90, 52.50, 1.0, 1080, 27),       # the enquiry page: the candlelit table, large
 ]
 FADE = 0.7  # seconds of cross-fade that close each loop
 

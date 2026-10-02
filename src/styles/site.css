@@ -305,10 +305,8 @@ main.has-hero { padding-top: 0; }
 .hero__text { font: italic 300 clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem)/1.4 var(--font-accent); margin: 0 auto 2.4rem; max-width: 34ch; }
 .hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem; }
 .hero__actions .button { min-width: 15.5rem; }
-.hero__pause {
-  position: absolute;
-  right: var(--gutter);
-  bottom: 1.25rem;
+/* the round pause/play control of a film: the film's own words stay for screen readers */
+.round-pause {
   display: inline-grid;
   place-items: center;
   width: 44px;
@@ -320,10 +318,11 @@ main.has-hero { padding-top: 0; }
   border: 1px solid rgba(255, 255, 255, 0.6);
   cursor: pointer;
 }
-.hero__pause-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.hero__pause-icon { width: 10px; height: 12px; border-inline: 3px solid currentColor; }
-.hero__pause[data-state="paused"] .hero__pause-icon { width: 0; margin-left: 3px; border: 0; border-left: 10px solid currentColor; border-block: 6px solid transparent; }
-@media (hover: hover) { .hero__pause:hover { background: rgba(255, 255, 255, 0.16); border-color: var(--white); } }
+.round-pause__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.round-pause__icon { width: 10px; height: 12px; border-inline: 3px solid currentColor; }
+.round-pause[data-state="paused"] .round-pause__icon { width: 0; margin-left: 3px; border: 0; border-left: 10px solid currentColor; border-block: 6px solid transparent; }
+@media (hover: hover) { .round-pause:hover { background: rgba(255, 255, 255, 0.16); border-color: var(--white); } }
+.hero__pause { position: absolute; right: var(--gutter); bottom: 1.25rem; }
 
 /* page hero (inner pages): large text only over the veil */
 .page-hero { position: relative; display: grid; min-height: clamp(26rem, 62vw, 40rem); color: var(--white); isolation: isolate; background: #1D1F18; }
@@ -637,6 +636,32 @@ main.has-hero { padding-top: 0; }
 .press-entry__title { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2.1rem); text-transform: none; letter-spacing: 0.01em; }
 
 /* forms */
+/* enquiry page: the film and the ways to talk on one side, the form on the other.
+   On a phone: the film, the heading, the form, then the ways to talk. */
+.plan { background: var(--ivory); padding-block: 0 var(--space); } /* on a phone the film starts right under the header */
+.plan__layout { display: grid; grid-template-areas: "film" "head" "form" "contact"; gap: 2.4rem; }
+.plan__aside, .plan__main { display: contents; }
+.plan__film { grid-area: film; position: relative; overflow: hidden; aspect-ratio: 4 / 3; margin-inline: calc(-1 * var(--gutter)); background: #262A1F; }
+.plan__film picture, .plan__film img { width: 100%; height: 100%; }
+.plan__film img, .plan__film video { object-fit: cover; object-position: 50% 62%; }
+.plan__film video { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.9s ease; }
+.plan__film video.is-playing { opacity: 1; }
+.plan__pause { position: absolute; right: 14px; bottom: 14px; }
+.plan__head { grid-area: head; }
+.plan__head .display { margin-bottom: 0.5em; }
+.plan__lead { max-width: 52ch; }
+.plan__main .form { grid-area: form; margin-top: 0; }
+.plan__contact { grid-area: contact; }
+@media (min-width: 1000px) {
+  .plan { padding-top: clamp(2.5rem, 6vw, 5.5rem); }
+  .plan__layout { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-areas: "aside main"; gap: clamp(3rem, 6vw, 6rem); align-items: start; }
+  .plan__aside { display: block; grid-area: aside; position: sticky; top: calc(var(--head-h) + 2rem); }
+  .plan__main { display: block; grid-area: main; }
+  .plan__film { aspect-ratio: 4 / 5; margin-inline: 0; }
+  .plan__contact { margin-top: 2rem; }
+  .plan__head { margin-bottom: 2.4rem; }
+}
+
 .form-section { padding-block: var(--space); background: var(--cream); }
 .form-section--top { background: var(--ivory); padding-top: clamp(3rem, 7vw, 6rem); }
 .form-layout { display: grid; gap: 3rem; }

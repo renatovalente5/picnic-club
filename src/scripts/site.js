@@ -63,7 +63,7 @@
       const p = video.play();
       if (p && p.catch) p.catch(() => showState(false));
     };
-    const label = pause.querySelector('.hero__pause-label');
+    const label = pause.querySelector('.round-pause__label');
     const showState = (playing) => {
       pause.dataset.state = playing ? 'playing' : 'paused';
       label.textContent = playing ? 'Pause video' : 'Play video';
@@ -87,23 +87,25 @@
     if (!userPaused) load();
   }
 
-  // ------------------------------------------------------------ gallery films
+  // ------------------------------------------------------------ short films (gallery, enquiry page)
   // Each film loads and plays only while it is on screen, and stops when it leaves.
-  // One button pauses them all (moving pictures need a way to stop them, WCAG 2.2.2).
+  // Each group has one button that pauses its films (moving pictures need a way to stop, WCAG 2.2.2).
   // With reduced motion or data saving they stay as photographs until the visitor asks.
-  const wall = document.querySelector('.moments');
-  const films = wall ? [...wall.querySelectorAll('video[data-src]')] : [];
-  const filmsButton = wall && wall.querySelector('.moments__pause');
-  if (films.length && filmsButton && 'IntersectionObserver' in window) {
-    let filmsPaused = !motionOK || Boolean(saveData);
+  document.querySelectorAll('[data-films]').forEach((group) => {
+    const films = [...group.querySelectorAll('video[data-src]')];
+    const button = group.querySelector('[data-films-toggle]');
+    if (!films.length || !button || !('IntersectionObserver' in window)) return;
+    const label = button.querySelector('[data-films-label]');
+    const words = films.length > 1 ? ['Play videos', 'Pause videos'] : ['Play video', 'Pause video'];
+    let paused = !motionOK || Boolean(saveData);
     const onScreen = new Set();
-    const label = filmsButton.querySelector('.moments__pause-label');
     const showState = () => {
-      filmsButton.dataset.state = filmsPaused ? 'paused' : 'playing';
-      label.textContent = filmsPaused ? 'Play videos' : 'Pause videos';
+      button.dataset.state = paused ? 'paused' : 'playing';
+      label.textContent = words[paused ? 0 : 1];
+      if (button.dataset.filmsToggle === 'icon') button.title = label.textContent;
     };
     const start = (film) => {
-      if (filmsPaused || document.hidden) return;
+      if (paused || document.hidden) return;
       if (!film.getAttribute('src')) film.src = film.dataset.src;
       const p = film.play();
       if (p && p.catch) p.catch(() => {});
@@ -121,16 +123,16 @@
       });
     }, { threshold: 0.2 });
     films.forEach((film) => watch.observe(film));
-    filmsButton.addEventListener('click', () => {
-      filmsPaused = !filmsPaused;
+    button.addEventListener('click', () => {
+      paused = !paused;
       showState();
-      if (filmsPaused) films.forEach((film) => film.pause());
+      if (paused) films.forEach((film) => film.pause());
       else onScreen.forEach(start);
     });
     document.addEventListener('visibilitychange', () => { if (!document.hidden) onScreen.forEach(start); });
     showState();
-    filmsButton.hidden = false;
-  }
+    button.hidden = false;
+  });
 
   // ------------------------------------------------------------ reveals
   const revealables = document.querySelectorAll('[data-reveal]');

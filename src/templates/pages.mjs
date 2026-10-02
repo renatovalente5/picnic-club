@@ -87,7 +87,7 @@ function moments(ctx, g) {
     if (!item.film) return html`<figure class="moment"${extra}>${picture(ctx, item.photo, { sizes })}</figure>`;
     return html`<figure class="moment moment--film"${extra}>${picture(ctx, `${item.film}-poster`, { sizes, alt: item.alt })}<video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="/assets/video/${item.film}.mp4"></video></figure>`;
   };
-  return html`<section class="moments" aria-labelledby="moments-title">
+  return html`<section class="moments" aria-labelledby="moments-title" data-films>
   <div class="wrap moments__head">
     <div>
       <p class="eyebrow moments__eyebrow">${g.eyebrow}</p>
@@ -95,7 +95,7 @@ function moments(ctx, g) {
     </div>
     <div class="moments__aside">
       <p>${g.text}</p>
-      <p class="moments__actions">${arrowLink(g.link)}<button class="moments__pause" type="button" hidden data-state="paused"><span class="moments__pause-icon" aria-hidden="true"></span><span class="moments__pause-label">Play videos</span></button></p>
+      <p class="moments__actions">${arrowLink(g.link)}<button class="moments__pause" type="button" hidden data-state="paused" data-films-toggle><span class="moments__pause-icon" aria-hidden="true"></span><span class="moments__pause-label" data-films-label>Play videos</span></button></p>
     </div>
   </div>
   <div class="wrap moments__wall">${columns.map((col) => html`<div class="moments__col" data-reveal>${col.map(tile)}</div>`)}</div>
@@ -153,7 +153,7 @@ export function home(ctx) {
       <a class="button button--ghost" href="${h.hero.secondary.href}">${h.hero.secondary.label}</a>
     </div>
   </div>
-  <button class="hero__pause" type="button" hidden data-state="paused" title="Play video"><span class="hero__pause-icon" aria-hidden="true"></span><span class="hero__pause-label">Play video</span></button>
+  <button class="round-pause hero__pause" type="button" hidden data-state="paused" title="Play video"><span class="round-pause__icon" aria-hidden="true"></span><span class="round-pause__label">Play video</span></button>
 </section>
 
 <section class="split wrap" aria-labelledby="intro-title">
@@ -436,13 +436,15 @@ export function plan(ctx) {
   const { site } = ctx;
   const experienceOptions = Object.entries(EXPERIENCE_LABELS).map(([value, label]) => ({ value, label }));
   const body = html`
-<section class="form-section form-section--top" aria-labelledby="page-title">
-  <div class="wrap form-layout">
-    <div class="form-layout__intro">
-      <p class="eyebrow">Plan your experience</p>
-      <h1 class="display" id="page-title">Tell us about your moment.</h1>
-      <p>Share a few details and we will come back to you with ideas and a tailored proposal. ${site.responseTime}</p>
-      <div class="contact-card">
+<section class="plan" aria-labelledby="page-title">
+  <div class="wrap plan__layout">
+    <div class="plan__aside">
+      <div class="plan__film" data-films>
+        ${picture(ctx, 'plan-candles-poster', { sizes: '(min-width: 1000px) 36vw, 100vw', eager: true, alt: 'Seen from above: a candlelit table on the sand at dusk' })}
+        <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="/assets/video/plan-candles.mp4"></video>
+        <button class="round-pause plan__pause" type="button" hidden data-state="paused" data-films-toggle="icon"><span class="round-pause__icon" aria-hidden="true"></span><span class="round-pause__label" data-films-label>Play video</span></button>
+      </div>
+      <div class="contact-card plan__contact">
         <p class="eyebrow">Prefer to talk?</p>
         <a class="button button--outline" href="${whatsappHref(site)}">WhatsApp</a>
         <p><a href="mailto:${site.email}">${site.email}</a></p>
@@ -450,7 +452,13 @@ export function plan(ctx) {
         <p class="small">${site.areas.join(' · ')}. ${site.areasNote}</p>
       </div>
     </div>
-    <form class="form" id="enquiry-form" data-endpoint="${site.endpoints.enquiry}" data-kind="enquiry" novalidate>
+    <div class="plan__main">
+      <div class="plan__head">
+        <p class="eyebrow">Plan your experience</p>
+        <h1 class="display" id="page-title">Tell us about your moment.</h1>
+        <p class="plan__lead">Share a few details and we will come back to you with ideas and a tailored proposal. ${site.responseTime}</p>
+      </div>
+      <form class="form" id="enquiry-form" data-endpoint="${site.endpoints.enquiry}" data-kind="enquiry" novalidate>
       <div class="form__grid">
         ${field({ id: 'name', label: 'Name', required: true, autocomplete: 'name' })}
         ${field({ id: 'email', label: 'Email', type: 'email', required: true, autocomplete: 'email' })}
@@ -467,6 +475,7 @@ export function plan(ctx) {
       <div class="form__status" role="status" aria-live="polite"></div>
       <button class="button button--dark" type="submit">Send enquiry</button>
     </form>
+    </div>
   </div>
 </section>`;
   return {
