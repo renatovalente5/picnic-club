@@ -122,6 +122,16 @@ function rebase(htmlText) {
     .replace(/\bsrcset="([^"]*)"/g, (m, list) => `srcset="${list.split(', ').map((c) => fix(c)).join(', ')}"`);
 }
 
+// Links to other websites open in a new tab, and say so to screen readers.
+// Our anchors never nest, so the first </a> after an opening tag closes it.
+function externalLinks(htmlText, ownOrigin) {
+  return htmlText.replace(/<a\b([^>]*?)\bhref="(https?:\/\/[^"]+)"([^>]*)>([\s\S]*?)<\/a>/g, (whole, before, url, after, inner) => {
+    if (url.startsWith(ownOrigin)) return whole;
+    const rest = (before + after).replace(/\s+rel="[^"]*"/, '').replace(/\s+target="[^"]*"/, '');
+    return `<a${rest} href="${url}" target="_blank" rel="noopener">${inner}<span class="visually-hidden"> (opens in a new tab)</span></a>`;
+  });
+}
+
 function focusCss(images) {
   return Object.entries(images)
     .filter(([, m]) => m.focus && m.focus !== '50% 50%')
@@ -209,7 +219,7 @@ function main() {
   for (const page of list) {
     const file = page.path.endsWith('.html') ? path.join(OUT, page.path) : path.join(OUT, page.path, 'index.html');
     fs.mkdirSync(path.dirname(file), { recursive: true });
-    fs.writeFileSync(file, rebase(layout(ctx, page).toString()));
+    fs.writeFileSync(file, externalLinks(rebase(layout(ctx, page).toString()), new URL(site.url).origin));
   }
 
   fs.writeFileSync(path.join(OUT, 'sitemap.xml'), sitemap(content.site, list));
