@@ -303,6 +303,7 @@ html[data-hero="on"][data-scrolled="no"] .nav .nav__cta:hover { background: var(
 }
 .menu[open] { display: flex; }
 .menu::backdrop { background: var(--ivory); }
+.menu:focus { outline: none; } /* the menu itself holds the focus when it opens (site.js); its links keep their ring */
 .menu__top { width: 100%; height: var(--head-h); display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; flex: none; }
 .menu__top .brand img { height: 34px; }
 .menu__close { grid-column: 3; width: 48px; height: 48px; margin-right: -8px; background: none; border: 0; font: 300 2.2rem/1 var(--font-text); color: inherit; cursor: pointer; }

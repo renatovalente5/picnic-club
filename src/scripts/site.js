@@ -27,6 +27,9 @@
   if (menu && opener && typeof menu.showModal === 'function') {
     opener.addEventListener('click', () => {
       menu.showModal();
+      // The browser hands the focus to the first link, the logo, and Safari rings it even after
+      // a tap. The menu itself takes it instead: nothing is ringed, and Tab still starts at the logo.
+      menu.focus({ preventScroll: true });
       opener.setAttribute('aria-expanded', 'true');
     });
     menu.addEventListener('close', () => {
