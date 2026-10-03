@@ -9,7 +9,6 @@ const EXPERIENCE_LABELS = {
   'private-event': 'Private Event',
   'bespoke-experience': 'Bespoke Experience',
 };
-const BUDGETS = ['Up to €750', '€750 – €1,500', '€1,500 – €3,000', 'More than €3,000', 'Not sure yet'];
 const SOURCES = ['Instagram', 'Google', 'NiT', 'A friend or family member', 'A hotel or planner', 'Other'];
 
 // ---------------------------------------------------------------- shared sections
@@ -451,10 +450,9 @@ export function plan(ctx) {
         ${field({ id: 'date', label: 'Preferred date', type: 'date' })}
         ${field({ id: 'location', label: 'Location', type: 'select', options: [...site.areas, 'Somewhere else', 'Not sure yet'] })}
         ${field({ id: 'guests', label: 'Number of guests', type: 'number', attrsExtra: { min: 1, max: 500, inputmode: 'numeric' } })}
-        ${field({ id: 'budget', label: 'Budget range', type: 'select', options: BUDGETS })}
+        ${field({ id: 'source', label: 'How did you hear about us?', type: 'select', options: SOURCES })}
       </div>
       ${field({ id: 'message', label: 'Tell us about your plans', type: 'textarea', required: true, rows: 6, attrsExtra: { maxlength: 3000 } })}
-      ${field({ id: 'source', label: 'How did you hear about us?', type: 'select', options: SOURCES })}
       <p class="small">We use these details only to reply to you and prepare your proposal. <a href="/privacy/">Privacy</a></p>
       <div class="form__status" role="status" aria-live="polite"></div>
       <button class="button button--dark" type="submit">Send enquiry</button>
@@ -533,7 +531,7 @@ export function privacy(ctx) {
 <h2>Who is responsible</h2>
 <p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, contactable at <a href="mailto:${site.email}">${site.email}</a>, is responsible for your personal data.</p>
 <h2>What we collect, and why</h2>
-<p><strong>Enquiries.</strong> When you send the “Plan your experience” form we receive your name, email, phone number if you give it, and what you tell us about your plans (type of experience, date, place, number of guests, budget, how you heard about us). We use them only to reply and to prepare your proposal: steps taken at your request before a contract (GDPR art. 6(1)(b)).</p>
+<p><strong>Enquiries.</strong> When you send the “Plan your experience” form we receive your name, email, phone number if you give it, and what you tell us about your plans (type of experience, date, place, number of guests, how you heard about us). We use them only to reply and to prepare your proposal: steps taken at your request before a contract (GDPR art. 6(1)(b)).</p>
 <p><strong>Reviews.</strong> When you write a review we receive your names, where you are from, the experience, when it was, your text and your email. We publish the names, the place and the text only with your consent (art. 6(1)(a)), which you can withdraw at any time. The email is never published; we use it to confirm the review is yours.</p>
 <p><strong>WhatsApp, email and phone.</strong> If you contact us directly, we use your messages to reply.</p>
 <h2>How long we keep it</h2>
