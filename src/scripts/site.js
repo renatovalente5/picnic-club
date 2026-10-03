@@ -25,6 +25,9 @@
   const menu = document.getElementById('menu');
   const opener = document.querySelector('.menu-button');
   if (menu && opener && typeof menu.showModal === 'function') {
+    // Closed with a tap, the focus goes back to the menu button without the ring, which Safari on a
+    // phone otherwise leaves drawn round it; closed from the keyboard, it comes back with the ring.
+    let byPointer = false;
     opener.addEventListener('click', () => {
       menu.showModal();
       // The browser hands the focus to the first link, the logo, and Safari rings it even after
@@ -34,10 +37,14 @@
     });
     menu.addEventListener('close', () => {
       opener.setAttribute('aria-expanded', 'false');
-      opener.focus();
+      opener.focus({ focusVisible: !byPointer });
+      byPointer = false;
     });
     menu.addEventListener('click', (event) => {
-      if (event.target.closest('[data-close]') || event.target.closest('a')) menu.close();
+      if (event.target.closest('[data-close]') || event.target.closest('a')) {
+        byPointer = event.detail > 0; // a tap or a click; Enter and Space give 0
+        menu.close();
+      }
     });
     opener.setAttribute('aria-expanded', 'false');
   }
