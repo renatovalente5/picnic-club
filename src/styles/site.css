@@ -157,10 +157,11 @@ h3.display { font-size: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem); letter-spacing:
   font: 400 0.7rem/1 var(--font-text);
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  text-decoration: underline;
+  text-decoration: none; /* as the links of the full bar: an underline there means «the page you are on» */
   text-decoration-thickness: 1px;
   text-underline-offset: 0.7em;
 }
+@media (hover: hover) { .header-cta:hover { text-decoration: underline; } }
 @media (max-width: 359px) { /* the narrowest phones: keep the word clear of the logo */
   .site-header .brand img { height: 30px; } /* .brand img below sets 34px */
   .header-cta { font-size: 0.66rem; letter-spacing: 0.14em; }
