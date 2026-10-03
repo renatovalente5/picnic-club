@@ -113,7 +113,7 @@ export function footer(ctx) {
   return html`<footer class="site-footer">
   <div class="wrap site-footer__grid">
     <div class="site-footer__brand">
-      <img class="site-footer__logo" src="/assets/brand/logo-gold.png" width="1200" height="848" alt="Picnic Club">
+      <img class="site-footer__logo" src="/assets/brand/wordmark-gold.png" width="900" height="193" alt="Picnic Club">
       <p>Slow luxury experiences, beautifully curated in Portugal.</p>
       <p class="site-footer__areas">${areasLine(site)}</p>
     </div>
