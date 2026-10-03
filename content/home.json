@@ -24,8 +24,7 @@
   "intro": {
     "title": "Beautifully curated moments, made effortless.",
     "text": [
-      "PICNIC CLUB creates unforgettable experiences in some of Portugal’s most beautiful places.",
-      "From intimate marriage proposals and elopement weddings to private picnics and celebrations, every detail is thoughtfully curated so you can simply be present in the moment."
+      "PICNIC CLUB creates unforgettable experiences in some of Portugal’s most beautiful places."
     ],
     "link": {
       "label": "Our story",
@@ -39,7 +38,7 @@
   },
   "experiences": {
     "title": "A taste of what we create",
-    "text": "Four ways to celebrate by the sea, each one designed around the setting and the people you love.",
+    "text": "Four ways to celebrate, each one designed around the setting and the people you love.",
     "link": {
       "label": "All experiences",
       "href": "/experiences/"
