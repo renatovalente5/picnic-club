@@ -692,6 +692,10 @@ main.has-hero { padding-top: 0; }
 .site-footer__col a { text-decoration: none; }
 @media (hover: hover) { .site-footer__col a:hover { text-decoration: underline; } }
 .site-footer .call-note { color: #CFC6B5; }
+/* contacts with their icons: gold line icons, the words aligned after them */
+.site-footer__contact a { display: inline-flex; align-items: center; gap: 0.65rem; }
+.site-footer__contact .icon { width: 17px; height: 17px; flex: none; color: var(--gold); }
+.site-footer__contact .call-note { display: block; padding-left: calc(17px + 0.65rem); }
 .site-footer__legal { margin-top: 3.5rem; padding-top: 1.6rem; border-top: 1px solid rgba(245, 239, 228, 0.2); font-size: 0.82rem; color: #CFC6B5; }
 
 /* ---------------------------------------------------------------- motion */

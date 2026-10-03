@@ -89,6 +89,20 @@ export function areasLine(site) {
   return site.areas.map((a) => a.replace(/ /g, '\u00a0')).join('\u00a0· ');
 }
 
+// Icons: Tabler Icons 3.48.0, outline (MIT, © 2020-2026 Paweł Kuna, https://tabler.io/icons),
+// drawn here with a thinner stroke. Inline, so the footer loads nothing from anyone else.
+const ICONS = {
+  mail: ['M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10', 'M3 7l9 6l9 -6'],
+  phone: ['M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2'],
+  whatsapp: ['M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9', 'M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1'],
+  instagram: ['M4 8a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4l0 -8', 'M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0', 'M16.5 7.5v.01'],
+  facebook: ['M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3'],
+};
+
+export function icon(name) {
+  return raw(`<svg class="icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICONS[name].map((d) => `<path d="${d}"/>`).join('')}</svg>`);
+}
+
 export function phone(site) {
   const tel = site.phone.replace(/\s+/g, '');
   return html`<a href="tel:${tel}">${site.phone}</a> <span class="call-note">Call to a Portuguese mobile network</span>`;
@@ -109,12 +123,12 @@ export function footer(ctx) {
     </nav>
     <div class="site-footer__col">
       <h2 class="site-footer__title">Contact</h2>
-      <ul>
-        <li><a href="mailto:${site.email}">${site.email}</a></li>
-        <li>${phone(site)}</li>
-        <li><a href="${whatsappHref(site)}">WhatsApp</a></li>
-        <li><a href="${site.instagram.url}">Instagram ${site.instagram.handle}</a></li>
-        <li><a href="${site.facebook}">Facebook</a></li>
+      <ul class="site-footer__contact">
+        <li><a href="mailto:${site.email}">${icon('mail')}<span>${site.email}</span></a></li>
+        <li><a href="tel:${site.phone.replace(/\s+/g, '')}">${icon('phone')}<span>${site.phone}</span></a><span class="call-note">Call to a Portuguese mobile network</span></li>
+        <li><a href="${whatsappHref(site)}">${icon('whatsapp')}<span>WhatsApp</span></a></li>
+        <li><a href="${site.instagram.url}">${icon('instagram')}<span>Instagram</span></a></li>
+        <li><a href="${site.facebook}">${icon('facebook')}<span>Facebook</span></a></li>
       </ul>
     </div>
     <nav class="site-footer__col" aria-label="Legal">
