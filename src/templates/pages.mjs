@@ -25,17 +25,16 @@ function pageHero(ctx, { photo, eyebrow, title, lead, id = 'page-title', portrai
 </section>`;
 }
 
-/** The latest article about Picnic Club, quoted with its outlet and date, and the way to all of them on the Press page. */
+/** The latest article about Picnic Club: its outlet and date, the article, and the way to all of them on the Press page. */
 function pressFeature(ctx, label = 'Interviews') {
   const items = [...ctx.content.press.items].sort((a, b) => b.date.localeCompare(a.date));
   const a = items[0];
   if (!a) return '';
   return html`<section class="press-feature" aria-labelledby="press-feature-title">
   <div class="wrap press-feature__inner">
-    <p class="eyebrow">${label}</p>
-    <p class="press-feature__outlet">${a.outlet} · <time datetime="${a.date}">${formatDate(a.date)}</time></p>
-    <h2 class="display press-feature__title" id="press-feature-title"${attrs({ lang: a.language && a.language !== 'en' ? a.language : false })}>“${a.title}”</h2>
-    <p class="press-feature__summary">${a.summary}</p>
+    <h2 class="eyebrow" id="press-feature-title">${label}</h2>
+    <p class="press-feature__outlet">${a.outlet}</p>
+    <p class="press-feature__date"><time datetime="${a.date}">${formatDate(a.date)}</time></p>
     <p class="press-feature__links"><a class="link-arrow" href="${a.url}" rel="noopener">Read the article${a.language === 'pt' ? ' (in Portuguese)' : ''}<span aria-hidden="true">&nbsp;→</span></a> <a class="link-arrow" href="/press/">All interviews<span aria-hidden="true">&nbsp;→</span></a></p>
   </div>
 </section>`;
