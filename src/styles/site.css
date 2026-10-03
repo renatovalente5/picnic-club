@@ -24,9 +24,10 @@
   --gutter: clamp(1rem, 4.5vw, 3.5rem);
   --max: 1280px;
   --head-h: 70px; /* the bar, its content centred: 18 px above and below the logo */
+  --logo-h: 34px;
   --space: clamp(4.5rem, 10vw, 9rem);
 }
-@media (min-width: 1200px) { :root { --head-h: 92px; } }
+@media (min-width: 1200px) { :root { --head-h: 92px; --logo-h: 44px; } }
 
 /* ---------------------------------------------------------------- base */
 
@@ -148,7 +149,7 @@ h3.display { font-size: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem); letter-spacing:
 }
 .nav { display: none; }
 .brand { display: grid; justify-self: center; grid-column: 2; }
-.brand img { grid-area: 1 / 1; height: 34px; width: auto; }
+.brand img { grid-area: 1 / 1; height: var(--logo-h); width: auto; }
 .brand__white { visibility: hidden; }
 .menu-button {
   grid-column: 3;
@@ -172,8 +173,8 @@ h3.display { font-size: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem); letter-spacing:
 }
 .menu-button__lines { position: relative; }
 .menu-button__lines::before, .menu-button__lines::after { content: ""; position: absolute; left: 0; }
-.menu-button__lines::before { top: -8px; }
-.menu-button__lines::after { top: 8px; }
+.menu-button__lines::before { top: -6px; } /* the three lines as tall as the letters of «PICNIC CLUB» */
+.menu-button__lines::after { top: 6px; }
 
 @media (min-width: 1200px) {
   .nav { display: flex; align-items: center; gap: clamp(1.1rem, 1.9vw, 2.3rem); }
@@ -192,7 +193,6 @@ h3.display { font-size: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem); letter-spacing:
   .nav a[aria-current] { text-decoration: underline; text-underline-offset: 0.9em; } /* the page you are on; «Experiences» on any of its pages */
   .nav .nav__cta { border: 1px solid currentColor; padding: 0 1.1rem; }
   .nav .nav__cta[aria-current="page"] { text-decoration: none; background: var(--olive); border-color: var(--olive); color: var(--on-dark); } /* on its own page: filled, not underlined */
-  .brand img { height: 44px; }
   .menu-button { display: none; }
 }
 /* «Experiences»: a panel with the four experiences under the header (≥1200px, where the nav shows) */
@@ -285,9 +285,14 @@ html[data-hero="on"][data-scrolled="no"] .nav .nav__cta:hover { background: var(
 .menu[open] { display: flex; }
 .menu::backdrop { background: var(--ivory); }
 .menu:focus { outline: none; } /* the menu itself holds the focus when it opens (site.js); its links keep their ring */
-.menu__top { width: 100%; height: var(--head-h); display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; flex: none; }
-.menu__top .brand img { height: 34px; }
-.menu__close { grid-column: 3; width: 48px; height: 48px; margin-right: -8px; background: none; border: 0; font: 300 2.2rem/1 var(--font-text); color: inherit; cursor: pointer; }
+.menu__top { width: 100%; height: var(--head-h); display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; flex: none; border-bottom: 1px solid transparent; } /* the same box as the bar, line included: nothing moves when the menu opens */
+.menu__close { grid-column: 3; justify-self: end; display: inline-grid; place-items: center; width: 48px; height: 48px; margin-right: -8px; padding: 0; background: none; border: 0; color: inherit; cursor: pointer; }
+.menu__close-x { position: relative; width: 20px; height: 1px; }
+.menu__close-x::before, .menu__close-x::after { content: ""; position: absolute; inset: 0; background: currentColor; transform: rotate(45deg); }
+.menu__close-x::after { transform: rotate(-45deg); }
+/* The menu button and the cross sit level with «PICNIC CLUB», the upper line of the logo: its middle
+   is 26% of the logo's height above the logo's own middle, which falls in the gap over the tagline. */
+.menu-button, .menu__close { translate: 0 calc(var(--logo-h) * -0.262); }
 .menu__nav { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; margin-top: 2vh; }
 .menu__nav a { font: 400 clamp(1.7rem, 7vw, 2.4rem)/1.5 var(--font-display); text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; padding: 0.15rem 0.5rem; }
 .menu__nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.25em; }

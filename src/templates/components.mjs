@@ -110,7 +110,7 @@ export function header(ctx, page) {
 <dialog class="menu" id="menu" aria-label="Menu" tabindex="-1">
   <div class="menu__top">
     <a class="brand" href="/" aria-label="Picnic Club, home"><img src="/assets/brand/wordmark-gold.png" width="900" height="193" alt=""></a>
-    <button class="menu__close" type="button" data-close><span aria-hidden="true">×</span><span class="visually-hidden">Close menu</span></button>
+    <button class="menu__close" type="button" data-close><span class="menu__close-x" aria-hidden="true"></span><span class="visually-hidden">Close menu</span></button>
   </div>
   <nav class="menu__nav" aria-label="Main">
     ${navLinks(NAV_LEFT.slice(0, 1), current)}
