@@ -38,11 +38,12 @@ export function picture(ctx, name, { sizes = '100vw', className = '', eager = fa
   return html`<picture${attrs({ class: className || false })}>${formats.map((ext) => html`<source type="image/${ext}" srcset="${set(ext)}" sizes="${sizes}">`)}<img src="/assets/img/${name}-${m.hash}-${fallback}.webp" width="${m.width}" height="${m.height}" alt="${alt ?? m.alt}" data-img="${name}"${attrs(eager ? { fetchpriority: 'high' } : { loading: 'lazy' })} decoding="async"></picture>`;
 }
 
+/** The card a link preview shows (scripts/images.py): the photo beside the logo, and words for it. */
 export function shareImage(ctx, name) {
   const m = ctx.images[name];
   if (!m) throw new Error(`Unknown share image "${name}". Add it to media/photos.json.`);
   ctx.usedImages.add(name);
-  return `${ctx.site.url}/assets/img/${m.share}`;
+  return { url: `${ctx.site.url}/assets/img/${m.share}`, alt: m.alt ? `${m.alt}, with the Picnic Club logo` : 'The Picnic Club logo' };
 }
 
 export function arrowLink(link, className = 'link-arrow') {
@@ -224,12 +225,17 @@ export function layout(ctx, page) {
 <meta property="og:title" content="${page.title}">
 <meta property="og:description" content="${page.description}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${page.image}">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image" content="${page.image.url}">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${page.image.alt}">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="${page.image.alt}">
 <meta name="theme-color" content="#FAF6EF">
 ${ctx.preview ? raw('<meta name="robots" content="noindex">') : ''}
+<link rel="icon" href="/assets/brand/favicon-16.png" sizes="16x16" type="image/png">
 <link rel="icon" href="/assets/brand/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/assets/brand/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">

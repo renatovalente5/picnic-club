@@ -3,7 +3,10 @@
 
 Reads every photo in media/photos/ (with alt text and focus point from media/photos.json)
 and every poster in media/video/, and writes AVIF + WebP at fixed widths, plus a 1200×630
-JPEG share card cropped around the focus point.
+JPEG share card: the photo on the left, cropped around the focus point, and the gold logo on
+an ivory panel on the right. Nothing is laid over the photo (in several it would sit on a
+face), and a 720×630 window keeps most of a vertical photo, where a full-width crop kept a
+band.
 
 Output goes to .cache/images/ (kept between builds, keyed by the source's content hash)
 and is copied to _site/assets/img/. A manifest describing every image is written to
@@ -31,15 +34,30 @@ WIDTHS = [480, 768, 1080, 1440, 1920]
 AVIF_QUALITY = 52
 WEBP_QUALITY = 78
 SHARE = (1200, 630)
+SHARE_PHOTO = 720           # the photo's width on the card; the panel takes the rest
+SHARE_LOGO = 300            # the logo's width on the panel
+IVORY = (250, 246, 239)     # --ivory
+LOGO = os.path.join(ROOT, 'media', 'brand', 'logo-gold.png')
 FORMATS = ('avif', 'webp') if features.check('avif') else ('webp',)
 SETTINGS = f'v1-{WIDTHS}-{AVIF_QUALITY}-{WEBP_QUALITY}-{SHARE}'
 
 
-def content_hash(path):
+def content_hash(path, *more):
     h = hashlib.sha256(SETTINGS.encode())
-    with open(path, 'rb') as f:
-        h.update(f.read())
+    for p in (path, *more):
+        with open(p, 'rb') as f:
+            h.update(f.read())
     return h.hexdigest()[:10]
+
+
+def share_card(im, focus, logo):
+    card = Image.new('RGB', SHARE, IVORY)
+    card.paste(crop_to(im, (SHARE_PHOTO, SHARE[1]), focus), (0, 0))
+    height = round(logo.height * SHARE_LOGO / logo.width)
+    mark = logo.convert('RGBa').resize((SHARE_LOGO, height), Image.LANCZOS).convert('RGBA')
+    left = SHARE_PHOTO + (SHARE[0] - SHARE_PHOTO - SHARE_LOGO) // 2
+    card.paste(mark, (left, (SHARE[1] - height) // 2), mark)
+    return card
 
 
 def parse_focus(focus):
@@ -62,7 +80,7 @@ def crop_to(im, size, focus):
     return scaled.crop((left, top, left + tw, top + th))
 
 
-def build_one(name, src, focus, kind):
+def build_one(name, src, focus, kind, logo):
     digest = content_hash(src)
     folder = os.path.join(CACHE, name)
     os.makedirs(folder, exist_ok=True)
@@ -83,10 +101,12 @@ def build_one(name, src, focus, kind):
                 else:
                     resized.save(target, 'WEBP', quality=WEBP_QUALITY, method=6)
             files.append(fname)
-    share = f'{name}-{digest}-share.jpg'
+    # its own name: a new layout or logo gives the card a new address, which the apps that keep
+    # link previews (WhatsApp, Facebook) fetch again
+    share = f'{name}-{content_hash(src, LOGO, __file__)}-share.jpg'
     target = os.path.join(folder, share)
     if not os.path.exists(target):
-        crop_to(im, SHARE, focus).save(target, 'JPEG', quality=84, progressive=True, optimize=True)
+        share_card(im, focus, logo).save(target, 'JPEG', quality=84, progressive=True, optimize=True)
     files.append(share)
     # drop files from older versions of this source
     for old in os.listdir(folder):
@@ -112,14 +132,15 @@ def main():
         return
 
     manifest = {}
+    logo = Image.open(LOGO).convert('RGBA')
     for name, meta in sorted(index.items()):
-        info = build_one(name, os.path.join(PHOTOS, name + '.jpg'), parse_focus(meta.get('focus', '50% 50%')), 'photo')
+        info = build_one(name, os.path.join(PHOTOS, name + '.jpg'), parse_focus(meta.get('focus', '50% 50%')), 'photo', logo)
         info.update({'alt': meta['alt'], 'focus': meta.get('focus', '50% 50%')})
         manifest[name] = info
     for f in sorted(os.listdir(POSTERS)):
         if f.endswith('-poster.jpg'):
             name = f[:-4]
-            info = build_one(name, os.path.join(POSTERS, f), (0.5, 0.5), 'poster')
+            info = build_one(name, os.path.join(POSTERS, f), (0.5, 0.5), 'poster', logo)
             info.update({'alt': '', 'focus': '50% 50%'})
             manifest[name] = info
 
