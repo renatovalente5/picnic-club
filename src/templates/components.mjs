@@ -96,7 +96,6 @@ export function header(ctx, page) {
   const current = page.path;
   return html`<header class="site-header" id="top">
   <div class="site-header__inner">
-    ${current === '/plan-your-experience/' ? '' : html`<a class="header-cta" href="/plan-your-experience/">Enquire</a>`}
     <nav class="nav nav--left" aria-label="Experiences and our story">${experiencesDrop(ctx, current)}${navLinks(NAV_LEFT.slice(1), current)}</nav>
     <a class="brand" href="/" aria-label="Picnic Club, home">
       <img class="brand__gold" src="/assets/brand/wordmark-gold.png" width="900" height="193" alt="">
