@@ -538,7 +538,7 @@ main.has-hero { padding-top: 0; }
 
 /* instagram strip */
 /* Instagram: like the top of a profile. The monogram as its picture, the handle, and a button;
-   the whole card is one link. Stacked on a phone, one row on a wider screen. */
+   the whole card is one link, stacked and centred at every width. */
 .insta { background: var(--cream); padding-block: clamp(2.4rem, 5vw, 3.4rem); text-align: center; } /* ivory reviews, cream, then the olive footer */
 .insta__card { display: inline-grid; justify-items: center; gap: 1rem; color: inherit; text-decoration: none; }
 .insta__mark { width: 64px; height: auto; }
@@ -552,10 +552,6 @@ main.has-hero { padding-top: 0; }
   font: 500 0.72rem/1 var(--font-text); letter-spacing: 0.2em; text-transform: uppercase;
 }
 .insta__button .icon { width: 17px; height: 17px; flex: none; }
-@media (min-width: 700px) {
-  .insta__card { grid-template-columns: auto auto auto; align-items: center; column-gap: clamp(1.4rem, 3vw, 2.6rem); text-align: left; }
-  .insta__text { justify-items: start; }
-}
 @media (hover: hover) {
   .insta__card:hover .insta__button { background: var(--olive); color: var(--on-dark); }
 }
