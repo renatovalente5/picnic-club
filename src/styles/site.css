@@ -214,6 +214,46 @@ h3.display { font-size: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem); letter-spacing:
   .brand img { height: 44px; }
   .menu-button { display: none; }
 }
+/* «Experiences»: a panel with the four experiences under the header (≥1200px, where the nav shows) */
+@media (min-width: 1200px) {
+  .nav--left { align-self: stretch; }
+  .nav__drop { display: flex; align-items: center; align-self: stretch; } /* full header height: the pointer can travel down to the panel */
+  .nav .nav__drop-link { gap: 0.5rem; }
+  .nav__chevron { width: 6px; height: 6px; margin-top: -3px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg); }
+  .nav__panel {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--ivory); color: var(--olive);
+    border-top: 1px solid var(--sand); border-bottom: 1px solid var(--sand);
+    box-shadow: 0 24px 40px -28px rgba(46, 51, 38, 0.35);
+    visibility: hidden; opacity: 0;
+    transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+  }
+  .nav__drop:is(:hover, :focus-within):not([data-closed]) .nav__panel { visibility: visible; opacity: 1; transition: opacity 0.25s ease 0.06s, visibility 0s; }
+  .nav__drop:is(:hover, :focus-within):not([data-closed]) .nav__chevron { transform: rotate(-135deg); margin-top: 3px; }
+  .nav__panel-inner { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; padding-block: 2rem 1.6rem; display: grid; gap: 1.2rem; }
+  .nav__cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.6rem; }
+  .nav .nav__card { display: grid; gap: 0.35rem; align-content: start; min-height: 0; text-decoration: none; letter-spacing: normal; text-transform: none; white-space: normal; }
+  .nav__card-media { display: block; aspect-ratio: 3 / 2; overflow: hidden; margin-bottom: 0.6rem; }
+  .nav__card-media picture, .nav__card-media img { width: 100%; height: 100%; }
+  .nav__card-media img { object-fit: cover; }
+  .nav__card-name { font: 400 1.15rem/1.2 var(--font-display); letter-spacing: 0.05em; text-transform: uppercase; }
+  .nav__card-line { font: italic 300 1.05rem/1.4 var(--font-accent); color: var(--olive-soft); text-wrap: balance; }
+  .nav .nav__card[aria-current="page"] .nav__card-name { text-decoration: underline; text-underline-offset: 0.3em; }
+  .nav .nav__all { justify-self: end; min-height: 0; font-size: 0.72rem; }
+  /* over the cover film: the header turns solid while the panel is open, so both read */
+  html[data-hero="on"][data-scrolled="no"] .site-header:has(.nav__drop:is(:hover, :focus-within):not([data-closed])) { background: var(--ivory); color: var(--olive); border-bottom-color: var(--sand); }
+  html[data-hero="on"][data-scrolled="no"] .site-header:has(.nav__drop:is(:hover, :focus-within):not([data-closed]))::before { opacity: 0; }
+  html[data-hero="on"][data-scrolled="no"] .site-header:has(.nav__drop:is(:hover, :focus-within):not([data-closed])) .brand__gold { visibility: visible; }
+  html[data-hero="on"][data-scrolled="no"] .site-header:has(.nav__drop:is(:hover, :focus-within):not([data-closed])) .brand__white { visibility: hidden; }
+}
+@media (min-width: 1200px) and (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .nav__card-media img { transition: transform 1.2s cubic-bezier(0.2, 0.6, 0.2, 1); }
+  .nav__card:hover .nav__card-media img { transform: scale(1.04); }
+}
+@media (min-width: 1200px) and (hover: hover) {
+  .nav .nav__card:hover { text-decoration: none; }
+  .nav .nav__card:hover .nav__card-name { text-decoration: underline; text-underline-offset: 0.3em; }
+}
 @media (min-width: 1200px) and (hover: hover) {
   .nav a:hover { text-decoration: underline; text-underline-offset: 0.9em; }
   .nav .nav__cta:hover { text-decoration: none; background: var(--olive); color: var(--on-dark); border-color: var(--olive); }
@@ -269,6 +309,9 @@ html[data-hero="on"][data-scrolled="no"] .nav .nav__cta:hover { background: var(
 .menu__nav { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; margin-top: 2vh; }
 .menu__nav a { font: 400 clamp(1.7rem, 7vw, 2.4rem)/1.5 var(--font-display); text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; padding: 0.15rem 0.5rem; }
 .menu__nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.25em; }
+/* the four experiences under «Experiences» in the phone menu */
+.menu__sub { display: grid; justify-items: center; gap: 0.15rem; margin: -0.2rem 0 0.6rem; }
+.menu__nav .menu__sub a { font: 400 0.8rem/1.5 var(--font-text); letter-spacing: 0.18em; color: var(--olive-soft); padding: 0.45rem 0.5rem; }
 .menu__contact { font-size: 0.9rem; color: var(--olive-soft); text-align: center; }
 
 /* ---------------------------------------------------------------- page layout */

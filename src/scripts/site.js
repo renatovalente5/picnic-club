@@ -39,6 +39,21 @@
     opener.setAttribute('aria-expanded', 'false');
   }
 
+  // ------------------------------------------------------------ experiences panel
+  // CSS opens it on hover and on focus; Escape closes it and leaves the focus on «Experiences»,
+  // and it stays closed until the pointer or the focus leaves it.
+  const drop = document.querySelector('.nav__drop');
+  if (drop) {
+    const reopen = () => { delete drop.dataset.closed; };
+    drop.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || drop.dataset.closed !== undefined) return;
+      drop.dataset.closed = '';
+      drop.querySelector('.nav__drop-link').focus();
+    });
+    drop.addEventListener('pointerleave', reopen);
+    drop.addEventListener('focusout', (event) => { if (!drop.contains(event.relatedTarget)) reopen(); });
+  }
+
   // ------------------------------------------------------------ hero film
   const video = document.querySelector('.hero__video');
   const pause = document.querySelector('.hero__pause');

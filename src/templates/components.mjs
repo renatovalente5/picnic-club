@@ -57,12 +57,38 @@ function navLinks(items, current) {
   );
 }
 
+/**
+ * «Experiences» in the header opens a panel with the four experiences, each with its photograph
+ * and its line, and the way to all of them. It opens on hover and on keyboard focus (CSS only),
+ * closes with Escape (site.js); the link itself still leads to the experiences page. The
+ * photographs are lazy, inside a navigation a phone never shows, so a phone never loads them.
+ */
+function experiencesDrop(ctx, current) {
+  const list = ctx.content.experiences;
+  return html`<div class="nav__drop">
+    <a class="nav__drop-link" href="/experiences/"${attrs({ 'aria-current': current === '/experiences/' ? 'page' : false })}>Experiences<span class="nav__chevron" aria-hidden="true"></span></a>
+    <div class="nav__panel">
+      <div class="nav__panel-inner">
+        <ul class="nav__cards">${list.map((e) => {
+          const href = `/experiences/${e.slug}/`;
+          return html`<li><a class="nav__card" href="${href}"${attrs({ 'aria-current': current === href ? 'page' : false })}>
+            <span class="nav__card-media">${picture(ctx, e.hero, { sizes: '300px', alt: '' })}</span>
+            <span class="nav__card-name">${e.name}</span>
+            <span class="nav__card-line">${e.statement}</span>
+          </a></li>`;
+        })}</ul>
+        <a class="link-arrow nav__all" href="/experiences/">All experiences<span aria-hidden="true">&nbsp;→</span></a>
+      </div>
+    </div>
+  </div>`;
+}
+
 export function header(ctx, page) {
   const current = page.path;
   return html`<header class="site-header" id="top">
   <div class="site-header__inner">
     ${current === '/plan-your-experience/' ? '' : html`<a class="header-cta" href="/plan-your-experience/">Enquire</a>`}
-    <nav class="nav nav--left" aria-label="Experiences">${navLinks(NAV_LEFT, current)}</nav>
+    <nav class="nav nav--left" aria-label="Experiences">${experiencesDrop(ctx, current)}${navLinks(NAV_LEFT.slice(1), current)}</nav>
     <a class="brand" href="/" aria-label="Picnic Club, home">
       <img class="brand__gold" src="/assets/brand/wordmark-gold.png" width="900" height="193" alt="">
       <img class="brand__white" src="/assets/brand/wordmark-white.png" width="900" height="193" alt="">
@@ -78,7 +104,14 @@ export function header(ctx, page) {
     <a class="brand" href="/" aria-label="Picnic Club, home"><img src="/assets/brand/wordmark-gold.png" width="900" height="193" alt=""></a>
     <button class="menu__close" type="button" data-close><span aria-hidden="true">×</span><span class="visually-hidden">Close menu</span></button>
   </div>
-  <nav class="menu__nav" aria-label="Main">${navLinks([...NAV_LEFT, ...NAV_RIGHT.filter((i) => !i.cta)], current)}</nav>
+  <nav class="menu__nav" aria-label="Main">
+    ${navLinks(NAV_LEFT.slice(0, 1), current)}
+    <ul class="menu__sub">${ctx.content.experiences.map((e) => {
+      const href = `/experiences/${e.slug}/`;
+      return html`<li><a href="${href}"${attrs({ 'aria-current': current === href ? 'page' : false })}>${e.name}</a></li>`;
+    })}</ul>
+    ${navLinks(NAV_RIGHT.filter((i) => !i.cta), current)}
+  </nav>
   <a class="button button--dark" href="/plan-your-experience/">Plan your experience</a>
   <p class="menu__contact"><a href="${whatsappHref(ctx.site)}">WhatsApp</a> · <a href="${ctx.site.instagram.url}">Instagram</a> · <a href="mailto:${ctx.site.email}">${ctx.site.email}</a></p>
 </dialog>`;
