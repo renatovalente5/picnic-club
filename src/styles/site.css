@@ -580,10 +580,9 @@ main.has-hero { padding-top: 0; }
 .extras__note { margin-top: 0.8rem; color: var(--olive-soft); }
 
 /* our story */
-.quote-band { background: var(--cream); padding-block: clamp(2.8rem, 6vw, 4.6rem); text-align: center; }
-.quote-band blockquote { margin: 0 auto 1rem; }
-.quote-band blockquote p { max-width: 40ch; margin-inline: auto; font: italic 300 clamp(1.4rem, 1.15rem + 1.1vw, 2.05rem)/1.4 var(--font-accent); text-wrap: balance; } /* ch of the quote's own letters */
-.quote-band__line { display: block; } /* one sentence per line */
+.quote-band { background: var(--cream); padding-block: clamp(2.5rem, 5vw, 4rem); text-align: center; }
+.quote-band blockquote { margin: 0 auto 1.6rem; max-width: 30ch; }
+.quote-band blockquote p { font: italic 300 clamp(1.8rem, 1.4rem + 2vw, 3rem)/1.35 var(--font-accent); }
 .quote-band figcaption { font: 400 0.74rem/1.5 var(--font-text); letter-spacing: 0.22em; text-transform: uppercase; color: var(--olive-soft); }
 
 /* press page */
