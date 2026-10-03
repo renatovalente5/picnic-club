@@ -179,7 +179,7 @@ ${ctx.preview ? raw('<meta name="robots" content="noindex">') : ''}
 <link rel="icon" href="/assets/brand/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="preload" href="/assets/fonts/italiana-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/gilda-display-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/jost.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${ctx.assets.css}">
 ${hasHero ? raw(`<script>document.documentElement.dataset.scrolled = scrollY > 80 ? 'yes' : 'no'</script>`) : ''}

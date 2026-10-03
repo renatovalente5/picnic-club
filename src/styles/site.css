@@ -1,6 +1,6 @@
 /* Picnic Club — site styles. Mobile first. One light theme (the brand is ivory and gold). */
 
-@font-face { font-family: "Italiana"; src: url("/assets/fonts/italiana-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Gilda Display"; src: url("/assets/fonts/gilda-display-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; } /* OFL; chosen 3 Oct 2026 over Italiana, which read too thin */
 @font-face { font-family: "Cormorant Garamond"; src: url("/assets/fonts/cormorant-garamond-italic.woff2") format("woff2"); font-weight: 300 400; font-style: italic; font-display: swap; }
 @font-face { font-family: "Jost"; src: url("/assets/fonts/jost.woff2") format("woff2"); font-weight: 300 500; font-style: normal; font-display: swap; }
 
@@ -17,7 +17,7 @@
   --white: #FFFFFF;
   --veil: rgba(22, 24, 18, 0.5);
 
-  --font-display: "Italiana", "Cormorant Garamond", Georgia, serif;
+  --font-display: "Gilda Display", "Cormorant Garamond", Georgia, serif;
   --font-accent: "Cormorant Garamond", Georgia, serif;
   --font-text: "Jost", "Helvetica Neue", Arial, sans-serif;
 
@@ -69,9 +69,9 @@ strong { font-weight: 500; }
   margin: 0 0 0.7em;
   text-wrap: balance;
 }
-h1.display { font-size: clamp(2.5rem, 1.7rem + 4vw, 5.2rem); }
-h2.display { font-size: clamp(2rem, 1.5rem + 2.4vw, 3.3rem); }
-h3.display { font-size: clamp(1.35rem, 1.15rem + 0.8vw, 1.75rem); letter-spacing: 0.05em; }
+h1.display { font-size: clamp(2.3rem, 1.6rem + 3.6vw, 4.6rem); } /* Gilda is wider than Italiana: about 10% smaller */
+h2.display { font-size: clamp(1.8rem, 1.35rem + 2.1vw, 2.85rem); }
+h3.display { font-size: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem); letter-spacing: 0.05em; }
 .eyebrow {
   font: 400 0.75rem/1.5 var(--font-text);
   letter-spacing: 0.22em;
