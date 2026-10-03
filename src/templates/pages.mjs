@@ -301,7 +301,7 @@ ${pageHero(ctx, { photo: s.photos[1], eyebrow: s.eyebrow, title: s.title, lead: 
     <h2 class="display" id="story-title">How it began</h2>
     <div class="prose">${paragraphs(s.story)}</div>
   </div>
-  <figure class="single" data-reveal>${picture(ctx, s.photos[0], { sizes: '(min-width: 900px) 50vw, 100vw' })}</figure>
+  <figure class="single single--story" data-reveal>${picture(ctx, s.photos[0], { sizes: '(min-width: 900px) 34vw, 100vw' })}</figure>
 </section>
 <section class="quote-band" aria-label="In Ana’s words">
   <figure class="wrap">
