@@ -531,10 +531,20 @@ main.has-hero { padding-top: 0; }
 .review figcaption { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.3rem 1rem; font: 400 0.74rem/1.5 var(--font-text); letter-spacing: 0.2em; text-transform: uppercase; color: var(--olive-soft); }
 .review__names { color: var(--olive); }
 .review__example { display: inline-block; margin: 0 0 1.2rem; padding: 0.25rem 0.7rem; border: 1px dashed var(--olive-soft); font: 400 0.68rem/1.4 var(--font-text); letter-spacing: 0.2em; text-transform: uppercase; color: var(--olive-soft); }
+/* the reviews page: the same open columns as the home page's «Kind words», in rows of three */
 .reviews-list { padding-bottom: var(--space); }
-.reviews-list ul { display: grid; gap: 1.5rem; }
-@media (min-width: 900px) { .reviews-list ul { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.reviews-list .review { height: 100%; padding: 2.2rem 2rem; background: var(--cream); text-align: center; }
+.reviews-wall { display: grid; border-top: 1px solid var(--sand); }
+.reviews-wall > li { padding-block: 1.8rem; }
+.reviews-wall > li + li { border-top: 1px solid var(--sand); }
+@media (min-width: 900px) {
+  .reviews-wall { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .reviews-wall > li { padding: 2.2rem clamp(1.5rem, 3vw, 2.6rem); }
+  .reviews-wall > li + li { border-top: 0; }
+  .reviews-wall > li:nth-child(3n + 1) { padding-left: 0; }
+  .reviews-wall > li:nth-child(3n) { padding-right: 0; }
+  .reviews-wall > li:not(:nth-child(3n + 1)) { border-left: 1px solid var(--sand); }
+  .reviews-wall > li:nth-child(n + 4) { border-top: 1px solid var(--sand); }
+}
 
 /* instagram strip */
 /* Instagram: like the top of a profile. The monogram as its picture, the handle, and a button;

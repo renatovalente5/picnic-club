@@ -374,7 +374,7 @@ export function reviews(ctx) {
   <a class="link-arrow" href="#write">Write a review<span aria-hidden="true">&nbsp;→</span></a>
 </section>
 <section class="wrap reviews-list" aria-label="Reviews">
-  ${r.items.length ? html`<ul>${r.items.map((item) => html`<li>${reviewCard(item)}</li>`)}</ul>` : html`<p>The first reviews will appear here soon.</p>`}
+  ${r.items.length ? html`<ul class="reviews-wall">${r.items.map((item) => html`<li>${quote(item)}</li>`)}</ul>` : html`<p>The first reviews will appear here soon.</p>`}
 </section>
 <section class="form-section" id="write" aria-labelledby="write-title">
   <div class="wrap form-layout">
