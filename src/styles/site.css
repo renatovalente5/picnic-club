@@ -23,10 +23,10 @@
 
   --gutter: clamp(1rem, 4.5vw, 3.5rem);
   --max: 1280px;
-  --head-h: 64px;
+  --head-h: 76px; /* the bar: air above the logo, away from the phone's clock */
   --space: clamp(4.5rem, 10vw, 9rem);
 }
-@media (min-width: 1200px) { :root { --head-h: 84px; } }
+@media (min-width: 1200px) { :root { --head-h: 100px; } }
 
 /* ---------------------------------------------------------------- base */
 
