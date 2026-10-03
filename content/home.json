@@ -5,10 +5,10 @@
   },
   "hero": {
     "video": {
-      "landscape": "hero-landscape.mp4",
-      "portrait": "hero-portrait.mp4",
-      "posterLandscape": "hero-landscape-poster",
-      "posterPortrait": "hero-portrait-poster"
+      "landscape": "hero-proposal-landscape.mp4",
+      "portrait": "hero-proposal-portrait.mp4",
+      "posterLandscape": "hero-proposal-landscape-poster",
+      "posterPortrait": "hero-proposal-portrait-poster"
     },
     "title": "Moments worth keeping.",
     "text": "Slow luxury experiences, beautifully curated in Portugal.",

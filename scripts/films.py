@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Cuts the short films of the home gallery and the enquiry page from the original videos (run by hand).
+"""Cuts the films of the site from the original videos (run by hand): the home page's cover, the
+gallery's short loops and the enquiry page's film.
 
     python3 scripts/films.py _cliente/videos
 
@@ -57,12 +58,41 @@ def make(src_dir, name, source, start, end, speed, width, crf):
     return os.path.getsize(out)
 
 
+def cover(src_dir):
+    """The home page's cover: the whole proposal film (33 s), chosen by Renato on 3 Oct 2026.
+
+    The film is narrow (464×848). Stretched to fill a landscape screen it would be magnified four
+    times, so on a computer it stands in the middle at full height, over the same film blurred and
+    darkened; on a phone it plays as it is.
+    """
+    src = os.path.join(src_dir, PROPOSAL)
+    land = os.path.join(OUT, 'hero-proposal-landscape.mp4')
+    fade = 70  # px over which the sharp film melts into the blurred one at each side
+    graph = (
+        '[0:v]fps=30,split=2[bg][fg];'
+        '[bg]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,gblur=sigma=80:steps=3,eq=saturation=1.05[b];'
+        '[fg]scale=-2:720:flags=lanczos,format=yuva420p[f];'
+        f"color=c=white:s=394x720:d=34,format=gray,geq=lum='255*min(1\\,min(X\\,W-1-X)/{fade})'[m];"
+        '[f][m]alphamerge[fa];'
+        '[b][fa]overlay=(W-w)/2:0:shortest=1,format=yuv420p[v]'
+    )
+    run(['-i', src, '-filter_complex', graph, '-map', '[v]', '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '24',
+         '-profile:v', 'high', '-movflags', '+faststart', land])
+    port = os.path.join(OUT, 'hero-proposal-portrait.mp4')
+    run(['-i', src, '-vf', 'fps=30,format=yuv420p', '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '23',
+         '-profile:v', 'high', '-movflags', '+faststart', port])
+    for video in (land, port):
+        run(['-ss', '0.3', '-i', video, '-frames:v', '1', '-q:v', '2', video[:-4] + '-poster.jpg'])
+    return os.path.getsize(land) + os.path.getsize(port)
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__)
         sys.exit(1)
     os.makedirs(OUT, exist_ok=True)
-    total = 0
+    total = cover(sys.argv[1])
+    print(f'{"cover":<16} {total / 1e6:5.2f} MB')
     for clip in CLIPS:
         size = make(sys.argv[1], *clip)
         total += size
