@@ -33,7 +33,7 @@ function pressFeature(ctx, label = 'Interviews') {
   return html`<section class="press-feature" aria-labelledby="press-feature-title">
   <div class="wrap press-feature__inner">
     <h2 class="eyebrow" id="press-feature-title">${label}</h2>
-    <p class="press-feature__outlet">${a.outlet}</p>
+    <p class="press-feature__outlet">${a.outlet.split(' — ')[0]}</p>
     <p class="press-feature__date"><time datetime="${a.date}">${formatDate(a.date)}</time></p>
     <p class="press-feature__links"><a class="link-arrow" href="${a.url}" rel="noopener">Read the article${a.language === 'pt' ? ' (in Portuguese)' : ''}<span aria-hidden="true">&nbsp;→</span></a> <a class="link-arrow" href="/press/">All interviews<span aria-hidden="true">&nbsp;→</span></a></p>
   </div>
