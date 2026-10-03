@@ -5,9 +5,9 @@
   },
   "hero": {
     "video": {
-      "landscape": "hero-proposal-landscape.mp4",
+      "landscape": "hero-landscape.mp4",
       "portrait": "hero-proposal-portrait.mp4",
-      "posterLandscape": "hero-proposal-landscape-poster",
+      "posterLandscape": "hero-landscape-poster",
       "posterPortrait": "hero-proposal-portrait-poster"
     },
     "title": "Moments worth keeping.",
