@@ -40,12 +40,21 @@ function pressFeature(ctx, label = 'Interviews') {
 </section>`;
 }
 
-function reviewCard(review, { large = false } = {}) {
-  return html`<figure class="${large ? 'review review--large' : 'review'}">
-  ${review.example ? html`<p class="review__example">Example</p>` : ''}
-  <blockquote><p>${review.text}</p></blockquote>
-  <figcaption><span class="review__names">${review.names}</span>${review.location ? html`<span class="review__place">${review.location}</span>` : ''}${review.experience ? html`<span class="review__exp">${EXPERIENCE_LABELS[review.experience] || ''}</span>` : ''}</figcaption>
-</figure>`;
+/** One review given the stage: large and centred, on cream, with the way to all of them. */
+function reviewFeature(review) {
+  const meta = [EXPERIENCE_LABELS[review.experience], review.location].filter(Boolean).join(' · ');
+  return html`<section class="review-feature" aria-labelledby="review-feature-title">
+  <div class="wrap review-feature__inner">
+    <h2 class="eyebrow" id="review-feature-title">Kind words</h2>
+    <figure class="review-feature__quote">
+      ${review.example ? html`<p class="review__example">Example</p>` : ''}
+      <span class="quote__mark" aria-hidden="true">“</span>
+      <blockquote><p>${review.text}</p></blockquote>
+      <figcaption><span class="quote__names">${review.names}</span>${meta ? html`<span>${meta}</span>` : ''}</figcaption>
+    </figure>
+    <a class="link-arrow" href="/reviews/">Read all reviews<span aria-hidden="true">&nbsp;→</span></a>
+  </div>
+</section>`;
 }
 
 function locationsList(site) {
@@ -243,7 +252,7 @@ ${list.map((e, i) => html`<section class="${i % 2 ? 'split split--reverse wrap' 
 }
 
 export function experiencePage(ctx, e) {
-  const related = ctx.content.reviews.items.filter((r) => r.experience === e.formValue).slice(0, 2);
+  const related = ctx.content.reviews.items.filter((r) => r.experience === e.formValue);
   const planHref = `/plan-your-experience/?experience=${e.formValue}`;
   const body = html`
 ${pageHero(ctx, { photo: e.hero, eyebrow: 'Experience', title: e.name, lead: e.statement })}
@@ -283,7 +292,7 @@ ${e.options ? html`<section class="options" aria-labelledby="options-${e.slug}">
     <p class="extras__note">${ctx.site.areasNote}</p>
   </div>
 </section>
-${related.length ? html`<section class="reviews-band wrap" aria-label="Reviews">${related.map((r) => reviewCard(r, { large: true }))}</section>` : ''}`;
+${related.length ? reviewFeature(related.find((r) => r.featured) || related[0]) : ''}`;
   return {
     path: `/experiences/${e.slug}/`,
     title: e.seo.title,
