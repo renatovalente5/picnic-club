@@ -375,11 +375,14 @@ main.has-hero { padding-top: 0; }
 
 
 /* press */
-.press { border-block: 1px solid var(--sand); padding-block: 2.6rem; }
-.press__inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.6rem; }
-.press__inner .eyebrow { margin: 0; }
-.press__list { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 3rem; }
-.press__item { font: 400 clamp(1.9rem, 1.4rem + 1.6vw, 2.6rem)/1.3 var(--font-display); letter-spacing: 0.08em; text-decoration: none; }
+/* the latest article, quoted: Picnic Club's strongest credential, given a section of its own */
+.press-feature { padding-block: clamp(3.5rem, 7vw, 6rem); text-align: center; }
+.press-feature__inner { display: grid; justify-items: center; }
+.press-feature__inner .eyebrow { margin-bottom: 1.6rem; }
+.press-feature__outlet { margin: 0 0 1rem; font: 400 0.78rem/1.5 var(--font-text); letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-deep); }
+.press-feature .press-feature__title { max-width: 32ch; margin: 0 0 1.2rem; font-size: clamp(1.6rem, 1.2rem + 1.7vw, 2.6rem); line-height: 1.2; text-transform: none; letter-spacing: 0.01em; }
+.press-feature__summary { max-width: 46ch; margin: 0 0 0.6rem; color: var(--olive-soft); }
+.press-feature__links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 2.2rem; margin: 0; }
 @media (hover: hover) { .press__item:hover { text-decoration: underline; } }
 
 /* feature: full-bleed photograph with an ivory card (always readable) */

@@ -25,14 +25,18 @@ function pageHero(ctx, { photo, eyebrow, title, lead, id = 'page-title', portrai
 </section>`;
 }
 
-function pressStrip(ctx, label = 'As featured in') {
-  const items = ctx.content.press.items;
-  if (!items.length) return '';
-  return html`<section class="press" aria-label="Press">
-  <div class="wrap press__inner">
+/** The latest article about Picnic Club, quoted with its outlet and date, and a way to all of them. */
+function pressFeature(ctx, label = 'Where you have seen us') {
+  const items = [...ctx.content.press.items].sort((a, b) => b.date.localeCompare(a.date));
+  const a = items[0];
+  if (!a) return '';
+  return html`<section class="press-feature" aria-labelledby="press-feature-title">
+  <div class="wrap press-feature__inner">
     <p class="eyebrow">${label}</p>
-    <ul class="press__list">${items.map((i) => html`<li><a class="press__item" href="${i.url}" rel="noopener">${i.outlet.split(' — ')[0]}</a></li>`)}</ul>
-    <a class="link-arrow link-arrow--small" href="/press/">All press<span aria-hidden="true">&nbsp;→</span></a>
+    <p class="press-feature__outlet">${a.outlet} · <time datetime="${a.date}">${formatDate(a.date)}</time></p>
+    <h2 class="display press-feature__title" id="press-feature-title"${attrs({ lang: a.language && a.language !== 'en' ? a.language : false })}>“${a.title}”</h2>
+    <p class="press-feature__summary">${a.summary}</p>
+    <p class="press-feature__links"><a class="link-arrow" href="${a.url}" rel="noopener">Read the article${a.language === 'pt' ? ' (in Portuguese)' : ''}<span aria-hidden="true">&nbsp;→</span></a>${items.length > 1 ? html` <a class="link-arrow" href="/press/">All press<span aria-hidden="true">&nbsp;→</span></a>` : ''}</p>
   </div>
 </section>`;
 }
@@ -306,12 +310,7 @@ ${pageHero(ctx, { photo: s.photos[1], eyebrow: s.eyebrow, title: s.title, lead: 
     <figcaption>Ana, founder of Picnic Club</figcaption>
   </figure>
 </section>
-<section class="wrap narrow" aria-labelledby="approach-title">
-  <h2 class="display" id="approach-title">${s.approach.title}</h2>
-  <div class="prose">${paragraphs(s.approach.text)}</div>
-  <a class="link-arrow" href="/experiences/">Discover our experiences<span aria-hidden="true">&nbsp;→</span></a>
-</section>
-${pressStrip(ctx, 'Where you have seen us')}`;
+${pressFeature(ctx)}`;
   return { path: '/our-story/', title: s.seo.title, description: s.seo.description, image: shareImage(ctx, s.photos[1]), body };
 }
 
