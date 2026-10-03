@@ -1,6 +1,6 @@
 // Every page of the site. Each function returns { path, title, description, image, body, ... }.
 import { html, raw, attrs } from './html.mjs';
-import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, shareImage, organisation, COMPLAINTS_BOOK } from './components.mjs';
+import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, organisation, COMPLAINTS_BOOK } from './components.mjs';
 
 const EXPERIENCE_LABELS = {
   'luxury-picnic': 'Luxury Picnic',
@@ -188,10 +188,13 @@ ${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-t
 
 <section class="insta" aria-labelledby="insta-title">
   <div class="wrap">
-    <a class="insta__link" href="${ctx.site.instagram.url}">
+    <a class="insta__card" href="${ctx.site.instagram.url}">
       <img class="insta__mark" src="/assets/brand/monogram-gold.png" width="600" height="590" alt="">
-      <h2 class="display insta__title" id="insta-title">${h.instagram.title}</h2>
-      <span class="insta__handle">${ctx.site.instagram.handle}<span aria-hidden="true">&nbsp;→</span></span>
+      <div class="insta__text">
+        <h2 class="eyebrow insta__title" id="insta-title">${h.instagram.title}</h2>
+        <span class="insta__handle">${ctx.site.instagram.handle}</span>
+      </div>
+      <span class="insta__button">${icon('instagram')}Follow on Instagram</span>
     </a>
   </div>
 </section>`;

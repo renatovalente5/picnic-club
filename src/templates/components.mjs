@@ -119,7 +119,7 @@ export function footer(ctx) {
     </div>
     <nav class="site-footer__col" aria-label="Explore">
       <h2 class="site-footer__title">Explore</h2>
-      <ul>${[...NAV_LEFT, ...NAV_RIGHT, { label: 'Press', href: '/press/' }].map((i) => html`<li><a href="${i.href}">${i.label}</a></li>`)}</ul>
+      <ul>${[...NAV_LEFT, ...NAV_RIGHT.filter((i) => !i.cta), { label: 'Press', href: '/press/' }].map((i) => html`<li><a href="${i.href}">${i.label}</a></li>`)}</ul>
     </nav>
     <div class="site-footer__col">
       <h2 class="site-footer__title">Contact</h2>
@@ -139,7 +139,7 @@ export function footer(ctx) {
     </nav>
   </div>
   <div class="wrap site-footer__legal">
-    <p>© ${ctx.year} PICNIC CLUB® · <a href="/legal-notice/">Legal notice</a></p>
+    <p>© ${ctx.year} PICNIC CLUB®</p>
   </div>
 </footer>`;
 }
