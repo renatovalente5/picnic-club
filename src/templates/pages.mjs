@@ -302,7 +302,7 @@ ${pageHero(ctx, { photo: s.photos[1], eyebrow: s.eyebrow, title: s.title, lead: 
 </section>
 <section class="quote-band" aria-label="In Ana’s words">
   <figure class="wrap">
-    <blockquote><p>${s.quote}</p></blockquote>
+    <blockquote><p>${s.quote.split(/(?<=[.!?])\s+/).map((line) => html`<span class="quote-band__line">${line}</span> `)}</p></blockquote>
     <figcaption>Ana, founder of Picnic Club</figcaption>
   </figure>
 </section>
