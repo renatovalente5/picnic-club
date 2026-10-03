@@ -178,5 +178,23 @@
     "focus": "70% 45%",
     "from": "fundadora/ana-artigo-nit-2026-08-29.jpg (imagem de abertura do artigo da NiT; trocar pelo original da Ana)",
     "labelledBy": "claude"
+  },
+  "event-beach-long-table": {
+    "alt": "A long low table set for a private celebration on the beach, under straw parasols",
+    "focus": "50% 58%",
+    "from": "events/events-02.jpg",
+    "labelledBy": "renato"
+  },
+  "event-beach-parasols": {
+    "alt": "The table laid with white runners, wild flowers and floor cushions, beneath straw parasols",
+    "focus": "50% 55%",
+    "from": "events/events-03.jpg",
+    "labelledBy": "renato"
+  },
+  "event-table-details": {
+    "alt": "Place settings with shell plates, printed menus and white flowers",
+    "focus": "50% 55%",
+    "from": "events/events-04.jpg",
+    "labelledBy": "renato"
   }
 }
