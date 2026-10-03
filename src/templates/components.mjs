@@ -1,15 +1,23 @@
 // Shared building blocks: images, links, header, footer and the page shell.
 import { html, raw, attrs } from './html.mjs';
 
+// The header: two links each side of the logo; the four experiences live in the panel under «Experiences».
 export const NAV_LEFT = [
+  { label: 'Experiences', href: '/experiences/' },
+  { label: 'Our story', href: '/our-story/' },
+];
+export const NAV_RIGHT = [
+  { label: 'Reviews', href: '/reviews/' },
+  { label: 'Plan your experience', href: '/plan-your-experience/', cta: true },
+];
+// The footer keeps the two experiences people ask for most by name.
+const FOOTER_EXPLORE = [
   { label: 'Experiences', href: '/experiences/' },
   { label: 'Proposals', href: '/experiences/marriage-proposals/' },
   { label: 'Elopements', href: '/experiences/elopement-weddings/' },
-];
-export const NAV_RIGHT = [
   { label: 'Our story', href: '/our-story/' },
   { label: 'Reviews', href: '/reviews/' },
-  { label: 'Plan your experience', href: '/plan-your-experience/', cta: true },
+  { label: 'Press', href: '/press/' },
 ];
 export const LEGAL_LINKS = [
   { label: 'Legal notice', href: '/legal-notice/' },
@@ -60,13 +68,14 @@ function navLinks(items, current) {
 /**
  * «Experiences» in the header opens a panel with the four experiences, each with its photograph
  * and its line, and the way to all of them. It opens on hover and on keyboard focus (CSS only),
- * closes with Escape (site.js); the link itself still leads to the experiences page. The
+ * closes with Escape (site.js); the link itself still leads to the experiences page. On any
+ * experience page «Experiences» is the one marked as current, not that experience's card. The
  * photographs are lazy, inside a navigation a phone never shows, so a phone never loads them.
  */
 function experiencesDrop(ctx, current) {
   const list = ctx.content.experiences;
   return html`<div class="nav__drop">
-    <a class="nav__drop-link" href="/experiences/"${attrs({ 'aria-current': current === '/experiences/' ? 'page' : false })}>Experiences<span class="nav__chevron" aria-hidden="true"></span></a>
+    <a class="nav__drop-link" href="/experiences/"${attrs({ 'aria-current': current === '/experiences/' ? 'page' : current.startsWith('/experiences/') ? 'true' : false })}>Experiences<span class="nav__chevron" aria-hidden="true"></span></a>
     <div class="nav__panel">
       <div class="nav__panel-inner">
         <ul class="nav__cards">${list.map((e) => {
@@ -88,12 +97,12 @@ export function header(ctx, page) {
   return html`<header class="site-header" id="top">
   <div class="site-header__inner">
     ${current === '/plan-your-experience/' ? '' : html`<a class="header-cta" href="/plan-your-experience/">Enquire</a>`}
-    <nav class="nav nav--left" aria-label="Experiences">${experiencesDrop(ctx, current)}${navLinks(NAV_LEFT.slice(1), current)}</nav>
+    <nav class="nav nav--left" aria-label="Experiences and our story">${experiencesDrop(ctx, current)}${navLinks(NAV_LEFT.slice(1), current)}</nav>
     <a class="brand" href="/" aria-label="Picnic Club, home">
       <img class="brand__gold" src="/assets/brand/wordmark-gold.png" width="900" height="193" alt="">
       <img class="brand__white" src="/assets/brand/wordmark-white.png" width="900" height="193" alt="">
     </a>
-    <nav class="nav nav--right" aria-label="About and contact">${navLinks(NAV_RIGHT, current)}</nav>
+    <nav class="nav nav--right" aria-label="Reviews and enquiry">${navLinks(NAV_RIGHT, current)}</nav>
     <button class="menu-button" type="button" aria-haspopup="dialog" aria-controls="menu">
       <span class="menu-button__lines" aria-hidden="true"></span><span class="visually-hidden">Menu</span>
     </button>
@@ -110,7 +119,7 @@ export function header(ctx, page) {
       const href = `/experiences/${e.slug}/`;
       return html`<li><a href="${href}"${attrs({ 'aria-current': current === href ? 'page' : false })}>${e.name}</a></li>`;
     })}</ul>
-    ${navLinks(NAV_RIGHT.filter((i) => !i.cta), current)}
+    ${navLinks([...NAV_LEFT.slice(1), ...NAV_RIGHT.filter((i) => !i.cta)], current)}
   </nav>
   <a class="button button--dark" href="/plan-your-experience/">Plan your experience</a>
   <p class="menu__contact"><a href="${whatsappHref(ctx.site)}">WhatsApp</a> · <a href="${ctx.site.instagram.url}">Instagram</a> · <a href="mailto:${ctx.site.email}">${ctx.site.email}</a></p>
@@ -152,7 +161,7 @@ export function footer(ctx) {
     </div>
     <nav class="site-footer__col" aria-label="Explore">
       <h2 class="site-footer__title">Explore</h2>
-      <ul>${[...NAV_LEFT, ...NAV_RIGHT.filter((i) => !i.cta), { label: 'Press', href: '/press/' }].map((i) => html`<li><a href="${i.href}">${i.label}</a></li>`)}</ul>
+      <ul>${FOOTER_EXPLORE.map((i) => html`<li><a href="${i.href}">${i.label}</a></li>`)}</ul>
     </nav>
     <div class="site-footer__col">
       <h2 class="site-footer__title">Contact</h2>
