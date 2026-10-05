@@ -60,7 +60,9 @@
       drop.dataset.closed = '';
       drop.querySelector('.nav__drop-link').focus();
     });
-    drop.addEventListener('pointerleave', reopen);
+    // Back in reach when the pointer comes in again or the focus leaves. Not when the pointer leaves:
+    // the focus is still on «Experiences» then, and the panel would open again by itself.
+    drop.addEventListener('pointerenter', reopen);
     drop.addEventListener('focusout', (event) => { if (!drop.contains(event.relatedTarget)) reopen(); });
   }
 
@@ -229,6 +231,11 @@
     fields.forEach((field) => {
       field.addEventListener(field.type === 'checkbox' || field.tagName === 'SELECT' ? 'change' : 'blur', () => {
         if (field.getAttribute('aria-invalid') === 'true' || field.value) showError(field, errorFor(field));
+      });
+      // An error goes as soon as the answer is right, while typing: left for the blur, it went as the
+      // finger came down on «Send», the button moved up and the tap missed it.
+      field.addEventListener('input', () => {
+        if (field.getAttribute('aria-invalid') === 'true' && !errorFor(field)) showError(field, '');
       });
     });
 
