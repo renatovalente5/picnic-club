@@ -698,6 +698,11 @@ main.has-hero { padding-top: 0; }
 .form-layout { display: grid; gap: 3rem; }
 @media (min-width: 1000px) { .form-layout { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 5rem; align-items: start; } }
 .form-layout__intro h1, .form-layout__intro h2 { margin-bottom: 0.6em; }
+/* Between 1000 and ~1300 px the intro column is narrow, and «TESTEMUNHO» in the display face was
+   wider than it: it broke as «TESTEMUNH / O». The heading never grows past what fits the column
+   (12.5cqi keeps a ten-letter word inside it); elsewhere the size is the usual one. */
+.form-layout__intro { container-type: inline-size; }
+.form-layout__intro h2.display { font-size: min(clamp(1.8rem, 1.35rem + 2.1vw, 2.85rem), 12.5cqi); }
 .contact-card { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--sand); }
 .contact-card .button { margin-bottom: 1.4rem; }
 .form { display: grid; gap: 1.6rem; }

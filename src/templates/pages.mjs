@@ -598,7 +598,7 @@ export function privacy(ctx) {
 <p><strong>Testemunhos.</strong> Quando escreve um testemunho, recebemos os vossos nomes, de onde são, a experiência, quando foi, o texto e o seu email. Só publicamos os nomes, o local e o texto com o seu consentimento (art. 6.º, n.º 1, alínea a)), que pode retirar a qualquer momento. O email nunca é publicado: usamo-lo para confirmar que o testemunho é seu.</p>
 <p><strong>WhatsApp, email e telefone.</strong> Se nos contactar diretamente, usamos as suas mensagens para lhe responder.</p>
 <h2>Durante quanto tempo os guardamos</h2>
-<p>Os pedidos que não dão origem a uma reserva são apagados ao fim de 12 meses. Os registos das reservas são guardados durante o tempo que a lei exige. Os testemunhos ficam publicados até nos pedir que os retiremos.</p>
+<p>Os pedidos que não dão origem a uma reserva são apagados ao fim de 12 meses. Os registos das reservas são guardados durante o tempo que a lei exige. Os testemunhos ficam publicados até nos pedir que os retiremos. Um testemunho que não publicamos é apagado quando o recusamos, ou ao fim de 90 dias.</p>
 <h2>Quem nos ajuda</h2>
 <p>O site está alojado no GitHub Pages (GitHub, Inc., Estados Unidos), os formulários são tratados pela Cloudflare (Cloudflare, Inc.) e o nosso email é fornecido pela Hostinger. As transferências para fora da UE assentam no Quadro de Privacidade de Dados UE-EUA e nas cláusulas contratuais-tipo da Comissão Europeia. Se nos enviar mensagens por WhatsApp ou Instagram, a Meta Platforms Ireland trata essas mensagens nos seus próprios termos.</p>
 <h2>Os seus direitos</h2>
@@ -619,7 +619,7 @@ export function privacy(ctx) {
 <p><strong>Reviews.</strong> When you write a review we receive your names, where you are from, the experience, when it was, your text and your email. We publish the names, the place and the text only with your consent (art. 6(1)(a)), which you can withdraw at any time. The email is never published; we use it to confirm the review is yours.</p>
 <p><strong>WhatsApp, email and phone.</strong> If you contact us directly, we use your messages to reply.</p>
 <h2>How long we keep it</h2>
-<p>Enquiries that do not become a booking are deleted after 12 months. Booking records are kept for as long as the law requires. Reviews stay published until you ask us to remove them.</p>
+<p>Enquiries that do not become a booking are deleted after 12 months. Booking records are kept for as long as the law requires. Reviews stay published until you ask us to remove them. A review we do not publish is deleted when we decline it, or after 90 days.</p>
 <h2>Who helps us</h2>
 <p>The website is hosted by GitHub Pages (GitHub, Inc., United States), the forms are processed by Cloudflare (Cloudflare, Inc.), and our email is provided by Hostinger. Transfers outside the EU rely on the EU–US Data Privacy Framework and the European Commission’s standard contractual clauses. If you message us on WhatsApp or Instagram, Meta Platforms Ireland processes those messages under its own terms.</p>
 <h2>Your rights</h2>
