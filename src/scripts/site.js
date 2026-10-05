@@ -3,6 +3,42 @@
   const root = document.documentElement;
   const motionOK = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
 
+  // The words this file writes, in the page's language.
+  const TEXT = {
+    en: {
+      playVideo: 'Play video', pauseVideo: 'Pause video', playVideos: 'Play videos', pauseVideos: 'Pause videos',
+      enquiryTitle: 'Thank you.', enquiryText: 'We’ve received your enquiry and will be in touch shortly.',
+      reviewTitle: 'Thank you.', reviewText: 'Your review has reached us. It will appear on this page once we have read it.',
+      tick: 'Please tick this box to continue.', choose: 'Please choose an option.', fill: 'Please fill this in.',
+      email: 'Please check the email address, for example name@example.com.',
+      minLength: 'Please write at least {n} characters.', min: 'Please enter {n} or more.',
+      attention: 'Some details need your attention.',
+      notConnected: 'This preview is not connected yet. Please write to hello@picnicclub.pt or message us on WhatsApp.',
+      sending: 'Sending…', failed: 'We could not send this just now. Please try again in a moment, or write to hello@picnicclub.pt.',
+    },
+    pt: {
+      playVideo: 'Reproduzir o vídeo', pauseVideo: 'Pausar o vídeo', playVideos: 'Reproduzir os vídeos', pauseVideos: 'Pausar os vídeos',
+      enquiryTitle: 'Obrigado.', enquiryText: 'Recebemos o seu pedido e entraremos em contacto muito em breve.',
+      reviewTitle: 'Obrigado.', reviewText: 'O seu testemunho chegou até nós. Vai aparecer nesta página depois de o lermos.',
+      tick: 'Assinale esta caixa para continuar.', choose: 'Escolha uma opção.', fill: 'Preencha este campo.',
+      email: 'Confirme o endereço de email, por exemplo nome@exemplo.pt.',
+      minLength: 'Escreva pelo menos {n} caracteres.', min: 'Indique {n} ou mais.',
+      attention: 'Alguns campos precisam da sua atenção.',
+      notConnected: 'Esta pré-visualização ainda não está ligada. Escreva-nos para hello@picnicclub.pt ou envie-nos uma mensagem pelo WhatsApp.',
+      sending: 'A enviar…', failed: 'Não foi possível enviar agora. Tente de novo daqui a pouco, ou escreva-nos para hello@picnicclub.pt.',
+    },
+  };
+  const say = TEXT[root.lang.startsWith('pt') ? 'pt' : 'en'];
+
+  // ------------------------------------------------------------ language
+  // The PT/EN switch is the only thing that writes a choice on the device (see the Cookies page);
+  // the <head> of an English page reads it on the first page of a visit.
+  document.querySelectorAll('[data-lang]').forEach((link) => {
+    link.addEventListener('click', () => {
+      try { localStorage.setItem('picnic-lang', link.dataset.lang); } catch (e) { /* private window: the switch still works */ }
+    });
+  });
+
   // ------------------------------------------------------------ header over the film
   // The <head> already wrote data-scrolled before the first paint. Hysteresis: turn solid
   // after 80px, transparent again only above 40px, so the header never flickers.
@@ -93,7 +129,7 @@
     const label = pause.querySelector('.round-pause__label');
     const showState = (playing) => {
       pause.dataset.state = playing ? 'playing' : 'paused';
-      label.textContent = playing ? 'Pause video' : 'Play video';
+      label.textContent = playing ? say.pauseVideo : say.playVideo;
       pause.title = label.textContent;
     };
     video.addEventListener('playing', () => { video.classList.add('is-playing'); showState(true); });
@@ -123,7 +159,7 @@
     const button = group.querySelector('[data-films-toggle]');
     if (!films.length || !button || !('IntersectionObserver' in window)) return;
     const label = button.querySelector('[data-films-label]');
-    const words = films.length > 1 ? ['Play videos', 'Pause videos'] : ['Play video', 'Pause video'];
+    const words = films.length > 1 ? [say.playVideos, say.pauseVideos] : [say.playVideo, say.pauseVideo];
     let paused = !motionOK || Boolean(saveData);
     const onScreen = new Set();
     const showState = () => {
@@ -183,24 +219,18 @@
 
   // ------------------------------------------------------------ forms
   const MESSAGES = {
-    enquiry: {
-      title: 'Thank you.',
-      text: 'We’ve received your enquiry and will be in touch shortly.',
-    },
-    review: {
-      title: 'Thank you.',
-      text: 'Your review has reached us. It will appear on this page once we have read it.',
-    },
+    enquiry: { title: say.enquiryTitle, text: say.enquiryText },
+    review: { title: say.reviewTitle, text: say.reviewText },
   };
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   function errorFor(field) {
-    if (field.type === 'checkbox') return field.required && !field.checked ? 'Please tick this box to continue.' : '';
+    if (field.type === 'checkbox') return field.required && !field.checked ? say.tick : '';
     const value = field.value.trim();
-    if (field.required && !value) return field.tagName === 'SELECT' ? 'Please choose an option.' : 'Please fill this in.';
-    if (value && field.type === 'email' && !EMAIL.test(value)) return 'Please check the email address, for example name@example.com.';
-    if (value && field.minLength > 0 && value.length < field.minLength) return `Please write at least ${field.minLength} characters.`;
-    if (value && field.type === 'number' && field.min && Number(value) < Number(field.min)) return `Please enter ${field.min} or more.`;
+    if (field.required && !value) return field.tagName === 'SELECT' ? say.choose : say.fill;
+    if (value && field.type === 'email' && !EMAIL.test(value)) return say.email;
+    if (value && field.minLength > 0 && value.length < field.minLength) return say.minLength.replace('{n}', field.minLength);
+    if (value && field.type === 'number' && field.min && Number(value) < Number(field.min)) return say.min.replace('{n}', field.min);
     return '';
   }
 
@@ -248,18 +278,18 @@
         if (message && !first) first = field;
       });
       if (first) {
-        status.textContent = 'Some details need your attention.';
+        status.textContent = say.attention;
         first.focus();
         return;
       }
       const endpoint = form.dataset.endpoint;
       if (!endpoint) {
-        status.textContent = 'This preview is not connected yet. Please write to hello@picnicclub.pt or message us on WhatsApp.';
+        status.textContent = say.notConnected;
         return;
       }
       const button = form.querySelector('button[type="submit"]');
       button.setAttribute('aria-busy', 'true');
-      status.textContent = 'Sending…';
+      status.textContent = say.sending;
       const data = Object.fromEntries(new FormData(form).entries());
       try {
         const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
@@ -277,7 +307,7 @@
         h.focus();
       } catch {
         button.removeAttribute('aria-busy');
-        status.textContent = 'We could not send this just now. Please try again in a moment, or write to hello@picnicclub.pt.';
+        status.textContent = say.failed;
       }
     });
   });

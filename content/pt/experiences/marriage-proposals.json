@@ -1,0 +1,35 @@
+{
+  "slug": "pedidos-de-casamento",
+  "name": "Pedidos de Casamento",
+  "menu": "Pedidos",
+  "short": "Tudo o que precisa para um pedido de casamento íntimo, sem preocupações e inesquecível.",
+  "statement": "Para os momentos que mudam tudo.",
+  "intro": [
+    "Do primeiro copo de champanhe ao momento da pergunta, tratamos de cada pormenor.",
+    "Lugares bonitos, flores frescas, uma decoração cuidada e um cenário pensado à volta da vossa história. Basta chegar: o resto já está à espera."
+  ],
+  "options": [
+    { "name": "O Essencial", "text": "Fruta da época, uma manta cuidadosamente preparada, Moët & Chandon e um ramo de flores: tudo o que precisa para transformar um momento simples num pedido inesquecível." },
+    { "name": "O Arco Decorado", "text": "Um arco floral elegante com letras LED, pensado para destacar o momento e criar um ambiente romântico e intemporal. Várias frases disponíveis." },
+    { "name": "Piquenique & Arco", "text": "Um piquenique cuidadosamente preparado, com o arco floral e as letras LED, para um pedido ou uma celebração inesquecível." },
+    { "name": "A Experiência Diamante", "text": "Para quem procura algo verdadeiramente extraordinário. Um pedido pensado de raiz à volta da sua visão, com um concierge dedicado, motorista privado, locais exclusivos, decoração à medida, experiências gastronómicas e fotografia." }
+  ],
+  "included": [
+    "Uma primeira conversa para conhecer a vossa história",
+    "Escolha do local e da hora, para a melhor luz",
+    "Decoração com flores, linho e velas",
+    "Coordenação discreta no dia",
+    "Champanhe para o momento a seguir à pergunta"
+  ],
+  "addOns": [
+    "Fotografia",
+    "Música ao vivo",
+    "Jantar privado",
+    "Motorista privado",
+    "Flores frescas"
+  ],
+  "seo": {
+    "title": "Pedidos de casamento na Comporta, em Lisboa e em Portugal · Picnic Club",
+    "description": "Pedidos de casamento íntimos e sem preocupações nas praias da Comporta, de Tróia, de Melides e em Lisboa, com flores, linho e velas."
+  }
+}

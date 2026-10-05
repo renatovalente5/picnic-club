@@ -70,6 +70,9 @@ strong { font-weight: 500; }
   text-wrap: balance;
 }
 h1.display { font-size: clamp(2.3rem, 1.6rem + 3.6vw, 4.6rem); } /* Gilda is wider than Italiana: about 10% smaller */
+.display { overflow-wrap: break-word; } /* a word longer than the screen breaks rather than pushing the page sideways */
+/* «CANCELLATIONS», «CANCELAMENTOS»: on a small phone the legal titles shrink until their longest word fits */
+.page-head--legal h1.display { font-size: min(clamp(2.3rem, 1.6rem + 3.6vw, 4.6rem), 9vw); }
 h2.display { font-size: clamp(1.8rem, 1.35rem + 2.1vw, 2.85rem); }
 h3.display { font-size: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem); letter-spacing: 0.05em; }
 .eyebrow {
@@ -287,6 +290,8 @@ html[data-hero="on"][data-scrolled="no"] .nav .nav__cta:hover { background: var(
 .menu:focus { outline: none; } /* the menu itself holds the focus when it opens (site.js); its links keep their ring */
 .menu__top { width: 100%; height: var(--head-h); display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; flex: none; }
 .menu__top .brand img { height: 34px; }
+/* the PT/EN switch: top left of the menu, across from the cross; in the full bar it is the last link */
+.menu__lang { grid-column: 1; justify-self: start; display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; font: 400 0.75rem/1 var(--font-text); letter-spacing: 0.2em; text-decoration: none; }
 .menu__close { grid-column: 3; width: 48px; height: 48px; margin-right: -8px; background: none; border: 0; font: 300 2.2rem/1 var(--font-text); color: inherit; cursor: pointer; }
 .menu__nav { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; margin-top: 2vh; }
 .menu__nav a { font: 400 clamp(1.7rem, 7vw, 2.4rem)/1.5 var(--font-display); text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; padding: 0.15rem 0.5rem; }

@@ -40,4 +40,10 @@ Written 2 Oct 2026. Client material and every decision behind this plan live in
 3. **Panel**: screens for Home, Experiences, Portfolio, Reviews, Press, Founder, Instagram strip,
    Journal, Settings, Publishing.
 4. **Go live**: Cloudflare zone, GitHub Pages, Search Console, Bing, Business Profile, legal check.
-5. **Portuguese**.
+5. **Portuguese** (done 5 Oct 2026): English at the root, Portuguese under `/pt/` with Portuguese
+   addresses (`/pt/experiencias/piqueniques-de-luxo/`…), `hreflang` on every page and in the sitemap,
+   a PT/EN switch (last link of the bar; top left of the phone menu). On the first page of a visit an
+   English page sends to Portuguese whoever chose it with the switch, or has a device set to Portuguese;
+   a `/pt/` address is always kept. The only thing stored on the device is that explicit choice.
+   The build stops on a Portuguese page linking to English, a missing Portuguese text, or a photo
+   without a Portuguese alt text.

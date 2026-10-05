@@ -15,6 +15,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { layout } from '../src/templates/components.mjs';
+import { LANGS, LOCALE, ROUTES, t } from '../src/templates/i18n.mjs';
 import * as pages from '../src/templates/pages.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -50,7 +51,7 @@ function loadContent() {
   const experiences = fs
     .readdirSync(dir)
     .filter((f) => f.endsWith('.json'))
-    .map((f) => readJson(`content/experiences/${f}`))
+    .map((f) => ({ ...readJson(`content/experiences/${f}`), id: f.slice(0, -5) }))
     .sort((a, b) => a.order - b.order);
   return {
     site: readJson('content/site.json'),
@@ -61,6 +62,37 @@ function loadContent() {
     policies: readJson('content/policies.json'),
     experiences,
   };
+}
+
+/**
+ * The words of content/pt/ laid over the English content: objects key by key, a list of objects
+ * item by item (in the English order), a list of words replaced whole. Photos, order and the rest
+ * stay English, so the two languages cannot drift apart on anything but words.
+ */
+function overlay(base, top) {
+  if (top === undefined) return base;
+  if (Array.isArray(base) && Array.isArray(top)) {
+    if (base.some((x) => x && typeof x === 'object')) return base.map((item, i) => overlay(item, top[i]));
+    return top;
+  }
+  if (base && typeof base === 'object' && top && typeof top === 'object' && !Array.isArray(top)) {
+    const out = { ...base };
+    for (const [key, value] of Object.entries(top)) out[key] = overlay(base[key], value);
+    return out;
+  }
+  return top;
+}
+
+function portuguese(content) {
+  const pt = (rel) => (fs.existsSync(path.join(ROOT, 'content', 'pt', rel)) ? readJson(`content/pt/${rel}`) : undefined);
+  const out = {};
+  for (const key of ['site', 'home', 'story', 'press', 'reviews', 'policies']) out[key] = overlay(content[key], pt(`${key}.json`));
+  out.experiences = content.experiences.map((e) => {
+    const words = pt(`experiences/${e.id}.json`);
+    if (!words || !words.slug) fail(`content/pt/experiences/${e.id}.json is missing (or has no "slug"): the Portuguese page needs its words and its address.`);
+    return overlay(e, words);
+  });
+  return { content: out, alts: pt('photos.json') || {} };
 }
 
 function checkContent(content) {
@@ -122,14 +154,27 @@ function rebase(htmlText) {
     .replace(/\bsrcset="([^"]*)"/g, (m, list) => `srcset="${list.split(', ').map((c) => fix(c)).join(', ')}"`);
 }
 
-// Links to other websites open in a new tab, and say so to screen readers.
+// Links to other websites open in a new tab, and say so to screen readers, in the page's language.
 // Our anchors never nest, so the first </a> after an opening tag closes it.
-function externalLinks(htmlText, ownOrigin) {
+function externalLinks(htmlText, ownOrigin, note) {
   return htmlText.replace(/<a\b([^>]*?)\bhref="(https?:\/\/[^"]+)"([^>]*)>([\s\S]*?)<\/a>/g, (whole, before, url, after, inner) => {
     if (url.startsWith(ownOrigin)) return whole;
     const rest = (before + after).replace(/\s+rel="[^"]*"/, '').replace(/\s+target="[^"]*"/, '');
-    return `<a${rest} href="${url}" target="_blank" rel="noopener">${inner}<span class="visually-hidden"> (opens in a new tab)</span></a>`;
+    return `<a${rest} href="${url}" target="_blank" rel="noopener">${inner}<span class="visually-hidden">${note}</span></a>`;
   });
+}
+
+// A page in one language must not lead into the other, except through the PT/EN switch (data-lang)
+// and the 404's line for the other language. Checked on every page before it is written.
+function crossLanguageLinks(htmlText, lang) {
+  const bad = [];
+  for (const m of htmlText.matchAll(/<a\b[^>]*\bhref="(\/[^"]*)"[^>]*>/g)) {
+    const [tag, href] = m;
+    if (/\bdata-lang=/.test(tag) || href.startsWith('/assets/')) continue;
+    const isPt = href === '/pt/' || href.startsWith('/pt/');
+    if (lang === 'pt' ? !isPt : isPt) bad.push(href);
+  }
+  return bad;
 }
 
 function focusCss(images) {
@@ -149,15 +194,20 @@ function gitDate(files) {
   }
 }
 
+// Every page with its twin in the other language (the same alternates as the page's <head>).
 function sitemap(site, built) {
   const shared = ['src/templates', 'src/styles', 'content/site.json'];
   const urls = built
     .filter((p) => !p.noIndex)
     .map((p) => {
       const date = gitDate([...shared, ...(p.sources || [])]);
-      return `  <url><loc>${site.url}${p.path}</loc>${date ? `<lastmod>${date}</lastmod>` : ''}</url>`;
+      const alternates = [
+        ...LANGS.map((l) => `<xhtml:link rel="alternate" hreflang="${LOCALE[l].hreflang}" href="${site.url}${p.alternates[l]}"/>`),
+        `<xhtml:link rel="alternate" hreflang="x-default" href="${site.url}${p.alternates.en}"/>`,
+      ];
+      return `  <url><loc>${site.url}${p.path}</loc>${date ? `<lastmod>${date}</lastmod>` : ''}${alternates.join('')}</url>`;
     });
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.join('\n')}\n</urlset>\n`;
 }
 
 // ---------------------------------------------------------------- build
@@ -190,37 +240,55 @@ function main() {
   if (BASE) css = css.replace(/url\("\/assets\//g, `url("${BASE}/assets/`);
   const js = fs.readFileSync(path.join(ROOT, 'src', 'scripts', 'site.js'), 'utf8');
 
-  const site = BASE ? { ...content.site, url: (ORIGIN || 'http://localhost:4800') + BASE } : content.site;
-  const ctx = {
-    site,
-    content,
+  const { content: contentPt, alts } = portuguese(content);
+  // English path → Portuguese path, for every page (the experiences take their slug from content/pt/)
+  const routes = { ...ROUTES };
+  for (const e of contentPt.experiences) routes[`/experiences/${e.id}/`] = `${ROUTES['/experiences/']}${e.slug}/`;
+  const shared = {
     images,
     usedImages: new Set(),
     year: new Date().getFullYear(),
     preview: !PRODUCTION,
     assets: { css: hashed('site.css', css), js: hashed('site.js', js) },
+    routes,
+    alts,
   };
+  const siteFor = (c) => (BASE ? { ...c.site, url: (ORIGIN || 'http://localhost:4800') + BASE } : c.site);
 
-  const list = [
-    { ...pages.home(ctx), sources: ['content/home.json', 'content/experiences', 'content/reviews.json'] },
-    { ...pages.experiencesIndex(ctx), sources: ['content/experiences'] },
-    ...content.experiences.map((e) => ({ ...pages.experiencePage(ctx, e), sources: [`content/experiences/${e.slug}.json`, 'content/reviews.json'] })),
-    { ...pages.story(ctx), sources: ['content/story.json', 'content/press.json'] },
-    { ...pages.press(ctx), sources: ['content/press.json'] },
-    { ...pages.reviews(ctx), sources: ['content/reviews.json'] },
-    { ...pages.plan(ctx), sources: [] },
-    { ...pages.legalNotice(ctx), sources: [] },
-    { ...pages.terms(ctx), sources: ['content/policies.json'] },
-    { ...pages.privacy(ctx), sources: [] },
-    { ...pages.cookies(ctx), sources: [] },
-    pages.notFound(ctx),
-  ];
-
-  for (const page of list) {
-    const file = page.path.endsWith('.html') ? path.join(OUT, page.path) : path.join(OUT, page.path, 'index.html');
-    fs.mkdirSync(path.dirname(file), { recursive: true });
-    fs.writeFileSync(file, externalLinks(rebase(layout(ctx, page).toString()), new URL(site.url).origin));
+  const list = [];
+  for (const lang of LANGS) {
+    const c = lang === 'pt' ? contentPt : content;
+    const ctx = { ...shared, lang, site: siteFor(c), content: c };
+    const built = [
+      { ...pages.home(ctx), sources: ['content/home.json', 'content/experiences', 'content/reviews.json'] },
+      { ...pages.experiencesIndex(ctx), sources: ['content/experiences'] },
+      ...c.experiences.map((e) => ({ ...pages.experiencePage(ctx, e), sources: [`content/experiences/${e.id}.json`, 'content/reviews.json'] })),
+      { ...pages.story(ctx), sources: ['content/story.json', 'content/press.json'] },
+      { ...pages.press(ctx), sources: ['content/press.json'] },
+      { ...pages.reviews(ctx), sources: ['content/reviews.json'] },
+      { ...pages.plan(ctx), sources: [] },
+      { ...pages.legalNotice(ctx), sources: [] },
+      { ...pages.terms(ctx), sources: ['content/policies.json'] },
+      { ...pages.privacy(ctx), sources: [] },
+      { ...pages.cookies(ctx), sources: [] },
+      ...(lang === 'en' ? [pages.notFound(ctx)] : []),
+    ];
+    for (const page of built) {
+      const en = page.path;
+      page.alternates = page.noIndex ? { en: '/', pt: routes['/'] } : { en, pt: routes[en] };
+      page.path = page.noIndex ? en : page.alternates[lang];
+      if (lang === 'pt') page.sources = page.sources.map((s) => s.replace(/^content\//, 'content/pt/')).concat(page.sources);
+      const text = layout(ctx, page).toString();
+      const bad = crossLanguageLinks(text, page.noIndex ? null : lang);
+      if (!page.noIndex && bad.length) fail(`${page.path} links to the other language: ${[...new Set(bad)].join(', ')}`);
+      const file = page.path.endsWith('.html') ? path.join(OUT, page.path) : path.join(OUT, page.path, 'index.html');
+      fs.mkdirSync(path.dirname(file), { recursive: true });
+      fs.writeFileSync(file, externalLinks(rebase(text), new URL(ctx.site.url).origin, t(ctx, 'newTab')));
+      list.push(page);
+    }
   }
+  const site = siteFor(content);
+  const ctx = shared;
 
   fs.writeFileSync(path.join(OUT, 'sitemap.xml'), sitemap(content.site, list));
   fs.writeFileSync(

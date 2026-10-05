@@ -4,6 +4,8 @@ Website for PICNIC CLUB®, slow luxury experiences in Portugal: luxury picnics, 
 proposals, elopement weddings and private events.
 
 - `content/` — the site's words and settings (JSON; edited by the panel later)
+- `content/pt/` — the Portuguese words, laid over the English content (photos, order and the rest stay
+  English); fixed texts of the templates and the Portuguese addresses are in `src/templates/i18n.mjs`
 - `media/` — photos (with alt text and focus points in `media/photos.json`), brand files, film
 - `src/` — templates, styles, script and fonts
 - `scripts/build.mjs` — builds `_site/` (Node 20+, no dependencies; images need Python 3 + Pillow)
