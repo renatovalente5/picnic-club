@@ -2,7 +2,9 @@
 // Tests of the two shared modules (src/lib/traduziveis.mjs and src/lib/regras.mjs) against the
 // real content, against broken copies of it, and against small made-up files. No dependencies.
 //
-//   node scripts/test-content.mjs          what must always hold (CI runs it before the build)
+//   node scripts/test-content.mjs          what must always hold (CI runs it after the build: one test
+//                                          compares the photos the rules count as used with the ones
+//                                          the build published, and is skipped when there is no build)
 //   node scripts/test-content.mjs --seed   also: every text has its English, up to date — true right
 //                                          after the migration of 5 Oct 2026, not after Ana's edits
 //                                          (the panel's Worker translates them within minutes)
@@ -12,7 +14,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { problemas, mudancasBloqueadas, nifValido } from '../src/lib/regras.mjs';
+import { problemas, mudancasBloqueadas, nifValido, FOTOS_DO_DESENHO, fotosUsadas } from '../src/lib/regras.mjs';
 import { aplicar, campos, resumo, validar, padroesDe, traduzivel, caminhoDaTraducao } from '../src/lib/traduziveis.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -148,6 +150,29 @@ test('rules: a photo described but not on disk, and a photo on disk with no desc
   f['photos.json'][primeira].alt = '';
   const chaves = bloqueios(f).map((p) => p.chave).sort();
   assert.deepEqual(chaves, ['photos.json|foto-fantasma|sem-ficheiro', `photos.json|${primeira}.alt|vazio`]);
+});
+
+test('the photos the templates use by name are the ones the rules protect', () => {
+  const nomes = new Set();
+  for (const f of ['src/templates/pages.mjs', 'src/templates/components.mjs']) {
+    const t = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    for (const m of t.matchAll(/(?:shareImage\(ctx, |picture\(ctx, |photo: |: )'([a-z0-9]+(?:-[a-z0-9]+)+)'/g)) if (!m[1].endsWith('-poster') && FOTOS.has(m[1])) nomes.add(m[1]);
+  }
+  assert.deepEqual([...nomes].sort(), [...FOTOS_DO_DESENHO].sort());
+  const f = files();
+  delete f['photos.json']['proposal-embrace'];
+  assert.ok(bloqueios(f).some((p) => p.chave === 'photos.json|proposal-embrace|desenho'));
+});
+
+if (fs.existsSync(path.join(ROOT, '_site/assets/img'))) test('every photo a page shows is counted as used (and only those the build publishes are)', () => {
+  const usadas = fotosUsadas(files());
+  // the build publishes exactly the images some page uses; the photos among them are the used ones
+  const manifesto = JSON.parse(fs.readFileSync(path.join(ROOT, '.cache/images/manifest.json'), 'utf8'));
+  const publicadas = new Set(fs.readdirSync(path.join(ROOT, '_site/assets/img')).map((f) => f.replace(/-[0-9a-f]{10}-(\d+\.(avif|webp)|share\.jpg)$/, '')));
+  for (const nome of FOTOS) {
+    if (!manifesto[nome]) continue;
+    assert.equal(usadas.has(nome), publicadas.has(nome), `${nome}: used ${usadas.has(nome)}, published ${publicadas.has(nome)}`);
+  }
 });
 
 test('locked fields: addresses, codes, films, and reviews that did not come from the queue', () => {

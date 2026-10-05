@@ -8,12 +8,11 @@
 # Settings → Pages → Source must be "GitHub Actions".
 name: Publish site
 
+# Every push runs, docs included: the panel (picnic-club-painel) follows the run of each commit
+# to say «Publicado ✓», and a commit with no run would leave it waiting.
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'docs/**'
-      - 'README.md'
   workflow_dispatch:
 
 # Nothing by default: each job asks only for what it uses.
@@ -45,10 +44,10 @@ jobs:
         run: python -m pip install --disable-pip-version-check 'pillow==11.3.0'
       - name: Check that every photo has a description
         run: python scripts/images.py --check
-      - name: Test the content rules and the translations
-        run: node scripts/test-content.mjs
       - name: Build (preview)
         run: node scripts/build.mjs --base=/picnic-club --origin=https://renatovalente5.github.io
+      - name: Test the content rules and the translations
+        run: node scripts/test-content.mjs
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: _site

@@ -13,6 +13,12 @@
  *   ecra    — the panel screen that fixes it */
 
 export const CODIGOS_EXPERIENCIA = ['luxury-picnic', 'marriage-proposal', 'elopement-wedding', 'private-event', 'bespoke-experience'];
+
+/* The photos the site's design uses by name (src/templates: the share cards of the home, the
+   legal pages, the press, the reviews and the enquiry, and the cover of the experiences page).
+   They can be described again but never leave the library. scripts/test-content.mjs checks this
+   list against the templates. */
+export const FOTOS_DO_DESENHO = ['proposal-sunset-sails', 'proposal-two-sails-sea', 'proposal-white-roses', 'proposal-embrace', 'proposal-candlelit-night'];
 export const LINGUAS_ARTIGO = ['pt', 'en', 'es', 'fr', 'de', 'it'];
 
 const MAX_CURTO = 300;
@@ -132,6 +138,7 @@ export function problemas(ficheiros, { fotos = new Set(), filmes = new Set() } =
   /* --- photos (photos.json) --- */
   const p = ler('photos.json');
   if (p) {
+    for (const nome of FOTOS_DO_DESENHO) if (!fotoExiste(nome)) bloqueia('photos.json', nome, 'desenho', `A fotografia «${nome}» é usada pelo desenho do site (nos cartões de partilha): não pode sair da biblioteca.`);
     for (const [nome, m] of Object.entries(p)) {
       if (!eObjecto(m)) { bloqueia('photos.json', nome, 'ilegivel', `A fotografia «${nome}» está mal gravada. Avise o Renato.`); continue; }
       if (vazio(m.alt)) bloqueia('photos.json', `${nome}.alt`, 'vazio', `Fotografia «${nome}»: descreva o que se vê (é o que ouve quem não vê a imagem, e o que o Google lê).`);
@@ -295,6 +302,33 @@ export function problemas(ficheiros, { fotos = new Set(), filmes = new Set() } =
     ordens.set(e.order, f);
   }
   return out;
+}
+
+/**
+ * Where each photo is used: Map(name → [{ ficheiro, campo }]). The design's own photos
+ * (FOTOS_DO_DESENHO) count as used, by «design». A photo that nothing uses can leave the library.
+ */
+export function fotosUsadas(ficheiros) {
+  const m = new Map();
+  const usar = (nome, ficheiro, campo) => {
+    if (typeof nome !== 'string' || !nome) return;
+    if (!m.has(nome)) m.set(nome, []);
+    m.get(nome).push({ ficheiro, campo });
+  };
+  for (const nome of FOTOS_DO_DESENHO) usar(nome, 'design', '');
+  const h = ficheiros['home.json'];
+  (Array.isArray(h?.intro?.photos) ? h.intro.photos : []).forEach((n, i) => usar(n, 'home.json', `intro.photos.${i}`));
+  (Array.isArray(h?.gallery?.items) ? h.gallery.items : []).forEach((it, i) => usar(it?.photo, 'home.json', `gallery.items.${i}.photo`));
+  const st = ficheiros['story.json'];
+  (Array.isArray(st?.photos) ? st.photos : []).forEach((n, i) => usar(n, 'story.json', `photos.${i}`));
+  const pr = ficheiros['press.json'];
+  (Array.isArray(pr?.items) ? pr.items : []).forEach((a, i) => usar(a?.image, 'press.json', `items.${i}.image`));
+  for (const f of Object.keys(ficheiros).filter((k) => /^experiences\/[a-z0-9-]+\.json$/.test(k)).sort()) {
+    const e = ficheiros[f];
+    usar(e?.hero, f, 'hero');
+    (Array.isArray(e?.gallery) ? e.gallery : []).forEach((n, i) => usar(n, f, `gallery.${i}`));
+  }
+  return m;
 }
 
 /* WHAT THE PANEL DOES NOT EDIT, and a save must leave as it was (the Worker refuses one that
