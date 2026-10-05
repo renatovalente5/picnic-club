@@ -2,9 +2,10 @@
   "order": 3,
   "slug": "elopement-weddings",
   "name": "Elopement Weddings",
+  "menu": "Elopements",
   "formValue": "elopement-wedding",
   "short": "Intimate wedding celebrations for couples who want something deeply personal and beautifully simple.",
-  "hero": "elopement-ceremony-arch",
+  "hero": "elopement-at-the-arch",
   "statement": "Your wedding. Your way.",
   "intro": [
     "Elopement weddings are intimate celebrations designed around what truly matters. A beautiful place. The person you love. Your closest people. And a day that feels entirely yours.",
@@ -27,7 +28,7 @@
   "gallery": [
     "elopement-heart-arch",
     "elopement-rings-sand",
-    "elopement-at-the-arch",
+    "elopement-ceremony-arch",
     "elopement-walk",
     "elopement-hands"
   ],

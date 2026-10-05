@@ -145,7 +145,7 @@
   },
   "elopement-at-the-arch": {
     "alt": "The couple hand in hand at the flower arch",
-    "focus": "50% 58%",
+    "focus": "50% 52%",
     "from": "elopement-weddings/elopement-weddings-04.jpg",
     "labelledBy": "ana"
   },
@@ -196,5 +196,17 @@
     "focus": "50% 55%",
     "from": "events/events-04.jpg",
     "labelledBy": "renato"
+  },
+  "picnic-shoreline-table": {
+    "alt": "A low table with cushions set on the beach at golden hour, the sea behind it",
+    "focus": "50% 85%",
+    "from": "whatsapp/2026-10-04/picnicclub-2026-10-04-msg70.jpg (Ana, 4 out: tons mais neutros na apresentação)",
+    "labelledBy": "claude"
+  },
+  "ana-white-orchids": {
+    "alt": "Ana, founder of Picnic Club, among white orchids on the dunes",
+    "focus": "38% 40%",
+    "from": "whatsapp/2026-10-04/picnicclub-2026-10-04-msg75.jpg (Ana, 4 out: «substituir por a segunda foto» na Our story)",
+    "labelledBy": "claude"
   }
 }

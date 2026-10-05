@@ -14,7 +14,10 @@ const SOURCES = ['Instagram', 'Google', 'NiT', 'A friend or family member', 'A h
 // ---------------------------------------------------------------- shared sections
 
 function pageHero(ctx, { photo, eyebrow, title, lead, id = 'page-title', portrait = false }) {
-  return html`<section class="${portrait ? 'page-hero page-hero--portrait' : 'page-hero'}" aria-labelledby="${id}">
+  // a portrait's words go on the side the person is not: the photo's focus point says where she is
+  const onLeft = portrait && parseFloat((ctx.images[photo]?.focus || '50%').split(' ')[0]) < 50;
+  const classes = ['page-hero', portrait && 'page-hero--portrait', onLeft && 'page-hero--words-right'].filter(Boolean).join(' ');
+  return html`<section class="${classes}" aria-labelledby="${id}">
   <div class="page-hero__media">${picture(ctx, photo, { eager: true, sizes: '100vw' })}</div>
   <div class="page-hero__veil"></div>
   <div class="page-hero__content wrap">
@@ -273,22 +276,27 @@ ${e.options ? html`<section class="options" aria-labelledby="options-${e.slug}">
 <section class="included wrap" aria-labelledby="included-${e.slug}">
   <div class="section-head">
     <h2 class="display" id="included-${e.slug}">What’s included</h2>
-    <div class="section-head__text"><p>Clearly planned, beautifully delivered. Every experience is tailored, so this is where we start rather than where we stop.</p></div>
+    <div class="section-head__text"><p>Clearly planned, thoughtfully delivered. Every experience is bespoke: consider this our starting point, not our limit.</p></div>
   </div>
   <ul class="ticks">${e.included.map((i) => html`<li>${i}</li>`)}</ul>
 </section>
+${e.howItWorks ? html`<section class="steps wrap" aria-labelledby="steps-${e.slug}">
+  <h2 class="display" id="steps-${e.slug}">How it works</h2>
+  <ol class="steps__list" role="list">${e.howItWorks.map((s) => html`<li class="step"><h3 class="step__title">${s.title}</h3><p>${s.text}</p></li>`)}</ol>
+</section>` : ''}
 <section class="gallery wrap" aria-label="Gallery">
   <ul class="gallery__grid">${e.gallery.slice(1).map((p, i) => html`<li class="gallery__item gallery__item--${(i % 5) + 1}" data-reveal>${picture(ctx, p, { sizes: '(min-width: 900px) 45vw, 100vw' })}</li>`)}</ul>
 </section>
 <section class="extras wrap" aria-labelledby="extras-${e.slug}">
   <div>
-    <h2 class="eyebrow" id="extras-${e.slug}">Optional add-ons</h2>
+    <h2 class="eyebrow" id="extras-${e.slug}">To elevate the day</h2>
     <ul class="inline-list">${e.addOns.map((a) => html`<li>${a}</li>`)}</ul>
   </div>
   <div>
-    <h2 class="eyebrow">Where it can take place</h2>
+    <h2 class="eyebrow">Where we set the table</h2>
     <ul class="inline-list">${e.locations.map((a) => html`<li>${a}</li>`)}</ul>
     <p class="extras__note">${ctx.site.areasNote}</p>
+    ${e.weather ? html`<p class="extras__note">${e.weather}</p>` : ''}
   </div>
 </section>
 ${related.length ? reviewFeature(related.find((r) => r.featured) || related[0]) : ''}`;

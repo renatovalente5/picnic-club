@@ -42,8 +42,8 @@ FORMATS = ('avif', 'webp') if features.check('avif') else ('webp',)
 SETTINGS = f'v1-{WIDTHS}-{AVIF_QUALITY}-{WEBP_QUALITY}-{SHARE}'
 
 
-def content_hash(path, *more):
-    h = hashlib.sha256(SETTINGS.encode())
+def content_hash(path, *more, extra=''):
+    h = hashlib.sha256((SETTINGS + extra).encode())
     for p in (path, *more):
         with open(p, 'rb') as f:
             h.update(f.read())
@@ -103,7 +103,7 @@ def build_one(name, src, focus, kind, logo):
             files.append(fname)
     # its own name: a new layout or logo gives the card a new address, which the apps that keep
     # link previews (WhatsApp, Facebook) fetch again
-    share = f'{name}-{content_hash(src, LOGO, __file__)}-share.jpg'
+    share = f'{name}-{content_hash(src, LOGO, __file__, extra=repr(focus))}-share.jpg'
     target = os.path.join(folder, share)
     if not os.path.exists(target):
         share_card(im, focus, logo).save(target, 'JPEG', quality=84, progressive=True, optimize=True)

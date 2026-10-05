@@ -83,7 +83,7 @@ function experiencesDrop(ctx, current) {
           const href = `/experiences/${e.slug}/`;
           return html`<li><a class="nav__card" href="${href}"${attrs({ 'aria-current': current === href ? 'page' : false })}>
             <span class="nav__card-media">${picture(ctx, e.hero, { sizes: '300px', alt: '' })}</span>
-            <span class="nav__card-name">${e.name}</span>
+            <span class="nav__card-name">${e.menu || e.name}</span>
             <span class="nav__card-line">${e.statement}</span>
           </a></li>`;
         })}</ul>
@@ -117,7 +117,7 @@ export function header(ctx, page) {
     ${navLinks(NAV_LEFT.slice(0, 1), current)}
     <ul class="menu__sub">${ctx.content.experiences.map((e) => {
       const href = `/experiences/${e.slug}/`;
-      return html`<li><a href="${href}"${attrs({ 'aria-current': current === href ? 'page' : false })}>${e.name}</a></li>`;
+      return html`<li><a href="${href}"${attrs({ 'aria-current': current === href ? 'page' : false })}>${e.menu || e.name}</a></li>`;
     })}</ul>
     ${navLinks([...NAV_LEFT.slice(1), ...NAV_RIGHT.filter((i) => !i.cta)], current)}
   </nav>

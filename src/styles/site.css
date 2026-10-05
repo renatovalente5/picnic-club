@@ -358,6 +358,9 @@ main.has-hero { padding-top: 0; }
 .page-hero--portrait .page-hero__veil { background: linear-gradient(to top, rgba(22, 24, 18, 0.8) 0%, rgba(22, 24, 18, 0.62) 42%, rgba(22, 24, 18, 0.28) 72%, rgba(22, 24, 18, 0.2) 100%); }
 @media (min-width: 900px) {
   .page-hero--portrait .page-hero__veil { background: linear-gradient(90deg, rgba(22, 24, 18, 0.74) 0%, rgba(22, 24, 18, 0.6) 34%, rgba(22, 24, 18, 0.18) 62%, rgba(22, 24, 18, 0.1) 100%); }
+  /* she is on the left: the shade and the words move to the right */
+  .page-hero--words-right .page-hero__veil { background: linear-gradient(270deg, rgba(22, 24, 18, 0.74) 0%, rgba(22, 24, 18, 0.6) 34%, rgba(22, 24, 18, 0.18) 62%, rgba(22, 24, 18, 0.1) 100%); }
+  .page-hero--words-right .page-hero__content { padding-left: 52%; }
 }
 /* on a narrow screen the words would cover her: the photograph first, the words below it */
 @media (max-width: 899px) {
@@ -624,6 +627,15 @@ main.has-hero { padding-top: 0; }
 .gallery__item { aspect-ratio: 4 / 5; overflow: hidden; }
 @media (min-width: 720px) { .gallery__item--1, .gallery__item--4, .gallery__item--5 { aspect-ratio: 3 / 2; } }
 .gallery__item picture, .gallery__item img { width: 100%; height: 100%; object-fit: cover; }
+/* «How it works»: steps numbered because they happen in that order */
+.steps { padding-block: var(--space) 0; }
+.steps > .display { margin-bottom: clamp(2rem, 5vw, 3.4rem); }
+.steps__list { display: grid; gap: 2rem 3rem; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+@media (min-width: 900px) { .steps__list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.step { counter-increment: step; padding-top: 1.3rem; border-top: 1px solid var(--sand); }
+.step::before { content: counter(step, decimal-leading-zero); display: block; margin-bottom: 0.8rem; font: 400 1.9rem/1 var(--font-display); color: var(--gold-deep); }
+.step__title { margin: 0 0 0.4rem; font: 400 1.3rem/1.3 var(--font-display); }
+.step p { margin: 0; color: var(--olive-soft); }
 .extras { display: grid; gap: 2.5rem; padding-bottom: var(--space); }
 @media (min-width: 900px) { .extras { grid-template-columns: 1fr 1fr; gap: 5rem; } }
 .extras .eyebrow { margin-bottom: 1rem; }
