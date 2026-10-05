@@ -234,16 +234,17 @@ export function organisation(ctx) {
 }
 
 /**
- * On the first page of a visit, an English page sends to its Portuguese twin whoever chose Portuguese
- * with the PT switch, or, having chosen nothing, has a device set to Portuguese. It runs before
- * anything is drawn. A Portuguese address is always left alone, a page reached from another page of the
- * site too (so «Back» never gets stuck), and nothing is written on the device here: site.js keeps the
- * choice only when someone uses the switch. Search engines have no stored choice and an English device.
+ * On the first page of a visit, an English page sends to its Portuguese twin only whoever chose
+ * Portuguese with the PT switch before. A first visit is always in English, whatever language the
+ * device is set to (Ana's decision, 5 Oct 2026: the clients see English first and switch if they want).
+ * It runs before anything is drawn. A Portuguese address is always left alone, a page reached from
+ * another page of the site too (so «Back» never gets stuck), and nothing is written on the device
+ * here: site.js keeps the choice only when someone uses the switch.
  */
 function languageRedirect(enPath, ptPath) {
   // The twin's address is worked out from this one (whatever folder the site is served from:
   // the preview's /picnic-club, nothing on the domain), never from the site's configured URL.
-  return raw(`<script>(function(){var p;try{p=localStorage.getItem('picnic-lang')}catch(e){}var r=document.referrer,o=location.origin;if(r&&r.slice(0,o.length)===o)return;var l=(navigator.languages&&navigator.languages[0])||navigator.language||'';if(!(p==='pt'||(!p&&/^pt(-|$)/i.test(l))))return;var en=${JSON.stringify(enPath)},h=location.pathname;if(h.slice(-en.length)!==en)return;location.replace(h.slice(0,h.length-en.length)+${JSON.stringify(ptPath)}+location.search+location.hash)})()</script>`);
+  return raw(`<script>(function(){var p;try{p=localStorage.getItem('picnic-lang')}catch(e){}if(p!=='pt')return;var r=document.referrer,o=location.origin;if(r&&r.slice(0,o.length)===o)return;var en=${JSON.stringify(enPath)},h=location.pathname;if(h.slice(-en.length)!==en)return;location.replace(h.slice(0,h.length-en.length)+${JSON.stringify(ptPath)}+location.search+location.hash)})()</script>`);
 }
 
 /** The page shell. `page` = { path, alternates, title, description, image, body, hero, schema }. */

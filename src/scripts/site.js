@@ -106,6 +106,22 @@
     drop.addEventListener('focusout', (event) => { if (!drop.contains(event.relatedTarget)) reopen(); });
   }
 
+  // ------------------------------------------------------------ a refused autoplay
+  // An iPhone in Low Power Mode (and some data savers) refuses every film that starts by itself, on
+  // every site: play() fails with NotAllowedError. That is not the visitor's choice, so their first tap
+  // anywhere on the page starts the refused films (a tap is a gesture, and a gesture may play; a scroll
+  // is not one and cannot). The play/pause buttons are left to their own handlers.
+  const refused = new Set();
+  const isRefusal = (error) => Boolean(error) && error.name === 'NotAllowedError';
+  const onGesture = (event) => {
+    if (!refused.size) return;
+    if (event.target && event.target.closest && event.target.closest('.round-pause, [data-films-toggle]')) return;
+    const again = [...refused];
+    refused.clear();
+    again.forEach((retry) => retry());
+  };
+  ['touchend', 'click', 'keydown'].forEach((type) => document.addEventListener(type, onGesture, { capture: true, passive: true }));
+
   // ------------------------------------------------------------ hero film
   const video = document.querySelector('.hero__video');
   const pause = document.querySelector('.hero__pause');
@@ -113,8 +129,9 @@
   if (video && pause && !saveData) {
     const portrait = window.matchMedia('(orientation: portrait)');
     const sourceFor = () => (portrait.matches ? video.dataset.portrait : video.dataset.landscape);
-    // Only the visitor decides to stop the film. A refused play() (hidden tab, power saving)
-    // is retried when the page is visible again; reduced motion waits for the button.
+    // Only the visitor decides to stop the film. A play() refused by a hidden tab is retried when the
+    // page is visible again, one refused by the device (Low Power Mode) on the first tap; reduced
+    // motion waits for the button.
     let userPaused = !motionOK;
 
     const load = () => {
@@ -128,8 +145,14 @@
     const play = () => {
       if (document.hidden) return;
       const p = video.play();
-      if (p && p.catch) p.catch(() => showState(false));
+      if (p && p.catch) {
+        p.catch((error) => {
+          showState(false);
+          if (isRefusal(error) && !userPaused) refused.add(retry);
+        });
+      }
     };
+    const retry = () => { if (!userPaused) play(); };
     const label = pause.querySelector('.round-pause__label');
     const showState = (playing) => {
       pause.dataset.state = playing ? 'playing' : 'paused';
@@ -139,6 +162,7 @@
     video.addEventListener('playing', () => { video.classList.add('is-playing'); showState(true); });
     video.addEventListener('pause', () => showState(false));
     pause.addEventListener('click', () => {
+      refused.delete(retry);   // the button decided; a later tap elsewhere must not undo it
       if (pause.dataset.state === 'playing') {
         userPaused = true;
         video.pause();
@@ -151,7 +175,13 @@
     document.addEventListener('visibilitychange', () => { if (!document.hidden && !userPaused && video.paused) play(); });
     portrait.addEventListener('change', () => { if (video.getAttribute('src')) load(); });
     pause.hidden = false;
-    if (!userPaused) load();
+    // The film is about to start by itself: the button says «pause» from the first moment, and turns
+    // to «play» only if it does not start. A «play» shown while the film was still loading on a phone
+    // read as «tap to start» (Ana, 4 Oct 2026).
+    if (!userPaused) {
+      showState(true);
+      load();
+    }
   }
 
   // ------------------------------------------------------------ short films (gallery, enquiry page)
@@ -171,11 +201,24 @@
       label.textContent = words[paused ? 0 : 1];
       if (button.dataset.filmsToggle === 'icon') button.title = label.textContent;
     };
+    // Refused (Low Power Mode): the button says «play», truthfully, until the first tap starts them.
+    const resume = () => {
+      paused = false;
+      showState();
+      onScreen.forEach(start);
+    };
     const start = (film) => {
       if (paused || document.hidden) return;
       if (!film.getAttribute('src')) film.src = film.dataset.src;
       const p = film.play();
-      if (p && p.catch) p.catch(() => {});
+      if (p && p.catch) {
+        p.catch((error) => {
+          if (!isRefusal(error) || paused) return;
+          paused = true;
+          showState();
+          refused.add(resume);
+        });
+      }
     };
     films.forEach((film) => film.addEventListener('playing', () => film.classList.add('is-playing')));
     const watch = new IntersectionObserver((entries) => {
@@ -191,6 +234,7 @@
     }, { threshold: 0.2 });
     films.forEach((film) => watch.observe(film));
     button.addEventListener('click', () => {
+      refused.delete(resume);   // the button decided; a later tap elsewhere must not undo it
       paused = !paused;
       showState();
       if (paused) films.forEach((film) => film.pause());
