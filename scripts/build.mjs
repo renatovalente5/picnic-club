@@ -110,15 +110,25 @@ const namesIn = (dir, ext) => new Set(fs.readdirSync(path.join(ROOT, dir)).filte
 
 /** The rules of src/lib/regras.mjs (the same the panel applies before saving): a «bloqueia» stops
  *  the build; an «avisa» is printed. A production build also refuses the example reviews. */
+/* A photo's file name is its name in the content and in the panel: lowercase ASCII letters, digits
+   and hyphens, at most 70 of them (an address with a space or an accent breaks a srcset). The panel
+   does not see a photo with any other name, so the site refuses it too — both must see the same
+   library. */
+const PHOTO_FILE = /^[a-z0-9]+(?:-[a-z0-9]+)*\.jpg$/;
+const badPhotoNames = () => fs.readdirSync(path.join(ROOT, 'media', 'photos')).filter((f) => !f.startsWith('.') && (!PHOTO_FILE.test(f) || f.length > 74));
+
 function checkContent(content) {
   const all = problemas(contentFiles(content), { fotos: namesIn('media/photos', '.jpg'), filmes: namesIn('media/video', '.mp4') });
   const blocking = all.filter((p) => p.classe === 'bloqueia').map((p) => `content/${p.ficheiro}${p.campo ? ` (${p.campo})` : ''}: ${p.mensagem}`);
+  const badNames = badPhotoNames();
+  for (const f of badNames) blocking.push(`media/photos/${f}: a photo's file name must be lowercase letters, digits and hyphens, ending in .jpg (at most 70 before it).`);
   const examples = content.reviews.items.filter((r) => r.example);
   if (PRODUCTION && examples.length) {
     blocking.push(`${examples.length} example review(s) are still on the reviews page. Example reviews must never be published: replace them with real reviews from clients, or remove them.`);
   }
   if (blocking.length) {
     const annotations = all.filter((p) => p.classe === 'bloqueia').map((p) => ({ title: `content/${p.ficheiro}`, message: p.mensagem }));
+    for (const f of badNames) annotations.push({ title: `media/photos/${f}`, message: `A fotografia «${f}» tem um nome que o site não aceita (só minúsculas, algarismos e hífenes). Avise o Renato.` });
     if (PRODUCTION && examples.length) annotations.push({ title: 'content/reviews.json', message: 'Os testemunhos de exemplo não podem ser publicados no domínio: troque-os por testemunhos verdadeiros, ou tire-os.' });
     fail('\n  - ' + blocking.join('\n  - '), annotations);
   }
