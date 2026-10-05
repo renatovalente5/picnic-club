@@ -146,6 +146,8 @@ export function problemas(ficheiros, { fotos = new Set(), filmes = new Set() } =
       if (m.focus !== undefined && !focoValido(m.focus)) bloqueia('photos.json', `${nome}.focus`, 'foco', `Fotografia «${nome}»: o ponto de foco está mal gravado. Escolha-o outra vez.`);
       if (!fotos.has(nome)) bloqueia('photos.json', nome, 'sem-ficheiro', `A fotografia «${nome}» está descrita mas o ficheiro não existe. Avise o Renato.`);
     }
+    /* and the other way round (scripts/images.py --check refuses it in CI too) */
+    for (const nome of fotos) if (!Object.hasOwn(p, nome)) bloqueia('photos.json', nome, 'sem-descricao', `A fotografia «${nome}» não tem descrição: descreva o que se vê.`);
   }
 
   /* --- home page (home.json) --- */

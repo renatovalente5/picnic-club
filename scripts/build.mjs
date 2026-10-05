@@ -41,7 +41,10 @@ function readJson(rel) {
   return JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
 }
 
-function fail(message) {
+function fail(message, problems = []) {
+  // In GitHub Actions each problem becomes an annotation, which the panel reads to tell Ana why a
+  // publication stopped (picnic-club-painel: src/admin/github.js, porQueFalhou).
+  if (process.env.GITHUB_ACTIONS === 'true') for (const p of problems) console.log(`::error title=${p.title.replace(/[\r\n:,]/g, ' ')}::${p.message.replace(/\r?\n/g, ' ')}`);
   console.error(`\nBuild stopped: ${message}\n`);
   process.exit(1);
 }
@@ -114,7 +117,11 @@ function checkContent(content) {
   if (PRODUCTION && examples.length) {
     blocking.push(`${examples.length} example review(s) are still on the reviews page. Example reviews must never be published: replace them with real reviews from clients, or remove them.`);
   }
-  if (blocking.length) fail('\n  - ' + blocking.join('\n  - '));
+  if (blocking.length) {
+    const annotations = all.filter((p) => p.classe === 'bloqueia').map((p) => ({ title: `content/${p.ficheiro}`, message: p.mensagem }));
+    if (PRODUCTION && examples.length) annotations.push({ title: 'content/reviews.json', message: 'Os testemunhos de exemplo não podem ser publicados no domínio: troque-os por testemunhos verdadeiros, ou tire-os.' });
+    fail('\n  - ' + blocking.join('\n  - '), annotations);
+  }
   const warnings = all.filter((p) => p.classe === 'avisa' && !p.chave.endsWith('|exemplo'));
   return { examples: examples.length, warnings };
 }
@@ -311,11 +318,18 @@ function main() {
   );
   if (PRODUCTION) fs.writeFileSync(path.join(OUT, 'CNAME'), new URL(content.site.url).hostname + '\n');
 
-  // Images in the manifest that no page uses are not published.
+  // Images in the manifest that no page uses are not published — except, for a photo, its smallest
+  // WebP: the panel shows the whole library from assets/painel.json (one small picture of each photo,
+  // its size and its focus point), used or not.
   const unused = Object.keys(images).filter((n) => !ctx.usedImages.has(n));
+  const thumb = (name) => `${name}-${images[name].hash}-${images[name].widths[0]}.webp`;
   for (const name of unused) {
-    for (const file of images[name].files) fs.rmSync(path.join(OUT, 'assets', 'img', file), { force: true });
+    const keep = images[name].kind === 'photo' ? thumb(name) : null;
+    for (const file of images[name].files) if (file !== keep) fs.rmSync(path.join(OUT, 'assets', 'img', file), { force: true });
   }
+  const forPanel = (kind) => Object.fromEntries(Object.entries(images).filter(([, m]) => m.kind === kind)
+    .map(([name, m]) => [name, { src: `assets/img/${thumb(name)}`, width: m.width, height: m.height, focus: m.focus }]));
+  fs.writeFileSync(path.join(OUT, 'assets', 'painel.json'), `${JSON.stringify({ fotos: forPanel('photo'), posters: forPanel('poster') })}\n`);
 
   const seconds = ((Date.now() - started) / 1000).toFixed(1);
   console.log(`Built ${list.length} pages in ${seconds}s${PRODUCTION ? ' (production)' : ' (preview)'}${BASE ? `, served from ${site.url}/` : ''}.`);

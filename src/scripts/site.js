@@ -15,6 +15,8 @@
       attention: 'Some details need your attention.',
       notConnected: 'This preview is not connected yet. Please write to hello@picnicclub.pt or message us on WhatsApp.',
       sending: 'Sending…', failed: 'We could not send this just now. Please try again in a moment, or write to hello@picnicclub.pt.',
+      wait: 'We have received several messages from this connection. Please try again in an hour, or write to hello@picnicclub.pt.',
+      check: 'Please check this.',
     },
     pt: {
       playVideo: 'Reproduzir o vídeo', pauseVideo: 'Pausar o vídeo', playVideos: 'Reproduzir os vídeos', pauseVideos: 'Pausar os vídeos',
@@ -26,6 +28,8 @@
       attention: 'Alguns campos precisam da sua atenção.',
       notConnected: 'Esta pré-visualização ainda não está ligada. Escreva-nos para hello@picnicclub.pt ou envie-nos uma mensagem pelo WhatsApp.',
       sending: 'A enviar…', failed: 'Não foi possível enviar agora. Tente de novo daqui a pouco, ou escreva-nos para hello@picnicclub.pt.',
+      wait: 'Recebemos várias mensagens a partir desta ligação. Tente de novo daqui a uma hora, ou escreva-nos para hello@picnicclub.pt.',
+      check: 'Confirme este campo.',
     },
   };
   const say = TEXT[root.lang.startsWith('pt') ? 'pt' : 'en'];
@@ -248,10 +252,13 @@
     }
   }
 
+  // When the page opened: a form sent within seconds of it was not typed by a person (the Worker
+  // drops it). Sent along with the page's language, so Ana knows which language to answer in.
+  const opened = Date.now();
   document.querySelectorAll('form[data-kind]').forEach((form) => {
     const kind = form.dataset.kind;
     const status = form.querySelector('.form__status');
-    const fields = [...form.querySelectorAll('input, select, textarea')];
+    const fields = [...form.querySelectorAll('input, select, textarea')].filter((f) => f.name !== 'website');
 
     // ?experience=marriage-proposal preselects the experience
     const wantedExperience = new URLSearchParams(location.search).get('experience');
@@ -290,9 +297,26 @@
       const button = form.querySelector('button[type="submit"]');
       button.setAttribute('aria-busy', 'true');
       status.textContent = say.sending;
-      const data = Object.fromEntries(new FormData(form).entries());
+      const data = { ...Object.fromEntries(new FormData(form).entries()), lang: root.lang.startsWith('pt') ? 'pt' : 'en', t: Date.now() - opened };
       try {
         const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        if (response.status === 429) {
+          button.removeAttribute('aria-busy');
+          status.textContent = say.wait;
+          return;
+        }
+        if (response.status === 400) {
+          // the Worker names the fields it refused (the same checks as here, and a few more)
+          const answer = await response.json().catch(() => ({}));
+          const named = fields.filter((f) => (answer.campos || []).includes(f.name));
+          if (named.length) {
+            named.forEach((f) => showError(f, errorFor(f) || say.check));
+            button.removeAttribute('aria-busy');
+            status.textContent = say.attention;
+            named[0].focus();
+            return;
+          }
+        }
         if (!response.ok) throw new Error(String(response.status));
         const done = document.createElement('div');
         done.className = 'form-done';

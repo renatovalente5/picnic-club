@@ -366,6 +366,13 @@ export function press(ctx) {
   return { path: '/press/', title: p.seo.title, description: p.seo.description, image: shareImage(ctx, cover ? cover.image : 'proposal-white-roses'), body };
 }
 
+/** A field people never see and never fill (it is off screen and out of the Tab order): a form that
+ *  arrives with it filled was sent by a robot, and the panel's Worker drops it without a word. No
+ *  third-party check (the site talks to no one else, and needs no cookie banner). */
+function trap(ctx) {
+  return html`<div class="form__trap" aria-hidden="true"><label for="website">${t(ctx, 'form.trap')}</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></div>`;
+}
+
 function field(ctx, { id, label, type = 'text', required = false, autocomplete, hint, options, rows, attrsExtra = {} }) {
   const describedby = hint ? `${id}-hint` : false;
   const common = { id, name: id, required, autocomplete: autocomplete || false, 'aria-describedby': describedby, ...attrsExtra };
@@ -418,6 +425,7 @@ export function reviews(ctx) {
         <label for="consent">${t(ctx, 'reviews.consent')} <a href="${localize(ctx, '/privacy/')}">${t(ctx, 'form.privacy')}</a></label>
       </div>
       <p class="field__error" id="consent-error" hidden></p>
+      ${trap(ctx)}
       <div class="form__status" role="status" aria-live="polite"></div>
       <button class="button button--dark" type="submit">${t(ctx, 'reviews.send')}</button>
     </form>
@@ -469,6 +477,7 @@ export function plan(ctx) {
       </div>
       ${field(ctx, { id: 'message', label: t(ctx, 'plan.message'), type: 'textarea', required: true, rows: 6, attrsExtra: { maxlength: 3000 } })}
       <p class="small">${t(ctx, 'plan.privacy')} <a href="${localize(ctx, '/privacy/')}">${t(ctx, 'form.privacy')}</a></p>
+      ${trap(ctx)}
       <div class="form__status" role="status" aria-live="polite"></div>
       <button class="button button--dark" type="submit">${t(ctx, 'plan.send')}</button>
     </form>

@@ -146,10 +146,11 @@ test('rules: a wrong NIF, a missing photo, an empty required text, a bad link', 
 test('rules: a photo described but not on disk, and a photo on disk with no description', () => {
   const f = files();
   f['photos.json']['foto-fantasma'] = { alt: 'Algo', focus: '50% 50%' };
-  const primeira = Object.keys(f['photos.json'])[0];
+  const [primeira, segunda] = Object.keys(f['photos.json']).filter((n) => !FOTOS_DO_DESENHO.includes(n));
   f['photos.json'][primeira].alt = '';
-  const chaves = bloqueios(f).map((p) => p.chave).sort();
-  assert.deepEqual(chaves, ['photos.json|foto-fantasma|sem-ficheiro', `photos.json|${primeira}.alt|vazio`]);
+  delete f['photos.json'][segunda];
+  const chaves = bloqueios(f).filter((p) => p.ficheiro === 'photos.json').map((p) => p.chave).sort();
+  assert.deepEqual(chaves, ['photos.json|foto-fantasma|sem-ficheiro', `photos.json|${primeira}.alt|vazio`, `photos.json|${segunda}|sem-descricao`].sort());
 });
 
 test('the photos the templates use by name are the ones the rules protect', () => {
@@ -168,7 +169,8 @@ if (fs.existsSync(path.join(ROOT, '_site/assets/img'))) test('every photo a page
   const usadas = fotosUsadas(files());
   // the build publishes exactly the images some page uses; the photos among them are the used ones
   const manifesto = JSON.parse(fs.readFileSync(path.join(ROOT, '.cache/images/manifest.json'), 'utf8'));
-  const publicadas = new Set(fs.readdirSync(path.join(ROOT, '_site/assets/img')).map((f) => f.replace(/-[0-9a-f]{10}-(\d+\.(avif|webp)|share\.jpg)$/, '')));
+  // (an unused photo keeps one small picture for the panel; its share card is what only a page brings)
+  const publicadas = new Set(fs.readdirSync(path.join(ROOT, '_site/assets/img')).filter((f) => f.endsWith('-share.jpg')).map((f) => f.replace(/-[0-9a-f]{10}-share\.jpg$/, '')));
   for (const nome of FOTOS) {
     if (!manifesto[nome]) continue;
     assert.equal(usadas.has(nome), publicadas.has(nome), `${nome}: used ${usadas.has(nome)}, published ${publicadas.has(nome)}`);

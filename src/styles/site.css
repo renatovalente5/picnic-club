@@ -725,6 +725,7 @@ main.has-hero { padding-top: 0; }
 .field__error, .form .field__error { font-size: 0.9rem; color: #8A2E1F; margin: 0; }
 .check { display: flex; gap: 0.8rem; align-items: flex-start; }
 .check input { flex: none; width: 22px; height: 22px; margin-top: 0.2rem; accent-color: var(--olive); }
+.form__trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 .form__status:empty { display: none; }
 .form__status { padding: 1rem 1.2rem; background: var(--ivory); border-left: 2px solid var(--olive); }
 .form .button { justify-self: start; min-width: 14rem; }

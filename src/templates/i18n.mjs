@@ -146,6 +146,7 @@ const STRINGS = {
     'form.choose': 'Choose…',
     'form.optional': ' (optional)',
     'form.privacy': 'Privacy',
+    'form.trap': 'Leave this empty',
     // reviews page
     'reviews.eyebrow': 'Reviews',
     'reviews.list': 'Reviews',
@@ -276,6 +277,7 @@ const STRINGS = {
     'form.choose': 'Escolher…',
     'form.optional': ' (opcional)',
     'form.privacy': 'Privacidade',
+    'form.trap': 'Deixe isto em branco',
     'reviews.eyebrow': 'Testemunhos',
     'reviews.list': 'Testemunhos',
     'reviews.none': 'Os primeiros testemunhos vão aparecer aqui em breve.',
