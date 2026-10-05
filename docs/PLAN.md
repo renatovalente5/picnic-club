@@ -46,8 +46,16 @@ Written 2 Oct 2026. Client material and every decision behind this plan live in
    custom domain, Let's Encrypt certificate for picnicclub.pt and www until 3 Jan 2027, HTTPS enforced;
    DNS in the Cloudflare zone: 4 A + 4 AAAA of GitHub Pages, www CNAME renatovalente5.github.io, DNS
    only). `publish.yml` runs `build.mjs --production`; the example reviews left; the old Framer
-   addresses send on (OLD_ADDRESSES in `build.mjs`). Still to do, with Renato's accounts: Search
-   Console, Bing, Business Profile.
+   addresses send on (OLD_ADDRESSES in `build.mjs`).
+   **Search engines** (5 Oct 2026, evening): Google Search Console (domain property, verified by a
+   DNS TXT) and Bing Webmaster Tools (verified by a CNAME to verify.bing.com), no accounts linked;
+   the sitemap is in both, and Google was asked to index `/` and `/pt/`. Titles under 60 characters
+   and descriptions of 120–160 on the pages that search results show; structured data: WebSite (the
+   site's name in results) and the business on the home pages, a Service and a BreadcrumbList on
+   each experience. The sitemap's `lastmod` is the time of the last commit that changed the page;
+   after each deploy IndexNow tells Bing which pages changed (`scripts/indexnow.mjs`, the public
+   key in `src/lib/indexnow.mjs`). Still to do, with Ana: the Google Business Profile (service
+   area, no address; she verifies it).
 5. **Portuguese** (done 5 Oct 2026): English at the root, Portuguese under `/pt/` with Portuguese
    addresses (`/pt/experiencias/piqueniques-de-luxo/`…), `hreflang` on every page and in the sitemap,
    a PT/EN switch (last link of the bar; top left of the phone menu). A first visit is always in
