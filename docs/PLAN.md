@@ -42,7 +42,12 @@ Written 2 Oct 2026. Client material and every decision behind this plan live in
 2. **Forms**: enquiry and review endpoints in the Worker; Turnstile; emails; moderation queue.
 3. **Panel**: screens for Home, Experiences, Portfolio, Reviews, Press, Founder, Instagram strip,
    Journal, Settings, Publishing.
-4. **Go live**: Cloudflare zone, GitHub Pages, Search Console, Bing, Business Profile, legal check.
+4. **Go live** (done 5 Oct 2026, ~20h): **https://picnicclub.pt** is this site (GitHub Pages with the
+   custom domain, Let's Encrypt certificate for picnicclub.pt and www until 3 Jan 2027, HTTPS enforced;
+   DNS in the Cloudflare zone: 4 A + 4 AAAA of GitHub Pages, www CNAME renatovalente5.github.io, DNS
+   only). `publish.yml` runs `build.mjs --production`; the example reviews left; the old Framer
+   addresses send on (OLD_ADDRESSES in `build.mjs`). Still to do, with Renato's accounts: Search
+   Console, Bing, Business Profile.
 5. **Portuguese** (done 5 Oct 2026): English at the root, Portuguese under `/pt/` with Portuguese
    addresses (`/pt/experiencias/piqueniques-de-luxo/`…), `hreflang` on every page and in the sitemap,
    a PT/EN switch (last link of the bar; top left of the phone menu). A first visit is always in
