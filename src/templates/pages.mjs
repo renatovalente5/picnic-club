@@ -1,7 +1,7 @@
 // Every page of the site. Each function returns { path, title, description, image, body, ... }.
 // `path` is the English address; the build gives the Portuguese page its own (src/templates/i18n.mjs).
 import { html, raw, attrs } from './html.mjs';
-import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, organisation, experienceHref, COMPLAINTS_BOOK } from './components.mjs';
+import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, organisation, website, schemaGraph, experienceHref, COMPLAINTS_BOOK } from './components.mjs';
 import { LOCALE, localize, place, t } from './i18n.mjs';
 
 // What the forms send: the same values in both languages, only the words shown change.
@@ -221,7 +221,7 @@ ${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-t
     image: shareImage(ctx, 'proposal-sunset-sails'),
     hero: true,
     body,
-    schema: organisation(ctx),
+    schema: schemaGraph(website(ctx), organisation(ctx)),
   };
 }
 
@@ -305,12 +305,36 @@ ${e.howItWorks ? html`<section class="steps wrap" aria-labelledby="steps-${e.id}
   </div>
 </section>
 ${related.length ? reviewFeature(ctx, related.find((r) => r.featured) || related[0]) : ''}`;
+  const url = ctx.site.url + experienceHref(ctx, e);
+  const image = shareImage(ctx, e.hero);
   return {
     path: `/experiences/${e.id}/`,
     title: e.seo.title,
     description: e.seo.description,
-    image: shareImage(ctx, e.hero),
+    image,
     body,
+    // What the page offers, and where it sits in the site (Google shows the trail in results).
+    schema: schemaGraph(
+      {
+        '@type': 'Service',
+        '@id': `${url}#service`,
+        name: e.name,
+        serviceType: e.name,
+        description: e.seo.description,
+        url,
+        image: image.url,
+        provider: organisation(ctx),
+        areaServed: e.locations.map((name) => ({ '@type': 'Place', name: `${place(ctx, name)}, Portugal` })),
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Picnic Club', item: ctx.site.url + localize(ctx, '/') },
+          { '@type': 'ListItem', position: 2, name: t(ctx, 'experiences.title'), item: ctx.site.url + localize(ctx, '/experiences/') },
+          { '@type': 'ListItem', position: 3, name: e.name, item: url },
+        ],
+      }
+    ),
   };
 }
 

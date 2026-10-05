@@ -1,6 +1,6 @@
 // Shared building blocks: images, links, header, footer and the page shell.
 import { html, raw, attrs } from './html.mjs';
-import { LOCALE, localize, place, t } from './i18n.mjs';
+import { LANGS, LOCALE, localize, place, t } from './i18n.mjs';
 
 // The header: two links each side of the logo; the four experiences live in the panel under «Experiences».
 // Links are written with their English path; navLinks() puts them in the page's language.
@@ -216,11 +216,20 @@ function jsonLd(data) {
   return raw(`<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`);
 }
 
+/** Structured data for search engines: one block per page, its items in a @graph. */
+export function schemaGraph(...items) {
+  return { '@context': 'https://schema.org', '@graph': items };
+}
+
+/* The business is one thing on every page (the same @id), whatever page or language describes it.
+   Clients never go to an address (each experience happens where they choose, in areaServed), so
+   the only address given to search engines is the country; the registered one is in the legal
+   notice. */
 export function organisation(ctx) {
   const { site } = ctx;
   return {
-    '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
+    '@id': `${site.url}/#business`,
     name: 'Picnic Club',
     slogan: site.tagline,
     url: site.url + localize(ctx, '/'),
@@ -228,8 +237,23 @@ export function organisation(ctx) {
     image: shareImage(ctx, 'proposal-sunset-sails').url,
     email: site.email,
     telephone: site.phone.replace(/\s+/g, ''),
+    address: { '@type': 'PostalAddress', addressCountry: 'PT' },
     areaServed: site.areas.map((name) => ({ '@type': 'Place', name: `${place(ctx, name)}, Portugal` })),
     sameAs: [site.instagram.url, site.facebook],
+  };
+}
+
+/** The site itself, on the home pages: it gives Google the site's name («Picnic Club») to show in
+ *  results instead of the bare domain. */
+export function website(ctx) {
+  const { site } = ctx;
+  return {
+    '@type': 'WebSite',
+    '@id': `${site.url}/#website`,
+    name: 'Picnic Club',
+    url: `${site.url}/`,
+    inLanguage: LANGS.map((l) => LOCALE[l].hreflang),
+    publisher: { '@id': `${site.url}/#business` },
   };
 }
 

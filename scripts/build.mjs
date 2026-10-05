@@ -14,6 +14,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { INDEXNOW_KEY } from '../src/lib/indexnow.mjs';
 import { problemas } from '../src/lib/regras.mjs';
 import { aplicar, caminhoDaTraducao, resumo } from '../src/lib/traduziveis.mjs';
 import { layout } from '../src/templates/components.mjs';
@@ -197,9 +198,12 @@ function focusCss(images) {
 
 // ---------------------------------------------------------------- sitemap
 
+// The date and time of the last commit that changed what a page is made of (ISO 8601, which the
+// sitemap protocol takes): with the time, a second publication on the same day still says which
+// pages changed (scripts/indexnow.mjs compares it with the live sitemap).
 function gitDate(files) {
   try {
-    return execFileSync('git', ['log', '-1', '--format=%cs', '--', ...files], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    return execFileSync('git', ['log', '-1', '--format=%cI', '--', ...files], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
   } catch {
     return '';
   }
@@ -352,6 +356,8 @@ function main() {
     )
   );
   if (PRODUCTION) fs.writeFileSync(path.join(OUT, 'CNAME'), new URL(content.site.url).hostname + '\n');
+  // The IndexNow key, public by design (src/lib/indexnow.mjs): just the key, no newline.
+  if (PRODUCTION) fs.writeFileSync(path.join(OUT, `${INDEXNOW_KEY}.txt`), INDEXNOW_KEY);
 
   // Images in the manifest that no page uses are not published — except, for a photo, its smallest
   // WebP: the panel shows the whole library from assets/painel.json (one small picture of each photo,

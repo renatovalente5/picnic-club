@@ -29,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    outputs:
+      indexnow: ${{ steps.indexnow.outputs.payload }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
@@ -48,6 +50,12 @@ jobs:
         run: node scripts/build.mjs --production
       - name: Test the content rules and the translations
         run: node scripts/test-content.mjs
+      # The pages whose lastmod differs from the sitemap that is live NOW (before the deploy), for
+      # IndexNow (Bing). It never stops a publication. src/lib/indexnow.mjs says why.
+      - name: Work out which pages changed (IndexNow)
+        id: indexnow
+        continue-on-error: true
+        run: node scripts/indexnow.mjs
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: _site
@@ -64,3 +72,19 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+      # Only now that the new pages are live: told earlier, Bing would fetch the old ones. 200 and
+      # 202 are «accepted»; anything else is a warning, never a failure (the site is already live).
+      - name: Tell Bing which pages changed (IndexNow)
+        if: ${{ needs.build.outputs.indexnow != '' }}
+        continue-on-error: true
+        env:
+          PAYLOAD: ${{ needs.build.outputs.indexnow }}
+        run: |
+          code=$(curl -sS -o "$RUNNER_TEMP/indexnow.txt" -w '%{http_code}' -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' --data-raw "$PAYLOAD") || true
+          echo "IndexNow answered $code"
+          cat "$RUNNER_TEMP/indexnow.txt" 2>/dev/null || true
+          case "$code" in
+            200|202) ;;
+            *) echo "::warning title=IndexNow::IndexNow answered $code" ;;
+          esac
