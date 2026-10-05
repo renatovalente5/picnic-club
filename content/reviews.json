@@ -5,33 +5,5 @@
   },
   "title": "Testemunhos",
   "intro": "Os testemunhos são escritos pelos nossos clientes depois da experiência e aprovados pela Picnic Club antes de serem publicados. Podemos corrigir erros de escrita ou retirar dados pessoais, sem mudar o sentido.",
-  "items": [
-    {
-      "id": "example-1",
-      "example": true,
-      "names": "Example review",
-      "location": "Lisbon",
-      "experience": "marriage-proposal",
-      "text": "Every detail was absolutely perfect. It felt incredibly personal and completely effortless.",
-      "date": "2026-09"
-    },
-    {
-      "id": "example-2",
-      "example": true,
-      "names": "Example review",
-      "location": "Zurich",
-      "experience": "elopement-wedding",
-      "text": "We wanted something simple and deeply ours. The setting, the flowers and the dinner by candlelight were more than we imagined.",
-      "date": "2026-09"
-    },
-    {
-      "id": "example-3",
-      "example": true,
-      "names": "Example review",
-      "location": "London",
-      "experience": "luxury-picnic",
-      "text": "A beautiful afternoon by the sea. We only had to arrive.",
-      "date": "2026-08"
-    }
-  ]
+  "items": []
 }

@@ -302,6 +302,31 @@ function main() {
   const site = siteFor(contentEn);
   const ctx = shared;
 
+  /* THE OLD SITE'S ADDRESSES (Framer, on www.picnicclub.pt until 5 Oct 2026, from its sitemap) and
+     where each one lives now. History, not content: never derived from today's pages. Each becomes a
+     small page that sends on at once (refresh 0 and location.replace, so «Back» never gets stuck),
+     marked as a stub by name, with the new page as its canonical and a visible link. A stub never
+     writes over a page of the site: the build stops. */
+  const OLD_ADDRESSES = {
+    '/about/': '/our-story/',
+    '/contact/': '/plan-your-experience/',
+    '/collections/atelier/': '/experiences/',
+    '/collections/noir/': '/experiences/',
+    '/collections/lumen/': '/experiences/',
+    '/collections/soiree/': '/experiences/',
+    '/collections/aube/': '/experiences/',
+    '/collections/maison/': '/experiences/',
+  };
+  const pagePaths = new Set(list.map((p) => p.path));
+  for (const [from, to] of Object.entries(OLD_ADDRESSES)) {
+    if (!pagePaths.has(to)) fail(`the old address ${from} would send to ${to}, which is not a page of the site`);
+    const file = path.join(OUT, from, 'index.html');
+    if (pagePaths.has(from) || fs.existsSync(file)) fail(`the old address ${from} is a page of the site now: no stub over it`);
+    const go = `${BASE}${to}`;
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="generator" content="redirect-stub"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Picnic Club</title><link rel="canonical" href="${content.site.url}${to}"><meta http-equiv="refresh" content="0; url=${go}"></head><body><p><a id="go" href="${go}">Picnic Club</a></p><script>location.replace(document.getElementById('go').href)</script></body></html>\n`);
+  }
+
   fs.writeFileSync(path.join(OUT, 'sitemap.xml'), sitemap(content.site, list));
   fs.writeFileSync(
     path.join(OUT, 'robots.txt'),
