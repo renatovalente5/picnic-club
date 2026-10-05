@@ -247,6 +247,8 @@ export function problemas(ficheiros, { fotos = new Set(), filmes = new Set() } =
       if (vazio(t.id) || ids.has(t.id)) bloqueia(f, `items.${i}.id`, 'id', `${r}: está mal gravado (identificação repetida). Avise o Renato.`);
       ids.add(t.id);
       if (vazio(t.names) || vazio(t.text)) bloqueia(f, `items.${i}`, 'vazio', `${r}: falta o nome ou o texto.`);
+      else if (t.names.length > 120 || (typeof t.location === 'string' && t.location.length > 120)) bloqueia(f, `items.${i}`, 'longo', `${r}: o nome e o sítio têm de ter 120 caracteres ou menos.`);
+      else if (t.text.length > MAX_LONGO) bloqueia(f, `items.${i}.text`, 'longo', `${r}: o texto tem ${t.text.length} caracteres; o máximo são ${MAX_LONGO}.`);
       if (!CODIGOS_EXPERIENCIA.includes(t.experience)) bloqueia(f, `items.${i}.experience`, 'experiencia', `${r}: a experiência não é nenhuma das do site.`);
       if (t.example) avisa(f, `items.${i}`, 'exemplo', `${r} é um exemplo, escrito para mostrar o desenho: tem de sair antes de o site ir para picnicclub.pt.`);
     });
@@ -335,8 +337,10 @@ export function fotosUsadas(ficheiros) {
 
 /* WHAT THE PANEL DOES NOT EDIT, and a save must leave as it was (the Worker refuses one that
    changes it: 422 campo_bloqueado). The addresses and codes the site is built on, the films, the
-   provenance of the photos — and the reviews, which only enter through the moderation queue: a
-   save may take one off the site or mark one as featured, never add or reword one. */
+   provenance of the photos — and new reviews, which only enter through the moderation queue: a
+   save may correct a review (Ana takes out what should not be there — a phone number, a rude word),
+   feature it or take it off the site, never add one or change whose it is (its id, or whether it is
+   an example). */
 const BLOQUEADOS = {
   'site.json': ['brand', 'url', 'endpoints'],
   'home.json': ['hero.video', 'hero.primary.href', 'hero.secondary.href', 'intro.link.href', 'experiences.link.href', 'philosophy.link.href', 'gallery.link.href', 'reviews.link.href'],
@@ -360,8 +364,7 @@ export function mudancasBloqueadas(ficheiro, antes, depois) {
     (depois?.items ?? []).forEach((x, i) => {
       const a = porId.get(x?.id);
       if (!a) { out.push({ caminho: `items.${i}`, motivo: 'testemunho-novo' }); return; }
-      const { featured: fa, ...ra } = a; const { featured: fd, ...rd } = x;
-      if (!igual(ra, rd)) out.push({ caminho: `items.${i}`, motivo: 'testemunho-mudado' });
+      if (!igual(a.example, x?.example)) out.push({ caminho: `items.${i}.example`, motivo: 'testemunho-exemplo' });
     });
   }
   if (ficheiro === 'photos.json') {

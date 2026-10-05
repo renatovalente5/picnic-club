@@ -190,9 +190,12 @@ test('locked fields: addresses, codes, films, and reviews that did not come from
   r2.items[0].featured = true;          // allowed
   r2.items.splice(1, 1);                 // taking one off: allowed
   assert.deepEqual(mudancasBloqueadas('reviews.json', rv, r2), []);
-  r2.items[0].text = 'Outro texto';
+  r2.items[0].text = 'Outro texto, sem o telefone';   // correcting one (Ana moderates): allowed
+  r2.items[0].names = 'Ana e Rui';
+  assert.deepEqual(mudancasBloqueadas('reviews.json', rv, r2), []);
   r2.items.push(um('novo'));
-  assert.deepEqual(mudancasBloqueadas('reviews.json', rv, r2).map((x) => x.motivo), ['testemunho-mudado', 'testemunho-novo']);
+  r2.items[0].example = true;
+  assert.deepEqual(mudancasBloqueadas('reviews.json', rv, r2).map((x) => x.motivo), ['testemunho-exemplo', 'testemunho-novo']);
   const e = { slug: 'eventos-privados', formValue: 'private-event', order: 4, name: 'Eventos' };
   assert.deepEqual(mudancasBloqueadas('experiences/private-events.json', e, { ...e, slug: 'outro', name: 'Outro nome' }).map((x) => x.caminho), ['slug']);
   const fotos = { a: { alt: 'A', from: 'x.jpg' } };

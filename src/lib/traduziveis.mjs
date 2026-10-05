@@ -13,8 +13,10 @@
  * changes the Portuguese, the digest stops matching and the translation is «stale»: the panel's
  * Worker redoes it within minutes. Until then the site keeps showing the stale one (if it still
  * passes the checks below against the new Portuguese), and a field with no translation at all
- * shows the Portuguese. `fixo: true` marks a translation corrected by hand, which the Worker never
- * writes over — but which is flagged when the Portuguese changes.
+ * shows the Portuguese. `fixo: true` marks a translation Ana wrote herself in the panel (she did
+ * not like the automatic one): the Worker never writes over it while the Portuguese is the one she
+ * wrote it for. When she changes that Portuguese, it is translated again like any other field — the
+ * English never goes on saying something else — unless she corrects the English in the same save.
  *
  * LISTS. A path with a number in it («intro.1», «options.2.text») is a POSITION in a list with no
  * ids. Removing the first paragraph makes the second the first: the translation stored at
@@ -77,7 +79,8 @@ export const traduzivel = (caminho) => !relativo(caminho).startsWith('i18n/') &&
 /** Where the translation of a content file into `lingua` lives. */
 export const caminhoDaTraducao = (caminho, lingua) => `content/i18n/${lingua}/${relativo(caminho)}`;
 
-/** The fields to translate in a content object: [[path, text], …], in a fixed order. */
+/** The fields to translate in a content object: [[path, text], …], in a fixed order (the order the
+ *  maps are written in: see ordenado). */
 export function campos(caminho, obj) {
   const out = [];
   const andar = (no, partes, feito) => {
@@ -89,6 +92,15 @@ export function campos(caminho, obj) {
     if (!Array.isArray(no) && Object.hasOwn(no, p)) andar(no[p], resto, [...feito, p]);
   };
   for (const padrao of padroesDe(caminho)) andar(obj, padrao.split('.'), []);
+  return out;
+}
+
+/** A translation map in the order of campos(), without the fields the Portuguese no longer has:
+ *  the Worker and the panel write a map the same way, so one never rewrites the other's file just to
+ *  reorder it. */
+export function ordenado(caminho, origem, traducao) {
+  const out = {};
+  for (const [campo] of campos(caminho, origem)) if (traducao && Object.hasOwn(traducao, campo)) out[campo] = traducao[campo];
   return out;
 }
 
