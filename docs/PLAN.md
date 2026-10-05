@@ -10,6 +10,9 @@ Written 2 Oct 2026. Client material and every decision behind this plan live in
   colours (warm ivory, cream, sand, warm gold `#C6A76A`, very dark olive text), copy, photos and
   logo. Nothing is copied from About Events: no text, photo, font file or code.
 - **English first**, for the site, the panel and the code. Portuguese is added at the end.
+  *Changed 5 Oct 2026 (Renato): Ana writes in Portuguese, in her panel, and the English is translated
+  by itself. The content's source is now Portuguese (see «Two languages» below); the code stays in
+  English, the panel is in Portuguese.*
 - **No prices on the site.** Visitors enquire and get a quote.
 - **No newsletter, no discounts, no analytics, no cookies.** Google Business Profile (service area,
   no address), Google Search Console and Bing Webmaster Tools; sitemap `lastmod` from git;
@@ -28,8 +31,8 @@ Written 2 Oct 2026. Client material and every decision behind this plan live in
 | This repo | public site: `content/*.json` + `media/` → `scripts/build.mjs` (Node, no dependencies) → `_site/` → GitHub Pages |
 | Images | `scripts/images.py` (Pillow): AVIF + WebP + JPEG at fixed widths, cached in `.cache/` |
 | Video | `scripts/video.sh` (ffmpeg), run by hand; outputs committed under `media/video/` |
-| Panel | private repo `picnic-club-panel`: Cloudflare Worker, email codes, GitHub App that commits `content/` and `media/` |
-| Forms | the Worker receives enquiries (to hello@picnicclub.pt) and reviews (queued for Ana) |
+| Panel | private repo `picnic-club-painel`: Cloudflare Worker at `backoffice.picnicclub.pt`, email codes, GitHub App that commits `content/` and `media/photos/`, and the English translations (Workers AI) |
+| Forms | the same Worker receives enquiries (emailed to hello@picnicclub.pt) and reviews (queued for Ana) |
 | DNS | Cloudflare zone; site DNS-only to GitHub Pages; MX stays with Hostinger mail |
 
 ## Phases
@@ -47,3 +50,24 @@ Written 2 Oct 2026. Client material and every decision behind this plan live in
    a `/pt/` address is always kept. The only thing stored on the device is that explicit choice.
    The build stops on a Portuguese page linking to English, a missing Portuguese text, or a photo
    without a Portuguese alt text.
+
+## Two languages, one source (5 Oct 2026)
+
+- `content/` is **Portuguese**: what Ana writes in the panel. Photos are described in
+  `content/photos.json` (the alt text in Portuguese, the focus point).
+- `content/i18n/en/<same path>` is the **English**: one entry per translated field,
+  `{ "t": translation, "h": digest of the Portuguese it came from }`. Which fields are translated, how
+  a translation is checked (numbers, the brand, markup, length) and how it is applied are in
+  `src/lib/traduziveis.mjs`. A list item's translation is found by its digest, so reordering a list
+  never pairs a text with another's translation.
+- The panel's Worker translates what changed (Workers AI, Gemma 4, Mistral as a reserve) after each
+  save and every 10 minutes, and commits `content/i18n/en/`. Until it does, the English page keeps the
+  previous translation if it still fits, or shows the Portuguese.
+- The addresses do not change: English at the root (`/experiences/luxury-picnics/`, the file's name),
+  Portuguese under `/pt/` (`/pt/experiencias/piqueniques-de-luxo/`, the experience's `slug`).
+- `src/lib/regras.mjs` holds the content rules: the build stops on a «bloqueia», the panel says so
+  before saving, and its Worker refuses a save that brings a new one. Both shared files have
+  byte-for-byte copies in the panel.
+- The migration seeded the English from the English copy written so far, so nothing on the English
+  pages changed except two things on purpose: the enquiry form sends the place as written in Portuguese
+  («Lisboa») from both languages, and the NiT summary in English now translates the Portuguese one.

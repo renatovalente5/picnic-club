@@ -23,7 +23,12 @@ export const ROUTES = {
   '/cookies/': '/pt/cookies/',
 };
 
-const PLACES = { pt: { Lisbon: 'Lisboa', London: 'Londres', Zurich: 'Zurique' } };
+// The places Ana lists are translated with the rest of her words (content/i18n/); these are for
+// the towns clients write in their reviews, in whichever language they wrote.
+const PLACES = {
+  pt: { Lisbon: 'Lisboa', London: 'Londres', Zurich: 'Zurique' },
+  en: { Lisboa: 'Lisbon', Londres: 'London', Zurique: 'Zurich' },
+};
 
 /** A place name in the page's language (Lisbon, and cities reviews come from). */
 export function place(ctx, name) {

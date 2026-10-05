@@ -29,19 +29,19 @@ export const LEGAL_LINKS = [
 ];
 export const COMPLAINTS_BOOK = 'https://www.livroreclamacoes.pt/inicio';
 
-/** A photo's alt text in the page's language. A photo without a Portuguese one stops the build. */
+/** A photo's description in the page's language (content/photos.json, in Portuguese, and its
+ *  translation). A film's poster has none of its own: the film's words go with it, or it is decoration. */
 function altFor(ctx, name) {
-  const m = ctx.images[name];
-  if (ctx.lang === 'en' || !m.alt) return m.alt;
+  if (ctx.images[name].kind === 'poster') return '';
   const alt = ctx.alts[name];
-  if (!alt) throw new Error(`Photo "${name}" has no Portuguese alt text. Add it to content/pt/photos.json.`);
+  if (!alt) throw new Error(`Photo "${name}" has no description. Add its "alt" to content/photos.json.`);
   return alt;
 }
 
 /** <picture> with AVIF and WebP sources from the image manifest. */
 export function picture(ctx, name, { sizes = '100vw', className = '', eager = false, alt } = {}) {
   const m = ctx.images[name];
-  if (!m) throw new Error(`Unknown image "${name}". Add it to media/photos.json.`);
+  if (!m) throw new Error(`Unknown image "${name}". Add it to media/photos/ and content/photos.json.`);
   ctx.usedImages.add(name);
   const set = (ext) => m.widths.map((w) => `/assets/img/${name}-${m.hash}-${w}.${ext} ${w}w`).join(', ');
   const fallback = m.widths.find((w) => w >= 1080) ?? m.widths[m.widths.length - 1];
@@ -52,7 +52,7 @@ export function picture(ctx, name, { sizes = '100vw', className = '', eager = fa
 /** The card a link preview shows (scripts/images.py): the photo beside the logo, and words for it. */
 export function shareImage(ctx, name) {
   const m = ctx.images[name];
-  if (!m) throw new Error(`Unknown share image "${name}". Add it to media/photos.json.`);
+  if (!m) throw new Error(`Unknown share image "${name}". Add it to media/photos/ and content/photos.json.`);
   ctx.usedImages.add(name);
   const alt = altFor(ctx, name);
   return { url: `${ctx.site.url}/assets/img/${m.share}`, alt: alt ? t(ctx, 'share.withLogo', { alt }) : t(ctx, 'share.logo') };

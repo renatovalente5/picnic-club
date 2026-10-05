@@ -1,28 +1,28 @@
 {
   "cancellation": {
-    "intro": "We understand that plans may change. Our cancellation policy is designed to be fair while covering the costs involved in preparing and delivering each experience.",
+    "intro": "Sabemos que os planos podem mudar. A nossa política de cancelamento procura ser justa e, ao mesmo tempo, cobrir os custos de preparar e realizar cada experiência.",
     "rules": [
       {
-        "when": "More than 7 days before the experience",
-        "what": "A full refund, excluding any non-refundable costs already incurred in preparing the experience."
+        "when": "Mais de 7 dias antes da experiência",
+        "what": "Reembolso total, excluindo os custos não reembolsáveis já suportados na preparação da experiência."
       },
       {
-        "when": "Between 7 days and 48 hours before",
-        "what": "50% of the total amount paid is refunded."
+        "when": "Entre 7 dias e 48 horas antes",
+        "what": "É reembolsado 50% do valor total pago."
       },
       {
-        "when": "Less than 48 hours before",
-        "what": "Cancellations are non-refundable."
+        "when": "Menos de 48 horas antes",
+        "what": "Os cancelamentos não são reembolsáveis."
       },
       {
-        "when": "No-show",
-        "what": "No-shows are non-refundable."
+        "when": "Não comparência",
+        "what": "A não comparência não é reembolsável."
       }
     ],
     "rescheduling": [
-      "Where possible, we are happy to move your experience to another available date.",
-      "The amount already paid can be transferred to the new date. Any additional costs caused by the change, including supplier or venue fees, may apply."
+      "Sempre que possível, teremos todo o gosto em passar a sua experiência para outra data disponível.",
+      "O valor já pago pode ser transferido para a nova data. Podem aplicar-se custos adicionais causados pela alteração, incluindo taxas de fornecedores ou de espaços."
     ],
-    "exceptional": "In exceptional circumstances, we may review cancellation or rescheduling terms case by case."
+    "exceptional": "Em circunstâncias excecionais, podemos rever as condições de cancelamento ou de alteração de data caso a caso."
   }
 }

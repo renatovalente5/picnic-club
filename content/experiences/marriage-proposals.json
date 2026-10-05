@@ -1,47 +1,47 @@
 {
   "order": 2,
-  "slug": "marriage-proposals",
-  "name": "Marriage Proposals",
-  "menu": "Proposals",
+  "slug": "pedidos-de-casamento",
+  "name": "Pedidos de Casamento",
+  "menu": "Pedidos",
   "formValue": "marriage-proposal",
-  "short": "Everything you need to create a proposal that feels intimate, effortless and unforgettable.",
+  "short": "Tudo o que precisa para um pedido de casamento íntimo, sem preocupações e inesquecível.",
   "hero": "proposal-sunset-waiting",
-  "statement": "For the moments that change everything.",
+  "statement": "Para os momentos que mudam tudo.",
   "intro": [
-    "From the first glass of Champagne to the moment you ask the question, we take care of every detail.",
-    "Beautiful settings, fresh flowers, thoughtful styling and a setting designed around your story. You arrive; the rest is already waiting."
+    "Do primeiro copo de champanhe ao momento da pergunta, tratamos de cada pormenor.",
+    "Lugares bonitos, flores frescas, uma decoração cuidada e um cenário pensado à volta da vossa história. Basta chegar: o resto já está à espera."
   ],
   "options": [
     {
-      "name": "The Basic Set",
-      "text": "Seasonal fruit, a beautifully prepared blanket, Moët & Chandon and a bouquet of flowers: everything you need to turn a simple moment into an unforgettable proposal."
+      "name": "O Essencial",
+      "text": "Fruta da época, uma manta cuidadosamente preparada, Moët & Chandon e um ramo de flores: tudo o que precisa para transformar um momento simples num pedido inesquecível."
     },
     {
-      "name": "The Decorated Arch",
-      "text": "An elegant floral arch with LED letters, designed to make the moment stand out while creating a romantic, timeless atmosphere. Various phrases available."
+      "name": "O Arco Decorado",
+      "text": "Um arco floral elegante com letras LED, pensado para destacar o momento e criar um ambiente romântico e intemporal. Várias frases disponíveis."
     },
     {
-      "name": "Picnic & Arch",
-      "text": "A beautifully curated picnic paired with the floral arch and LED letters, for a proposal or a celebration to remember."
+      "name": "Piquenique & Arco",
+      "text": "Um piquenique cuidadosamente preparado, com o arco floral e as letras LED, para um pedido ou uma celebração inesquecível."
     },
     {
-      "name": "The Diamond Experience",
-      "text": "For those looking for something truly extraordinary. A proposal designed from the ground up around your vision, with a dedicated concierge, a private driver, exclusive locations, bespoke décor, culinary experiences and photography."
+      "name": "A Experiência Diamante",
+      "text": "Para quem procura algo verdadeiramente extraordinário. Um pedido pensado de raiz à volta da sua visão, com um concierge dedicado, motorista privado, locais exclusivos, decoração à medida, experiências gastronómicas e fotografia."
     }
   ],
   "included": [
-    "A first conversation to understand your story",
-    "Location scouting and timing for the best light",
-    "Styling with flowers, linen and candlelight",
-    "Discreet coordination on the day",
-    "Champagne for the moment after the question"
+    "Uma primeira conversa para conhecer a vossa história",
+    "Escolha do local e da hora, para a melhor luz",
+    "Decoração com flores, linho e velas",
+    "Coordenação discreta no dia",
+    "Champanhe para o momento a seguir à pergunta"
   ],
   "addOns": [
-    "Photography",
-    "Live music",
-    "A private dinner",
-    "A private driver",
-    "Fresh flowers"
+    "Fotografia",
+    "Música ao vivo",
+    "Jantar privado",
+    "Motorista privado",
+    "Flores frescas"
   ],
   "gallery": [
     "proposal-sunset-sails",
@@ -63,10 +63,10 @@
     "Melides",
     "Alcácer do Sal",
     "Grândola",
-    "Lisbon"
+    "Lisboa"
   ],
   "seo": {
-    "title": "Marriage proposals in Comporta, Lisbon and Portugal · Picnic Club",
-    "description": "Intimate, effortless marriage proposals on the beaches of Comporta, Tróia, Melides and Lisbon, styled with flowers, linen and candlelight."
+    "title": "Pedidos de casamento na Comporta, em Lisboa e em Portugal · Picnic Club",
+    "description": "Pedidos de casamento íntimos e sem preocupações nas praias da Comporta, de Tróia, de Melides e em Lisboa, com flores, linho e velas."
   }
 }

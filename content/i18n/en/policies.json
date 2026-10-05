@@ -1,0 +1,50 @@
+{
+  "cancellation.intro": {
+    "t": "We understand that plans may change. Our cancellation policy is designed to be fair while covering the costs involved in preparing and delivering each experience.",
+    "h": "041794c0221d"
+  },
+  "cancellation.rules.0.when": {
+    "t": "More than 7 days before the experience",
+    "h": "1882fa93724d"
+  },
+  "cancellation.rules.1.when": {
+    "t": "Between 7 days and 48 hours before",
+    "h": "46e84155c33f"
+  },
+  "cancellation.rules.2.when": {
+    "t": "Less than 48 hours before",
+    "h": "83c21fdd9e8d"
+  },
+  "cancellation.rules.3.when": {
+    "t": "No-show",
+    "h": "08075f8d4ee1"
+  },
+  "cancellation.rules.0.what": {
+    "t": "A full refund, excluding any non-refundable costs already incurred in preparing the experience.",
+    "h": "d8c8874bf172"
+  },
+  "cancellation.rules.1.what": {
+    "t": "50% of the total amount paid is refunded.",
+    "h": "301170bd18e6"
+  },
+  "cancellation.rules.2.what": {
+    "t": "Cancellations are non-refundable.",
+    "h": "2f0c249fd877"
+  },
+  "cancellation.rules.3.what": {
+    "t": "No-shows are non-refundable.",
+    "h": "07b0f78c7621"
+  },
+  "cancellation.rescheduling.0": {
+    "t": "Where possible, we are happy to move your experience to another available date.",
+    "h": "a9082ebede07"
+  },
+  "cancellation.rescheduling.1": {
+    "t": "The amount already paid can be transferred to the new date. Any additional costs caused by the change, including supplier or venue fees, may apply.",
+    "h": "82da3d41a33a"
+  },
+  "cancellation.exceptional": {
+    "t": "In exceptional circumstances, we may review cancellation or rescheduling terms case by case.",
+    "h": "569b69ff4116"
+  }
+}

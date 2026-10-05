@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Picnic Club · Luxury picnics, proposals and elopements in Portugal",
-    "description": "Slow luxury experiences, beautifully curated in Portugal: luxury picnics, marriage proposals, elopement weddings and private events in Comporta and Lisbon."
+    "title": "Picnic Club · Piqueniques de luxo, pedidos e casamentos em Portugal",
+    "description": "Experiências de luxo, sem pressa, em Portugal: piqueniques de luxo, pedidos de casamento, casamentos íntimos e eventos privados na Comporta e em Lisboa."
   },
   "hero": {
     "video": {
@@ -10,24 +10,24 @@
       "posterLandscape": "hero-landscape-poster",
       "posterPortrait": "hero-proposal-portrait-poster"
     },
-    "title": "Moments worth keeping.",
-    "text": "Slow luxury experiences, beautifully curated in Portugal.",
+    "title": "Momentos para guardar.",
+    "text": "Experiências de luxo, sem pressa, pensadas ao pormenor em Portugal.",
     "primary": {
-      "label": "Explore experiences",
+      "label": "Descobrir experiências",
       "href": "/experiences/"
     },
     "secondary": {
-      "label": "Plan your experience",
+      "label": "Pedir proposta",
       "href": "/plan-your-experience/"
     }
   },
   "intro": {
-    "title": "Beautifully curated moments, made effortless.",
+    "title": "Momentos pensados ao pormenor, vividos sem esforço.",
     "text": [
-      "PICNIC CLUB creates unforgettable experiences in some of Portugal’s most beautiful places."
+      "A PICNIC CLUB cria experiências inesquecíveis em alguns dos lugares mais bonitos de Portugal."
     ],
     "link": {
-      "label": "Our story",
+      "label": "A nossa história",
       "href": "/our-story/"
     },
     "photos": [
@@ -37,48 +37,48 @@
     ]
   },
   "experiences": {
-    "title": "A taste of what we create",
-    "text": "Four ways to celebrate, each one designed around the setting and the people you love.",
+    "title": "Um pouco do que criamos",
+    "text": "Quatro formas de celebrar, cada uma pensada à medida do lugar e das pessoas que mais ama.",
     "link": {
-      "label": "All experiences",
+      "label": "Todas as experiências",
       "href": "/experiences/"
     }
   },
   "philosophy": {
-    "title": "We’ll handle the rest.",
+    "title": "Nós tratamos do resto.",
     "lines": [
-      "We believe luxury is not about excess.",
-      "It is about time.",
-      "Time to slow down.",
-      "Time to connect.",
-      "Time to celebrate.",
-      "Time to remember."
+      "Acreditamos que o luxo não está no excesso.",
+      "Está no tempo.",
+      "Tempo para abrandar.",
+      "Tempo para estar juntos.",
+      "Tempo para celebrar.",
+      "Tempo para recordar."
     ],
-    "text": "Every PICNIC CLUB experience is thoughtfully designed so that you don’t have to worry about the details. You simply arrive, and enjoy the moment.",
+    "text": "Cada experiência PICNIC CLUB é pensada com cuidado para que não tenha de se preocupar com os pormenores. Basta chegar e aproveitar o momento.",
     "link": {
-      "label": "Meet the founder",
+      "label": "Conhecer a fundadora",
       "href": "/our-story/"
     }
   },
   "gallery": {
-    "eyebrow": "Gallery",
-    "title": "Moments, as they happened.",
-    "text": "Sunset proposals, weddings on the sand and long afternoons by the pool: a few of the days we have styled.",
+    "eyebrow": "Galeria",
+    "title": "Momentos, tal como aconteceram.",
+    "text": "Pedidos ao pôr do sol, casamentos na areia e longas tardes junto à piscina: alguns dos dias que preparámos.",
     "link": {
-      "label": "Plan your experience",
+      "label": "Pedir proposta",
       "href": "/plan-your-experience/"
     },
     "items": [
       {
         "film": "gallery-arch",
-        "alt": "The couple at a heart-shaped arch of white flowers on the beach"
+        "alt": "O casal junto a um arco de flores brancas em forma de coração, na praia"
       },
       {
         "photo": "proposal-sunset-sails"
       },
       {
         "film": "gallery-sunset",
-        "alt": "A proposal at sunset: the couple about to kiss among the candles"
+        "alt": "Um pedido ao pôr do sol: o casal prestes a beijar-se entre as velas"
       },
       {
         "photo": "picnic-poolside-toast"
@@ -88,25 +88,25 @@
       },
       {
         "film": "gallery-rings",
-        "alt": "The ring slipped onto her finger"
+        "alt": "O anel a deslizar no dedo dela"
       },
       {
         "photo": "behind-the-scenes"
       },
       {
         "film": "gallery-toast",
-        "alt": "A toast by candlelight after dark"
+        "alt": "Um brinde à luz das velas, já de noite"
       },
       {
         "film": "gallery-candles",
-        "alt": "Seen from above: a candlelit table on the sand at dusk"
+        "alt": "Vista de cima: uma mesa à luz das velas na areia, ao entardecer"
       },
       {
         "photo": "proposal-cliff-candles"
       },
       {
         "film": "gallery-table",
-        "alt": "Bottles on ice beside a picnic table"
+        "alt": "Garrafas no gelo ao lado de uma mesa de piquenique"
       },
       {
         "photo": "proposal-beach-table-waves"
@@ -114,14 +114,14 @@
     ]
   },
   "reviews": {
-    "title": "Kind words",
-    "text": "Written by our clients after their experience, and approved by Picnic Club before they appear.",
+    "title": "Testemunhos",
+    "text": "Escritos pelos nossos clientes depois da experiência e aprovados pela Picnic Club antes de serem publicados.",
     "link": {
-      "label": "Read all reviews",
+      "label": "Ler todos os testemunhos",
       "href": "/reviews/"
     }
   },
   "instagram": {
-    "title": "Follow our journey"
+    "title": "Acompanhe a nossa história"
   }
 }

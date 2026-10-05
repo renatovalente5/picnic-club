@@ -14,6 +14,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { problemas } from '../src/lib/regras.mjs';
+import { aplicar, caminhoDaTraducao, resumo } from '../src/lib/traduziveis.mjs';
 import { layout } from '../src/templates/components.mjs';
 import { LANGS, LOCALE, ROUTES, t } from '../src/templates/i18n.mjs';
 import * as pages from '../src/templates/pages.mjs';
@@ -46,6 +48,7 @@ function fail(message) {
 
 // ---------------------------------------------------------------- content
 
+/** The content as Ana writes it in the panel: in PORTUGUESE, the source of both languages. */
 function loadContent() {
   const dir = path.join(ROOT, 'content', 'experiences');
   const experiences = fs
@@ -60,69 +63,60 @@ function loadContent() {
     press: readJson('content/press.json'),
     reviews: readJson('content/reviews.json'),
     policies: readJson('content/policies.json'),
+    photos: readJson('content/photos.json'),
     experiences,
   };
 }
 
 /**
- * The words of content/pt/ laid over the English content: objects key by key, a list of objects
- * item by item (in the English order), a list of words replaced whole. Photos, order and the rest
- * stay English, so the two languages cannot drift apart on anything but words.
+ * The content in another language: the Portuguese with that language's translations on top
+ * (content/i18n/<lang>/, written by the panel's Worker; the rules are in src/lib/traduziveis.mjs).
+ * Only words change: photos, order and everything else stay the Portuguese's, so the two languages
+ * cannot drift apart. A field with no usable translation shows the Portuguese, and is counted.
  */
-function overlay(base, top) {
-  if (top === undefined) return base;
-  if (Array.isArray(base) && Array.isArray(top)) {
-    if (base.some((x) => x && typeof x === 'object')) return base.map((item, i) => overlay(item, top[i]));
-    return top;
-  }
-  if (base && typeof base === 'object' && top && typeof top === 'object' && !Array.isArray(top)) {
-    const out = { ...base };
-    for (const [key, value] of Object.entries(top)) out[key] = overlay(base[key], value);
-    return out;
-  }
-  return top;
-}
-
-function portuguese(content) {
-  const pt = (rel) => (fs.existsSync(path.join(ROOT, 'content', 'pt', rel)) ? readJson(`content/pt/${rel}`) : undefined);
+function translated(content, lang) {
+  const report = { emDia: 0, desactualizados: 0, emFalta: 0, invalidos: [] };
+  const one = (rel, obj) => {
+    const file = caminhoDaTraducao(rel, lang);
+    const map = fs.existsSync(path.join(ROOT, file)) ? readJson(file) : {};
+    const r = aplicar(rel, obj, map, resumo);
+    report.emDia += r.emDia;
+    report.desactualizados += r.desactualizados;
+    report.emFalta += r.emFalta;
+    report.invalidos.push(...r.invalidos.map((x) => `${file}: ${x}`));
+    return r.obj;
+  };
   const out = {};
-  for (const key of ['site', 'home', 'story', 'press', 'reviews', 'policies']) out[key] = overlay(content[key], pt(`${key}.json`));
-  out.experiences = content.experiences.map((e) => {
-    const words = pt(`experiences/${e.id}.json`);
-    if (!words || !words.slug) fail(`content/pt/experiences/${e.id}.json is missing (or has no "slug"): the Portuguese page needs its words and its address.`);
-    return overlay(e, words);
-  });
-  return { content: out, alts: pt('photos.json') || {} };
+  for (const key of ['site', 'home', 'story', 'press', 'reviews', 'policies', 'photos']) out[key] = one(`${key}.json`, content[key]);
+  out.experiences = content.experiences.map((e) => one(`experiences/${e.id}.json`, e));
+  return { content: out, report };
 }
 
+/** A photo's description in each language, by its name. */
+const altsOf = (c) => Object.fromEntries(Object.entries(c.photos).map(([name, m]) => [name, m.alt]));
+
+/** The content as the panel sees it: one object per file, by its path under content/. */
+function contentFiles(content) {
+  const files = {};
+  for (const key of ['site', 'home', 'story', 'press', 'reviews', 'policies', 'photos']) files[`${key}.json`] = content[key];
+  for (const { id, ...e } of content.experiences) files[`experiences/${id}.json`] = e;
+  return files;
+}
+
+const namesIn = (dir, ext) => new Set(fs.readdirSync(path.join(ROOT, dir)).filter((f) => f.endsWith(ext)).map((f) => f.slice(0, -ext.length)));
+
+/** The rules of src/lib/regras.mjs (the same the panel applies before saving): a «bloqueia» stops
+ *  the build; an «avisa» is printed. A production build also refuses the example reviews. */
 function checkContent(content) {
-  const problems = [];
-  const legal = content.site.legal || {};
-  for (const key of ['name', 'status', 'nif', 'address']) {
-    if (!legal[key] || (Array.isArray(legal[key]) && !legal[key].length)) problems.push(`content/site.json: legal.${key} is empty (the law requires it on the site).`);
-  }
-  const nif = String(legal.nif || '').replace(/\s+/g, '');
-  if (!/^[0-9]{9}$/.test(nif) || !validNif(nif)) problems.push(`content/site.json: legal.nif "${legal.nif}" is not a valid Portuguese NIF.`);
-  const slugs = new Set();
-  for (const e of content.experiences) {
-    if (!/^[a-z0-9-]+$/.test(e.slug || '')) problems.push(`experience "${e.name}": invalid slug "${e.slug}".`);
-    if (slugs.has(e.slug)) problems.push(`two experiences share the slug "${e.slug}".`);
-    slugs.add(e.slug);
-    for (const key of ['name', 'short', 'hero', 'statement']) if (!e[key]) problems.push(`experience "${e.slug}": ${key} is empty.`);
-  }
+  const all = problemas(contentFiles(content), { fotos: namesIn('media/photos', '.jpg'), filmes: namesIn('media/video', '.mp4') });
+  const blocking = all.filter((p) => p.classe === 'bloqueia').map((p) => `content/${p.ficheiro}${p.campo ? ` (${p.campo})` : ''}: ${p.mensagem}`);
   const examples = content.reviews.items.filter((r) => r.example);
   if (PRODUCTION && examples.length) {
-    problems.push(`${examples.length} example review(s) are still on the reviews page. Example reviews must never be published: replace them with real reviews from clients, or remove them.`);
+    blocking.push(`${examples.length} example review(s) are still on the reviews page. Example reviews must never be published: replace them with real reviews from clients, or remove them.`);
   }
-  if (problems.length) fail('\n  - ' + problems.join('\n  - '));
-  return { examples: examples.length };
-}
-
-function validNif(nif) {
-  const d = nif.split('').map(Number);
-  const sum = d.slice(0, 8).reduce((s, n, i) => s + n * (9 - i), 0);
-  const check = 11 - (sum % 11);
-  return (check >= 10 ? 0 : check) === d[8];
+  if (blocking.length) fail('\n  - ' + blocking.join('\n  - '));
+  const warnings = all.filter((p) => p.classe === 'avisa' && !p.chave.endsWith('|exemplo'));
+  return { examples: examples.length, warnings };
 }
 
 // ---------------------------------------------------------------- assets
@@ -215,7 +209,8 @@ function sitemap(site, built) {
 function main() {
   const started = Date.now();
   const content = loadContent();
-  const { examples } = checkContent(content);
+  const { examples, warnings } = checkContent(content);
+  const { content: contentEn, report: english } = translated(content, 'en');
 
   fs.rmSync(OUT, { recursive: true, force: true });
   fs.mkdirSync(path.join(OUT, 'assets'), { recursive: true });
@@ -236,14 +231,14 @@ function main() {
   copyDir(path.join(ROOT, 'media', 'brand'), path.join(OUT, 'assets', 'brand'));
   copyDir(path.join(ROOT, 'media', 'video'), path.join(OUT, 'assets', 'video'), (f) => f.endsWith('.mp4'));
 
-  let css = fs.readFileSync(path.join(ROOT, 'src', 'styles', 'site.css'), 'utf8') + '\n/* focus points from media/photos.json */\n' + focusCss(images) + '\n';
+  let css = fs.readFileSync(path.join(ROOT, 'src', 'styles', 'site.css'), 'utf8') + '\n/* focus points from content/photos.json */\n' + focusCss(images) + '\n';
   if (BASE) css = css.replace(/url\("\/assets\//g, `url("${BASE}/assets/`);
   const js = fs.readFileSync(path.join(ROOT, 'src', 'scripts', 'site.js'), 'utf8');
 
-  const { content: contentPt, alts } = portuguese(content);
-  // English path → Portuguese path, for every page (the experiences take their slug from content/pt/)
+  // English path → Portuguese path, for every page (an experience's Portuguese address is its slug;
+  // its English one is the name of its file)
   const routes = { ...ROUTES };
-  for (const e of contentPt.experiences) routes[`/experiences/${e.id}/`] = `${ROUTES['/experiences/']}${e.slug}/`;
+  for (const e of content.experiences) routes[`/experiences/${e.id}/`] = `${ROUTES['/experiences/']}${e.slug}/`;
   const shared = {
     images,
     usedImages: new Set(),
@@ -251,14 +246,14 @@ function main() {
     preview: !PRODUCTION,
     assets: { css: hashed('site.css', css), js: hashed('site.js', js) },
     routes,
-    alts,
+    source: content,
   };
   const siteFor = (c) => (BASE ? { ...c.site, url: (ORIGIN || 'http://localhost:4800') + BASE } : c.site);
 
   const list = [];
   for (const lang of LANGS) {
-    const c = lang === 'pt' ? contentPt : content;
-    const ctx = { ...shared, lang, site: siteFor(c), content: c };
+    const c = lang === 'pt' ? content : contentEn;
+    const ctx = { ...shared, lang, site: siteFor(c), content: c, alts: altsOf(c) };
     const built = [
       { ...pages.home(ctx), sources: ['content/home.json', 'content/experiences', 'content/reviews.json'] },
       { ...pages.experiencesIndex(ctx), sources: ['content/experiences'] },
@@ -277,7 +272,7 @@ function main() {
       const en = page.path;
       page.alternates = page.noIndex ? { en: '/', pt: routes['/'] } : { en, pt: routes[en] };
       page.path = page.noIndex ? en : page.alternates[lang];
-      if (lang === 'pt') page.sources = page.sources.map((s) => s.replace(/^content\//, 'content/pt/')).concat(page.sources);
+      if (lang !== 'pt' && page.sources) page.sources = page.sources.concat(page.sources.map((s) => s.replace(/^content\//, `content/i18n/${lang}/`)));
       const text = layout(ctx, page).toString();
       const bad = crossLanguageLinks(text, page.noIndex ? null : lang);
       if (!page.noIndex && bad.length) fail(`${page.path} links to the other language: ${[...new Set(bad)].join(', ')}`);
@@ -287,7 +282,7 @@ function main() {
       list.push(page);
     }
   }
-  const site = siteFor(content);
+  const site = siteFor(contentEn);
   const ctx = shared;
 
   fs.writeFileSync(path.join(OUT, 'sitemap.xml'), sitemap(content.site, list));
@@ -324,6 +319,9 @@ function main() {
 
   const seconds = ((Date.now() - started) / 1000).toFixed(1);
   console.log(`Built ${list.length} pages in ${seconds}s${PRODUCTION ? ' (production)' : ' (preview)'}${BASE ? `, served from ${site.url}/` : ''}.`);
+  console.log(`English: ${english.emDia} texts translated${english.desactualizados ? `, ${english.desactualizados} from an older Portuguese (being redone)` : ''}${english.emFalta ? `, ${english.emFalta} still in Portuguese` : ''}.`);
+  for (const x of english.invalidos) console.log(`  translation refused, the Portuguese shows: ${x}`);
+  for (const w of warnings) console.log(`  note: content/${w.ficheiro} (${w.campo}): ${w.mensagem}`);
   if (examples) console.log(`Note: ${examples} example review(s) are visible. A production build refuses to publish them.`);
   if (unused.length) console.log(`Not used on any page (not published): ${unused.join(', ')}`);
 }

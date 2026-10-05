@@ -1,33 +1,42 @@
 {
   "order": 4,
-  "slug": "private-events",
-  "name": "Private Events",
+  "slug": "eventos-privados",
+  "name": "Eventos Privados",
   "formValue": "private-event",
-  "short": "Private celebrations, birthdays, anniversaries and special occasions curated with intention.",
+  "short": "Celebrações privadas, aniversários e ocasiões especiais, preparados com intenção.",
   "hero": "event-beach-long-table",
-  "statement": "Gather the people you love. We’ll set the table.",
+  "statement": "Junte as pessoas que ama. Nós pomos a mesa.",
   "intro": [
-    "An elegant, unhurried setting, prepared to the last detail, so your guests need only arrive.",
-    "Birthdays, anniversaries, bridal showers and every occasion worth gathering for, styled around the moment and the place."
+    "Um cenário elegante e sem pressa, preparado até ao último pormenor, para que os seus convidados só tenham de chegar.",
+    "Aniversários, bodas, despedidas de solteira e todas as ocasiões que merecem ser celebradas em conjunto, preparados à medida do momento e do lugar."
   ],
   "included": [
-    "A setting designed around your guests",
-    "Long tables or low tables with cushions",
-    "Linen, tableware, flowers and candles",
-    "Food and drink curated for the occasion",
-    "Set-up, on-the-day coordination and discreet clearing away"
+    "Um cenário pensado para os seus convidados",
+    "Mesas compridas ou mesas baixas com almofadas",
+    "Linho, loiça, flores e velas",
+    "Comida e bebida selecionadas para a ocasião",
+    "Montagem, coordenação no dia e arrumação discreta"
   ],
   "howItWorks": [
-    { "title": "Share your vision.", "text": "Tell us the occasion, the place and the people you’re celebrating." },
-    { "title": "We design the setting.", "text": "A tailored proposal, from the table to the menu." },
-    { "title": "You simply arrive.", "text": "We set up, look after every detail and clear away discreetly." }
+    {
+      "title": "Partilhe a sua ideia.",
+      "text": "Conte-nos a ocasião, o lugar e as pessoas que vai celebrar."
+    },
+    {
+      "title": "Desenhamos o cenário.",
+      "text": "Uma proposta à medida, da mesa ao menu."
+    },
+    {
+      "title": "Só tem de chegar.",
+      "text": "Montamos tudo, cuidamos de cada pormenor e arrumamos com discrição."
+    }
   ],
   "addOns": [
-    "A private chef’s menu",
-    "Champagne",
-    "Photography",
-    "Live music",
-    "Bespoke signage and stationery"
+    "Menu de chef privado",
+    "Champanhe",
+    "Fotografia",
+    "Música ao vivo",
+    "Sinalética e papelaria personalizadas"
   ],
   "gallery": [
     "event-beach-parasols",
@@ -43,11 +52,11 @@
     "Melides",
     "Alcácer do Sal",
     "Grândola",
-    "Lisbon"
+    "Lisboa"
   ],
-  "weather": "Should the weather turn, we always have a sheltered alternative ready, so the day goes ahead as planned.",
+  "weather": "Se o tempo mudar, temos sempre uma alternativa abrigada pronta, para que o dia aconteça como planeado.",
   "seo": {
-    "title": "Private events and celebrations in Comporta · Picnic Club",
-    "description": "Private celebrations, birthdays, anniversaries and bridal showers in Comporta, Tróia, Melides and Lisbon, styled with intention."
+    "title": "Eventos privados e celebrações na Comporta · Picnic Club",
+    "description": "Celebrações privadas, aniversários, bodas e despedidas de solteira na Comporta, em Tróia, em Melides e em Lisboa, preparados com intenção."
   }
 }

@@ -1,12 +1,11 @@
 {
   "brand": "Picnic Club",
-  "tagline": "Moments worth keeping",
+  "tagline": "Momentos para guardar",
   "url": "https://picnicclub.pt",
-  "language": "en",
   "email": "hello@picnicclub.pt",
   "phone": "+351 918 721 042",
   "whatsapp": "351918721042",
-  "whatsappMessage": "Hello Picnic Club, I would like to plan an experience.",
+  "whatsappMessage": "Olá Picnic Club, gostaria de planear uma experiência.",
   "instagram": {
     "handle": "@picnicclub.pt",
     "url": "https://www.instagram.com/picnicclub.pt/"
@@ -19,20 +18,20 @@
     "Melides",
     "Alcácer do Sal",
     "Grândola",
-    "Lisbon"
+    "Lisboa"
   ],
-  "areasNote": "Other locations on request.",
-  "responseTime": "We reply within one working day.",
+  "areasNote": "Outros locais sob consulta.",
+  "responseTime": "Respondemos no prazo de um dia útil.",
   "legal": {
     "name": "Ana Filipa Martins Correia Gonçalves",
-    "status": "Sole trader (Empresária em Nome Individual)",
+    "status": "Empresária em Nome Individual",
     "nif": "254 400 094",
     "address": [
       "Rua Pedro Álvares Cabral, 2",
       "2685-228 Portela, Loures",
       "Portugal"
     ],
-    "trademark": "PICNIC CLUB® is a registered trademark, Portuguese national mark no. 769562 (INPI)."
+    "trademark": "PICNIC CLUB® é uma marca registada: marca nacional portuguesa n.º 769562 (INPI)."
   },
   "endpoints": {
     "enquiry": "",

@@ -430,7 +430,8 @@ export function reviews(ctx) {
 
 export function plan(ctx) {
   const { site } = ctx;
-  const places = [...site.areas.map((a) => ({ value: a, label: place(ctx, a) })), { value: 'elsewhere', label: t(ctx, 'place.elsewhere') }, { value: 'unsure', label: t(ctx, 'place.unsure') }];
+  // the form sends the place as Ana wrote it (in Portuguese) from both languages; only the label changes
+  const places = [...site.areas.map((a, i) => ({ value: ctx.source.site.areas[i] ?? a, label: place(ctx, a) })), { value: 'elsewhere', label: t(ctx, 'place.elsewhere') }, { value: 'unsure', label: t(ctx, 'place.unsure') }];
   const sources = SOURCES.map((value) => ({ value, label: t(ctx, `source.${value}`) }));
   const body = html`
 <section class="plan" aria-labelledby="page-title">

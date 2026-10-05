@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Responsive images for the site.
 
-Reads every photo in media/photos/ (with alt text and focus point from media/photos.json)
+Reads every photo in media/photos/ (with its focus point from content/photos.json, where each
+photo also has its Portuguese alt text — the English is in content/i18n/en/photos.json)
 and every poster in media/video/, and writes AVIF + WebP at fixed widths, plus a 1200×630
 JPEG share card: the photo on the left, cropped around the focus point, and the gold logo on
 an ivory panel on the right. Nothing is laid over the photo (in several it would sit on a
@@ -13,7 +14,7 @@ and is copied to _site/assets/img/. A manifest describing every image is written
 .cache/images/manifest.json for scripts/build.mjs.
 
     python3 scripts/images.py            # build what changed
-    python3 scripts/images.py --check    # only verify media/photos.json matches the files
+    python3 scripts/images.py --check    # only verify content/photos.json matches the files
 """
 import hashlib
 import json
@@ -26,7 +27,7 @@ from PIL import Image, ImageOps, features
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 PHOTOS = os.path.join(ROOT, 'media', 'photos')
 POSTERS = os.path.join(ROOT, 'media', 'video')
-INDEX = os.path.join(ROOT, 'media', 'photos.json')
+INDEX = os.path.join(ROOT, 'content', 'photos.json')
 CACHE = os.path.join(ROOT, '.cache', 'images')
 OUT = os.path.join(ROOT, '_site', 'assets', 'img')
 
@@ -123,9 +124,13 @@ def main():
     unlisted = sorted(on_disk - set(index))
     if missing or unlisted:
         if missing:
-            print('media/photos.json lists photos that are not in media/photos/:', ', '.join(missing))
+            print('content/photos.json lists photos that are not in media/photos/:', ', '.join(missing))
         if unlisted:
-            print('Photos without an entry (alt text) in media/photos.json:', ', '.join(unlisted))
+            print('Photos without an entry (alt text) in content/photos.json:', ', '.join(unlisted))
+        sys.exit(1)
+    undescribed = sorted(n for n, m in index.items() if not str(m.get('alt', '')).strip())
+    if undescribed:
+        print('Photos without a description (alt) in content/photos.json:', ', '.join(undescribed))
         sys.exit(1)
     if '--check' in sys.argv:
         print(f'{len(index)} photos, all described.')
@@ -135,13 +140,13 @@ def main():
     logo = Image.open(LOGO).convert('RGBA')
     for name, meta in sorted(index.items()):
         info = build_one(name, os.path.join(PHOTOS, name + '.jpg'), parse_focus(meta.get('focus', '50% 50%')), 'photo', logo)
-        info.update({'alt': meta['alt'], 'focus': meta.get('focus', '50% 50%')})
+        info.update({'focus': meta.get('focus', '50% 50%')})
         manifest[name] = info
     for f in sorted(os.listdir(POSTERS)):
         if f.endswith('-poster.jpg'):
             name = f[:-4]
             info = build_one(name, os.path.join(POSTERS, f), (0.5, 0.5), 'poster', logo)
-            info.update({'alt': '', 'focus': '50% 50%'})
+            info.update({'focus': '50% 50%'})
             manifest[name] = info
 
     os.makedirs(OUT, exist_ok=True)

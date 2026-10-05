@@ -1,0 +1,134 @@
+{
+  "name": {
+    "t": "Marriage Proposals",
+    "h": "e9076c29fe3d"
+  },
+  "menu": {
+    "t": "Proposals",
+    "h": "d86393bc38de"
+  },
+  "short": {
+    "t": "Everything you need to create a proposal that feels intimate, effortless and unforgettable.",
+    "h": "29a156611a35"
+  },
+  "statement": {
+    "t": "For the moments that change everything.",
+    "h": "703ab589ed50"
+  },
+  "intro.0": {
+    "t": "From the first glass of Champagne to the moment you ask the question, we take care of every detail.",
+    "h": "c8b4a4ce4540"
+  },
+  "intro.1": {
+    "t": "Beautiful settings, fresh flowers, thoughtful styling and a setting designed around your story. You arrive; the rest is already waiting.",
+    "h": "4bda9f2e2b14"
+  },
+  "options.0.name": {
+    "t": "The Basic Set",
+    "h": "62f5ee263bf5"
+  },
+  "options.1.name": {
+    "t": "The Decorated Arch",
+    "h": "e74f21d98367"
+  },
+  "options.2.name": {
+    "t": "Picnic & Arch",
+    "h": "f792c0a99bc1"
+  },
+  "options.3.name": {
+    "t": "The Diamond Experience",
+    "h": "86b0fbc2654a"
+  },
+  "options.0.text": {
+    "t": "Seasonal fruit, a beautifully prepared blanket, Moët & Chandon and a bouquet of flowers: everything you need to turn a simple moment into an unforgettable proposal.",
+    "h": "93032739e1db"
+  },
+  "options.1.text": {
+    "t": "An elegant floral arch with LED letters, designed to make the moment stand out while creating a romantic, timeless atmosphere. Various phrases available.",
+    "h": "f611014b8d82"
+  },
+  "options.2.text": {
+    "t": "A beautifully curated picnic paired with the floral arch and LED letters, for a proposal or a celebration to remember.",
+    "h": "87d8e98ef94e"
+  },
+  "options.3.text": {
+    "t": "For those looking for something truly extraordinary. A proposal designed from the ground up around your vision, with a dedicated concierge, a private driver, exclusive locations, bespoke décor, culinary experiences and photography.",
+    "h": "c82b87d1302f"
+  },
+  "included.0": {
+    "t": "A first conversation to understand your story",
+    "h": "dfeaa1fb7116"
+  },
+  "included.1": {
+    "t": "Location scouting and timing for the best light",
+    "h": "e7097f1bdd79"
+  },
+  "included.2": {
+    "t": "Styling with flowers, linen and candlelight",
+    "h": "e49e3e744a9b"
+  },
+  "included.3": {
+    "t": "Discreet coordination on the day",
+    "h": "2561755a61e4"
+  },
+  "included.4": {
+    "t": "Champagne for the moment after the question",
+    "h": "716544f9caa9"
+  },
+  "addOns.0": {
+    "t": "Photography",
+    "h": "693ad51426e0"
+  },
+  "addOns.1": {
+    "t": "Live music",
+    "h": "2d0d6fe35b26"
+  },
+  "addOns.2": {
+    "t": "A private dinner",
+    "h": "fd64a7922183"
+  },
+  "addOns.3": {
+    "t": "A private driver",
+    "h": "33f41b9a5f04"
+  },
+  "addOns.4": {
+    "t": "Fresh flowers",
+    "h": "b4f3d85a92a7"
+  },
+  "locations.0": {
+    "t": "Comporta",
+    "h": "b7daca606e62"
+  },
+  "locations.1": {
+    "t": "Carvalhal",
+    "h": "71cfb99ea54b"
+  },
+  "locations.2": {
+    "t": "Tróia",
+    "h": "66d55e10f25f"
+  },
+  "locations.3": {
+    "t": "Melides",
+    "h": "f62d3e3f5b0b"
+  },
+  "locations.4": {
+    "t": "Alcácer do Sal",
+    "h": "ed534abf639d"
+  },
+  "locations.5": {
+    "t": "Grândola",
+    "h": "f242657828f7"
+  },
+  "locations.6": {
+    "t": "Lisbon",
+    "h": "37b030b12460"
+  },
+  "seo.title": {
+    "t": "Marriage proposals in Comporta, Lisbon and Portugal · Picnic Club",
+    "h": "1cb8440b4c4d"
+  },
+  "seo.description": {
+    "t": "Intimate, effortless marriage proposals on the beaches of Comporta, Tróia, Melides and Lisbon, styled with flowers, linen and candlelight.",
+    "h": "3a52419b52b3"
+  }
+}
