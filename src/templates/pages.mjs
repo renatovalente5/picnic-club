@@ -131,6 +131,15 @@ function heroPoster(ctx, hero) {
   </picture>`;
 }
 
+/* THE HERO FILM STARTS BY ITSELF, as early as the browser can: `autoplay` with its <source> in the
+ * page (the one for the phone's orientation) is the only way an iPhone starts loading a film before a
+ * script asks for it — without the attribute, Safari loads only its first few bytes until play(), and
+ * the film waited for every photo and font of the page (4.3 s on a slow 4G phone, 5 Oct 2026). This
+ * script, right after the <video>, runs before the film can start: with reduced motion or data saving
+ * there is no film by itself (site.js shows «Play video»), and the film fades in on its first frame
+ * even if it starts before site.js runs. */
+const filmGate = raw(`<script>(function(v){try{v.addEventListener('playing',function(){v.classList.add('is-playing')});if(matchMedia('(prefers-reduced-motion: reduce)').matches||(navigator.connection&&navigator.connection.saveData)){v.removeAttribute('autoplay');v.preload='none'}}catch(e){}})(document.currentScript.previousElementSibling)</script>`);
+
 export function home(ctx) {
   const h = ctx.content.home;
   const experiences = ctx.content.experiences;
@@ -139,8 +148,12 @@ export function home(ctx) {
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__media">
     ${heroPoster(ctx, h.hero)}
-    <video class="hero__video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"
-      data-landscape="/assets/video/${h.hero.video.landscape}" data-portrait="/assets/video/${h.hero.video.portrait}"></video>
+    <video class="hero__video" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"
+      data-landscape="/assets/video/${h.hero.video.landscape}" data-portrait="/assets/video/${h.hero.video.portrait}">
+      <source src="/assets/video/${h.hero.video.portrait}" type="video/mp4" media="(orientation: portrait)">
+      <source src="/assets/video/${h.hero.video.landscape}" type="video/mp4">
+    </video>
+    ${filmGate}
   </div>
   <div class="hero__veil"></div>
   <div class="hero__content">
@@ -205,7 +218,7 @@ ${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-t
 <section class="insta" aria-labelledby="insta-title">
   <div class="wrap">
     <a class="insta__card" href="${ctx.site.instagram.url}">
-      <img class="insta__mark" src="/assets/brand/monogram-gold.png" width="600" height="590" alt="">
+      <img class="insta__mark" src="/assets/brand/monogram-gold.png" width="600" height="590" alt="" loading="lazy" decoding="async">
       <div class="insta__text">
         <h2 class="eyebrow insta__title" id="insta-title">${h.instagram.title}</h2>
         <span class="insta__handle">${ctx.site.instagram.handle}</span>

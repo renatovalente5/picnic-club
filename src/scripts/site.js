@@ -123,25 +123,22 @@
   ['touchend', 'click', 'keydown'].forEach((type) => document.addEventListener(type, onGesture, { capture: true, passive: true }));
 
   // ------------------------------------------------------------ hero film
+  // The film starts by itself, as early as the browser can (the page gives it `autoplay` and its two
+  // <source>, portrait and landscape; the script right after it takes the autoplay away with reduced
+  // motion or data saving, and fades it in on its first frame — src/templates/pages.mjs, filmGate).
+  // This adds the button, the retries and the switch when the phone turns.
   const video = document.querySelector('.hero__video');
   const pause = document.querySelector('.hero__pause');
   const saveData = navigator.connection && navigator.connection.saveData;
-  if (video && pause && !saveData) {
+  if (video && pause) {
     const portrait = window.matchMedia('(orientation: portrait)');
     const sourceFor = () => (portrait.matches ? video.dataset.portrait : video.dataset.landscape);
+    const pathOf = (url) => { try { return new URL(url, location.href).pathname; } catch (e) { return ''; } };
     // Only the visitor decides to stop the film. A play() refused by a hidden tab is retried when the
-    // page is visible again, one refused by the device (Low Power Mode) on the first tap; reduced
-    // motion waits for the button.
-    let userPaused = !motionOK;
+    // page is visible again, one refused by the device (Low Power Mode, «Auto-Play Video Previews»
+    // off) on the first tap; reduced motion and data saving wait for the button.
+    let userPaused = !motionOK || Boolean(saveData);
 
-    const load = () => {
-      const src = sourceFor();
-      if (video.getAttribute('src') === src) return;
-      const t = video.currentTime || 0;
-      video.src = src;
-      video.addEventListener('loadedmetadata', () => { if (t) video.currentTime = t; }, { once: true });
-      if (!userPaused) play();
-    };
     const play = () => {
       if (document.hidden) return;
       const p = video.play();
@@ -153,6 +150,15 @@
       }
     };
     const retry = () => { if (!userPaused) play(); };
+    // The film for the way the phone is held (a browser that ignores <source media> took the first).
+    const fitSource = () => {
+      const want = sourceFor();
+      if (!video.currentSrc || pathOf(video.currentSrc) === pathOf(want)) return;
+      const t = video.currentTime || 0;
+      video.src = want;
+      video.addEventListener('loadedmetadata', () => { if (t) video.currentTime = t; }, { once: true });
+      if (!userPaused) play();
+    };
     const label = pause.querySelector('.round-pause__label');
     const showState = (playing) => {
       pause.dataset.state = playing ? 'playing' : 'paused';
@@ -168,19 +174,25 @@
         video.pause();
       } else {
         userPaused = false;
-        if (!video.getAttribute('src')) load();
+        fitSource();
         play();
       }
     });
     document.addEventListener('visibilitychange', () => { if (!document.hidden && !userPaused && video.paused) play(); });
-    portrait.addEventListener('change', () => { if (video.getAttribute('src')) load(); });
+    portrait.addEventListener('change', fitSource);
+    video.addEventListener('loadstart', fitSource, { once: true });
     pause.hidden = false;
-    // The film is about to start by itself: the button says «pause» from the first moment, and turns
-    // to «play» only if it does not start. A «play» shown while the film was still loading on a phone
-    // read as «tap to start» (Ana, 4 Oct 2026).
+    // The film is about to start by itself (or already has): the button says «pause» from the first
+    // moment, and turns to «play» only if it does not start. A «play» shown while the film was still
+    // loading on a phone read as «tap to start» (Ana, 4 Oct 2026).
     if (!userPaused) {
+      if (!video.paused && video.readyState > 2) video.classList.add('is-playing');
       showState(true);
-      load();
+      fitSource();
+      play();
+    } else {
+      video.pause();
+      showState(false);
     }
   }
 
