@@ -34,7 +34,7 @@
     "trademark": "PICNIC CLUB® é uma marca registada: marca nacional portuguesa n.º 769562 (INPI)."
   },
   "endpoints": {
-    "enquiry": "",
-    "review": ""
+    "enquiry": "https://backoffice.picnicclub.pt/api/pedido",
+    "review": "https://backoffice.picnicclub.pt/api/testemunho"
   }
 }
