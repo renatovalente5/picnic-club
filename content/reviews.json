@@ -5,5 +5,15 @@
   },
   "title": "Testemunhos",
   "intro": "Os testemunhos são escritos pelos nossos clientes depois da experiência e aprovados pela Picnic Club antes de serem publicados. Podemos corrigir erros de escrita ou retirar dados pessoais, sem mudar o sentido.",
-  "items": []
+  "items": [
+    {
+      "id": "20261006-f169e2",
+      "names": "Julio & Jessica",
+      "location": "Suiça",
+      "experience": "luxury-picnic",
+      "text": "Foi uma experiência simplesmente maravilhosa! Fizemos o luxury picnic na Comporta com a nossa família e foi tudo perfeito, desde o início até ao fim. A atenção ao detalhe, o cuidado e a simpatia fizeram toda a diferença. Sentimo-nos verdadeiramente especiais e muito bem recebidos.",
+      "date": "2026-10",
+      "language": "en"
+    }
+  ]
 }
