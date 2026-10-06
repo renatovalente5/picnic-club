@@ -135,17 +135,43 @@
     const sourceFor = () => (portrait.matches ? video.dataset.portrait : video.dataset.landscape);
     const pathOf = (url) => { try { return new URL(url, location.href).pathname; } catch (e) { return ''; } };
     // Only the visitor decides to stop the film. A play() refused by a hidden tab is retried when the
-    // page is visible again, one refused by the device (Low Power Mode, «Auto-Play Video Previews»
-    // off) on the first tap; reduced motion and data saving wait for the button.
+    // page is visible again; reduced motion and data saving wait for the button.
     let userPaused = !motionOK || Boolean(saveData);
+
+    // REFUSED BY THE PHONE (an iPhone in Low Power Mode, or with «Auto-Play Video Previews» off,
+    // refuses every film that starts by itself, on every site): Safari still plays the same MP4 as an
+    // IMAGE — an <img>, silent and looping, which Low Power Mode leaves alone and the «Animated
+    // Images» setting still stops (WebKit's ImageDecoderAVFObjC; Ana, 6 Oct 2026). A browser that
+    // cannot (only Safari can) fails it, and then the first tap anywhere starts the film.
+    let moving = null;
+    const showMoving = () => {
+      if (moving || userPaused) return;
+      const img = document.createElement('img');
+      img.className = 'hero__moving';
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+      img.decoding = 'async';
+      img.addEventListener('error', () => {
+        img.remove();
+        if (moving !== img) return;
+        moving = null;
+        showState(false);
+        if (!userPaused) refused.add(retry);
+      }, { once: true });
+      img.src = sourceFor();
+      video.after(img);
+      moving = img;
+      showState(true);
+    };
+    const hideMoving = () => { if (moving) { moving.remove(); moving = null; } };
 
     const play = () => {
       if (document.hidden) return;
       const p = video.play();
       if (p && p.catch) {
         p.catch((error) => {
-          showState(false);
-          if (isRefusal(error) && !userPaused) refused.add(retry);
+          if (isRefusal(error) && !userPaused) { showMoving(); return; }
+          if (!moving) showState(false);
         });
       }
     };
@@ -155,6 +181,7 @@
       const want = sourceFor();
       if (!video.currentSrc || pathOf(video.currentSrc) === pathOf(want)) return;
       const t = video.currentTime || 0;
+      if (moving) moving.src = want;
       video.src = want;
       video.addEventListener('loadedmetadata', () => { if (t) video.currentTime = t; }, { once: true });
       if (!userPaused) play();
@@ -165,13 +192,15 @@
       label.textContent = playing ? say.pauseVideo : say.playVideo;
       pause.title = label.textContent;
     };
-    video.addEventListener('playing', () => { video.classList.add('is-playing'); showState(true); });
-    video.addEventListener('pause', () => showState(false));
+    video.addEventListener('playing', () => { hideMoving(); video.classList.add('is-playing'); showState(true); });
+    video.addEventListener('pause', () => { if (!moving) showState(false); });
     pause.addEventListener('click', () => {
       refused.delete(retry);   // the button decided; a later tap elsewhere must not undo it
       if (pause.dataset.state === 'playing') {
         userPaused = true;
+        hideMoving();   // the photograph again (an image cannot be paused)
         video.pause();
+        showState(false);
       } else {
         userPaused = false;
         fitSource();
