@@ -7,7 +7,7 @@ and every poster in media/video/, and writes AVIF + WebP at fixed widths, plus a
 JPEG share card: the photo on the left, cropped around the focus point, and the gold logo on
 an ivory panel on the right. Nothing is laid over the photo (in several it would sit on a
 face), and a 720×630 window keeps most of a vertical photo, where a full-width crop kept a
-band.
+band. And one card with the logo alone, for the home pages (picnic-club-logo).
 
 Output goes to .cache/images/ (kept between builds, keyed by the source's content hash)
 and is copied to _site/assets/img/. A manifest describing every image is written to
@@ -37,6 +37,9 @@ WEBP_QUALITY = 78
 SHARE = (1200, 630)
 SHARE_PHOTO = 720           # the photo's width on the card; the panel takes the rest
 SHARE_LOGO = 300            # the logo's width on the panel
+SHARE_LOGO_ALONE = 460      # the logo's width when it is alone on the card: inside the middle square,
+                            # which is what a square thumbnail keeps
+LOGO_CARD = 'picnic-club-logo'
 IVORY = (250, 246, 239)     # --ivory
 LOGO = os.path.join(ROOT, 'media', 'brand', 'logo-gold.png')
 FORMATS = ('avif', 'webp') if features.check('avif') else ('webp',)
@@ -59,6 +62,29 @@ def share_card(im, focus, logo):
     left = SHARE_PHOTO + (SHARE[0] - SHARE_PHOTO - SHARE_LOGO) // 2
     card.paste(mark, (left, (SHARE[1] - height) // 2), mark)
     return card
+
+
+def logo_card(logo):
+    card = Image.new('RGB', SHARE, IVORY)
+    height = round(logo.height * SHARE_LOGO_ALONE / logo.width)
+    mark = logo.convert('RGBa').resize((SHARE_LOGO_ALONE, height), Image.LANCZOS).convert('RGBA')
+    card.paste(mark, ((SHARE[0] - SHARE_LOGO_ALONE) // 2, (SHARE[1] - height) // 2), mark)
+    return card
+
+
+def build_logo_card(logo):
+    """The card of the site's address (the home pages): the logo alone on ivory, no photo. Renato,
+    6 Oct 2026: when the site's link is shared on WhatsApp, «só o logo»."""
+    folder = os.path.join(CACHE, LOGO_CARD)
+    os.makedirs(folder, exist_ok=True)
+    share = f'{LOGO_CARD}-{content_hash(LOGO, __file__)}-share.jpg'
+    target = os.path.join(folder, share)
+    if not os.path.exists(target):
+        logo_card(logo).save(target, 'JPEG', quality=88, progressive=True, optimize=True)
+    for old in os.listdir(folder):
+        if old != share:
+            os.remove(os.path.join(folder, old))
+    return {'kind': 'brand', 'width': SHARE[0], 'height': SHARE[1], 'share': share, 'files': [share]}
 
 
 def parse_focus(focus):
@@ -148,6 +174,7 @@ def main():
             info = build_one(name, os.path.join(POSTERS, f), (0.5, 0.5), 'poster', logo)
             info.update({'focus': '50% 50%'})
             manifest[name] = info
+    manifest[LOGO_CARD] = build_logo_card(logo)
 
     os.makedirs(OUT, exist_ok=True)
     for name, info in manifest.items():

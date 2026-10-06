@@ -58,6 +58,15 @@ export function shareImage(ctx, name) {
   return { url: `${ctx.site.url}/assets/img/${m.share}`, alt: alt ? t(ctx, 'share.withLogo', { alt }) : t(ctx, 'share.logo') };
 }
 
+/** The card of the site's address (the home pages): the logo alone on ivory, no photo — when the
+ *  site's link is shared on WhatsApp, only the logo (Renato, 6 Oct 2026). scripts/images.py makes it. */
+export function logoShareImage(ctx) {
+  const m = ctx.images['picnic-club-logo'];
+  if (!m) throw new Error('No logo share card: run scripts/images.py.');
+  ctx.usedImages.add('picnic-club-logo');
+  return { url: `${ctx.site.url}/assets/img/${m.share}`, alt: t(ctx, 'share.logo') };
+}
+
 export function arrowLink(ctx, link, className = 'link-arrow') {
   if (!link) return '';
   return html`<a class="${className}" href="${localize(ctx, link.href)}">${link.label}<span aria-hidden="true">&nbsp;→</span></a>`;

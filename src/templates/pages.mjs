@@ -1,7 +1,7 @@
 // Every page of the site. Each function returns { path, title, description, image, body, ... }.
 // `path` is the English address; the build gives the Portuguese page its own (src/templates/i18n.mjs).
 import { html, raw, attrs } from './html.mjs';
-import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, organisation, website, schemaGraph, experienceHref, COMPLAINTS_BOOK } from './components.mjs';
+import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, logoShareImage, organisation, website, schemaGraph, experienceHref, COMPLAINTS_BOOK } from './components.mjs';
 import { LOCALE, localize, place, t } from './i18n.mjs';
 
 // What the forms send: the same values in both languages, only the words shown change.
@@ -231,7 +231,7 @@ ${kind.length ? html`<section class="kind-words wrap" aria-labelledby="reviews-t
     path: '/',
     title: h.seo.title,
     description: h.seo.description,
-    image: shareImage(ctx, 'proposal-sunset-sails'),
+    image: logoShareImage(ctx),
     hero: true,
     body,
     schema: schemaGraph(website(ctx), organisation(ctx)),
