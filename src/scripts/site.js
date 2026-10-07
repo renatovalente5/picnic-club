@@ -31,17 +31,57 @@
       wait: 'Recebemos várias mensagens a partir desta ligação. Tente de novo daqui a uma hora, ou escreva-nos para hello@picnicclub.pt.',
       check: 'Confirme este campo.',
     },
+    es: {
+      playVideo: 'Reproducir el vídeo', pauseVideo: 'Pausar el vídeo', playVideos: 'Reproducir los vídeos', pauseVideos: 'Pausar los vídeos',
+      enquiryTitle: 'Gracias.', enquiryText: 'Hemos recibido su solicitud y nos pondremos en contacto con usted muy pronto.',
+      reviewTitle: 'Gracias.', reviewText: 'Su opinión nos ha llegado. Aparecerá en esta página cuando la hayamos leído.',
+      tick: 'Marque esta casilla para continuar.', choose: 'Elija una opción.', fill: 'Rellene este campo.',
+      email: 'Revise la dirección de email, por ejemplo nombre@ejemplo.es.',
+      minLength: 'Escriba al menos {n} caracteres.', min: 'Indique {n} o más.',
+      attention: 'Algunos campos necesitan su atención.',
+      notConnected: 'Esta vista previa aún no está conectada. Escríbanos a hello@picnicclub.pt o envíenos un mensaje por WhatsApp.',
+      sending: 'Enviando…', failed: 'No se ha podido enviar ahora. Inténtelo de nuevo dentro de un momento, o escríbanos a hello@picnicclub.pt.',
+      wait: 'Hemos recibido varios mensajes desde esta conexión. Inténtelo de nuevo dentro de una hora, o escríbanos a hello@picnicclub.pt.',
+      check: 'Revise este campo.',
+    },
+    fr: {
+      playVideo: 'Lire la vidéo', pauseVideo: 'Mettre la vidéo en pause', playVideos: 'Lire les vidéos', pauseVideos: 'Mettre les vidéos en pause',
+      enquiryTitle: 'Merci.', enquiryText: 'Nous avons bien reçu votre demande et reviendrons vers vous très bientôt.',
+      reviewTitle: 'Merci.', reviewText: 'Votre avis nous est bien parvenu. Il apparaîtra sur cette page dès que nous l’aurons lu.',
+      tick: 'Cochez cette case pour continuer.', choose: 'Choisissez une option.', fill: 'Remplissez ce champ.',
+      email: 'Vérifiez l’adresse e-mail, par exemple nom@exemple.fr.',
+      minLength: 'Écrivez au moins {n}\u00a0caractères.', min: 'Indiquez {n} ou plus.',
+      attention: 'Certains champs demandent votre attention.',
+      notConnected: 'Cet aperçu n’est pas encore relié. Écrivez-nous à hello@picnicclub.pt ou envoyez-nous un message sur WhatsApp.',
+      sending: 'Envoi…', failed: 'L’envoi n’a pas abouti. Réessayez dans un instant, ou écrivez-nous à hello@picnicclub.pt.',
+      wait: 'Nous avons reçu plusieurs messages depuis cette connexion. Réessayez dans une heure, ou écrivez-nous à hello@picnicclub.pt.',
+      check: 'Vérifiez ce champ.',
+    },
   };
-  const say = TEXT[root.lang.startsWith('pt') ? 'pt' : 'en'];
+  // the page's language: the first part of <html lang> (pt-PT → pt), English when it is not one of these
+  const say = TEXT[root.lang.split('-')[0]] || TEXT.en;
 
   // ------------------------------------------------------------ language
-  // The PT/EN switch is the only thing that writes a choice on the device (see the Cookies page);
+  // The language switch (EN · PT · ES · FR) is the only thing that writes a choice on the device
+  // (see the Cookies page);
   // the <head> of an English page reads it on the first page of a visit.
   document.querySelectorAll('[data-lang]').forEach((link) => {
     link.addEventListener('click', () => {
       try { localStorage.setItem('picnic-lang', link.dataset.lang); } catch (e) { /* private window: the switch still works */ }
     });
   });
+  // The language in the bar is a <details>: it opens and closes by itself, and this closes it the way
+  // a menu closes — Escape (the focus goes back to «EN»), a click anywhere else, the focus leaving it.
+  const langDrop = document.querySelector('.lang-drop');
+  if (langDrop) {
+    langDrop.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !langDrop.open) return;
+      langDrop.open = false;
+      langDrop.querySelector('summary').focus();
+    });
+    document.addEventListener('click', (event) => { if (langDrop.open && !langDrop.contains(event.target)) langDrop.open = false; });
+    langDrop.addEventListener('focusout', (event) => { if (event.relatedTarget && !langDrop.contains(event.relatedTarget)) langDrop.open = false; });
+  }
 
   // ------------------------------------------------------------ header over the film
   // The <head> already wrote data-scrolled before the first paint. Hysteresis: turn solid
@@ -382,7 +422,7 @@
       const button = form.querySelector('button[type="submit"]');
       button.setAttribute('aria-busy', 'true');
       status.textContent = say.sending;
-      const data = { ...Object.fromEntries(new FormData(form).entries()), lang: root.lang.startsWith('pt') ? 'pt' : 'en', t: Date.now() - opened };
+      const data = { ...Object.fromEntries(new FormData(form).entries()), lang: TEXT[root.lang.split('-')[0]] ? root.lang.split('-')[0] : 'en', t: Date.now() - opened };
       try {
         const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
         if (response.status === 429) {

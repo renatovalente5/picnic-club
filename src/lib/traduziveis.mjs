@@ -1,6 +1,6 @@
 /* WHAT GETS TRANSLATED, AND HOW A TRANSLATION IS APPLIED.
  *
- * The one rule about the site's two languages. It has a byte-for-byte copy in the panel
+ * The one rule about the site's languages. It has a byte-for-byte copy in the panel
  * (picnic-club-painel, estatico/js/traduziveis.js), which is what translates; a test there
  * compares the two. Written for Picnic Club from the one of ithos·cathelier (Sep 2026).
  *

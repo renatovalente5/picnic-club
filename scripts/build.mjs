@@ -18,7 +18,8 @@ import { INDEXNOW_KEY } from '../src/lib/indexnow.mjs';
 import { problemas } from '../src/lib/regras.mjs';
 import { aplicar, caminhoDaTraducao, resumo } from '../src/lib/traduziveis.mjs';
 import { layout } from '../src/templates/components.mjs';
-import { LANGS, LOCALE, ROUTES, t } from '../src/templates/i18n.mjs';
+import { LANGS, LOCALE, ROUTES, EXPERIENCE_SLUGS, langOfPath, t } from '../src/templates/i18n.mjs';
+import { LINGUAS_ALVO } from '../src/lib/traduziveis.mjs';
 import * as pages from '../src/templates/pages.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -52,7 +53,7 @@ function fail(message, problems = []) {
 
 // ---------------------------------------------------------------- content
 
-/** The content as Ana writes it in the panel: in PORTUGUESE, the source of both languages. */
+/** The content as Ana writes it in the panel: in PORTUGUESE, the source of every language. */
 function loadContent() {
   const dir = path.join(ROOT, 'content', 'experiences');
   const experiences = fs
@@ -93,7 +94,22 @@ function translated(content, lang) {
   const out = {};
   for (const key of ['site', 'home', 'story', 'press', 'reviews', 'policies', 'photos']) out[key] = one(`${key}.json`, content[key]);
   out.experiences = content.experiences.map((e) => one(`experiences/${e.id}.json`, e));
-  return { content: out, report };
+  return { content: typeset(out, lang), report };
+}
+
+/**
+ * What a language's typesetting asks for, on every text of its content. The typographic apostrophe:
+ * the Worker's model writes «l'expérience», the templates «l’expérience». And in French the
+ * non-breaking space before : ; ? ! » and %, and after «, so a line never starts with a colon. Only
+ * spaces and apostrophes change, never a word; an address has no space before its colon, so it
+ * stays as it is.
+ */
+function typeset(value, lang) {
+  if (Array.isArray(value)) return value.map((v) => typeset(v, lang));
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, typeset(v, lang)]));
+  if (typeof value !== 'string') return value;
+  const s = value.replace(/(\p{L})'(\p{L})/gu, '$1’$2');
+  return lang === 'fr' ? s.replace(/ ([:;?!»])/g, '\u00a0$1').replace(/« /g, '«\u00a0').replace(/(\d) ?%/g, '$1\u00a0%') : s;
 }
 
 /** A photo's description in each language, by its name. */
@@ -183,8 +199,7 @@ function crossLanguageLinks(htmlText, lang) {
   for (const m of htmlText.matchAll(/<a\b[^>]*\bhref="(\/[^"]*)"[^>]*>/g)) {
     const [tag, href] = m;
     if (/\bdata-lang=/.test(tag) || href.startsWith('/assets/')) continue;
-    const isPt = href === '/pt/' || href.startsWith('/pt/');
-    if (lang === 'pt' ? !isPt : isPt) bad.push(href);
+    if (langOfPath(href) !== lang) bad.push(href);
   }
   return bad;
 }
@@ -231,7 +246,8 @@ function main() {
   const started = Date.now();
   const content = loadContent();
   const { examples, warnings } = checkContent(content);
-  const { content: contentEn, report: english } = translated(content, 'en');
+  // the content in each language it is translated into (English, Spanish, French): content/i18n/<l>/
+  const translations = Object.fromEntries(LINGUAS_ALVO.map((l) => [l, translated(content, l)]));
 
   fs.rmSync(OUT, { recursive: true, force: true });
   fs.mkdirSync(path.join(OUT, 'assets'), { recursive: true });
@@ -256,25 +272,33 @@ function main() {
   if (BASE) css = css.replace(/url\("\/assets\//g, `url("${BASE}/assets/`);
   const js = fs.readFileSync(path.join(ROOT, 'src', 'scripts', 'site.js'), 'utf8');
 
-  // English path → Portuguese path, for every page (an experience's Portuguese address is its slug;
-  // its English one is the name of its file)
-  const routes = { ...ROUTES };
-  for (const e of content.experiences) routes[`/experiences/${e.id}/`] = `${ROUTES['/experiences/']}${e.slug}/`;
+  // English path → the path in each other language, for every page (an experience's English address
+  // is the name of its file; its Portuguese one its own slug; Spanish and French: EXPERIENCE_SLUGS)
+  const routesFor = { en: {} };
+  for (const l of LANGS.filter((x) => x !== 'en')) {
+    const r = { ...ROUTES[l] };
+    for (const e of content.experiences) {
+      const slug = l === 'pt' ? e.slug : EXPERIENCE_SLUGS[l]?.[e.id];
+      if (!slug) fail(`the experience «${e.id}» has no address in ${LOCALE[l].name}: add it to EXPERIENCE_SLUGS in src/templates/i18n.mjs`);
+      r[`/experiences/${e.id}/`] = `${ROUTES[l]['/experiences/']}${slug}/`;
+    }
+    routesFor[l] = r;
+  }
   const shared = {
     images,
     usedImages: new Set(),
     year: new Date().getFullYear(),
     preview: !PRODUCTION,
     assets: { css: hashed('site.css', css), js: hashed('site.js', js) },
-    routes,
     source: content,
   };
   const siteFor = (c) => (BASE ? { ...c.site, url: (ORIGIN || 'http://localhost:4800') + BASE } : c.site);
 
   const list = [];
   for (const lang of LANGS) {
-    const c = lang === 'pt' ? content : contentEn;
-    const ctx = { ...shared, lang, site: siteFor(c), content: c, alts: altsOf(c) };
+    const c = lang === 'pt' ? content : translations[lang].content;
+    const routes = routesFor[lang];
+    const ctx = { ...shared, lang, routes, site: siteFor(c), content: c, alts: altsOf(c) };
     const built = [
       { ...pages.home(ctx), sources: ['content/home.json', 'content/experiences', 'content/reviews.json'] },
       { ...pages.experiencesIndex(ctx), sources: ['content/experiences'] },
@@ -291,7 +315,8 @@ function main() {
     ];
     for (const page of built) {
       const en = page.path;
-      page.alternates = page.noIndex ? { en: '/', pt: routes['/'] } : { en, pt: routes[en] };
+      page.alternates = Object.fromEntries(LANGS.map((l) => [l, l === 'en' ? (page.noIndex ? '/' : en) : routesFor[l][page.noIndex ? '/' : en]]));
+      if (!page.noIndex) for (const l of LANGS) if (!page.alternates[l]) fail(`${en} has no address in ${LOCALE[l].name}: add it to ROUTES in src/templates/i18n.mjs`);
       page.path = page.noIndex ? en : page.alternates[lang];
       if (lang !== 'pt' && page.sources) page.sources = page.sources.concat(page.sources.map((s) => s.replace(/^content\//, `content/i18n/${lang}/`)));
       const text = layout(ctx, page).toString();
@@ -303,7 +328,7 @@ function main() {
       list.push(page);
     }
   }
-  const site = siteFor(contentEn);
+  const site = siteFor(translations.en.content);
   const ctx = shared;
 
   /* THE OLD SITE'S ADDRESSES (Framer, on www.picnicclub.pt until 5 Oct 2026, from its sitemap) and
@@ -374,8 +399,10 @@ function main() {
 
   const seconds = ((Date.now() - started) / 1000).toFixed(1);
   console.log(`Built ${list.length} pages in ${seconds}s${PRODUCTION ? ' (production)' : ' (preview)'}${BASE ? `, served from ${site.url}/` : ''}.`);
-  console.log(`English: ${english.emDia} texts translated${english.desactualizados ? `, ${english.desactualizados} from an older Portuguese (being redone)` : ''}${english.emFalta ? `, ${english.emFalta} still in Portuguese` : ''}.`);
-  for (const x of english.invalidos) console.log(`  translation refused, the Portuguese shows: ${x}`);
+  for (const [l, { report: r }] of Object.entries(translations)) {
+    console.log(`${LOCALE[l].name}: ${r.emDia} texts translated${r.desactualizados ? `, ${r.desactualizados} from an older Portuguese (being redone)` : ''}${r.emFalta ? `, ${r.emFalta} still in Portuguese` : ''}.`);
+    for (const x of r.invalidos) console.log(`  translation refused, the Portuguese shows: ${x}`);
+  }
   for (const w of warnings) console.log(`  note: content/${w.ficheiro} (${w.campo}): ${w.mensagem}`);
   if (examples) console.log(`Note: ${examples} example review(s) are visible. A production build refuses to publish them.`);
   if (unused.length) console.log(`Not used on any page (not published): ${unused.join(', ')}`);

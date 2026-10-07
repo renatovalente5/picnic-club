@@ -4,7 +4,7 @@ import { html, raw, attrs } from './html.mjs';
 import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, logoShareImage, organisation, website, schemaGraph, experienceHref, COMPLAINTS_BOOK } from './components.mjs';
 import { LOCALE, localize, place, t } from './i18n.mjs';
 
-// What the forms send: the same values in both languages, only the words shown change.
+// What the forms send: the same values in every language, only the words shown change.
 const EXPERIENCE_CODES = ['luxury-picnic', 'marriage-proposal', 'elopement-wedding', 'private-event', 'bespoke-experience'];
 const SOURCES = ['instagram', 'google', 'nit', 'friend', 'hotel', 'other'];
 const experienceOptions = (ctx) => EXPERIENCE_CODES.map((value) => ({ value, label: t(ctx, `exp.${value}`) }));
@@ -377,7 +377,7 @@ ${pressFeature(ctx)}`;
 function formatDate(ctx, iso) {
   const [y, m, d] = iso.split('-').map(Number);
   const month = new Date(Date.UTC(y, m - 1, d || 1)).toLocaleString(LOCALE[ctx.lang].date, { month: 'long', timeZone: 'UTC' });
-  if (ctx.lang === 'pt') return d ? `${d} de ${month} de ${y}` : `${month} de ${y}`;
+  if (ctx.lang === 'pt' || ctx.lang === 'es') return d ? `${d} de ${month} de ${y}` : `${month} de ${y}`;
   return d ? `${d} ${month} ${y}` : `${month} ${y}`;
 }
 
@@ -475,7 +475,7 @@ export function reviews(ctx) {
 
 export function plan(ctx) {
   const { site } = ctx;
-  // the form sends the place as Ana wrote it (in Portuguese) from both languages; only the label changes
+  // the form sends the place as Ana wrote it (in Portuguese) from every language; only the label changes
   const places = [...site.areas.map((a, i) => ({ value: ctx.source.site.areas[i] ?? a, label: place(ctx, a) })), { value: 'elsewhere', label: t(ctx, 'place.elsewhere') }, { value: 'unsure', label: t(ctx, 'place.unsure') }];
   const sources = SOURCES.map((value) => ({ value, label: t(ctx, `source.${value}`) }));
   const body = html`
@@ -542,52 +542,83 @@ function legalPage(ctx, { path, title, description, sections }) {
   return { path, title: `${title} · Picnic Club`, description, image: shareImage(ctx, 'proposal-sunset-sails'), body };
 }
 
+const NIF_LABEL = { en: 'NIF (tax number)', pt: 'NIF', es: 'NIF (número de identificación fiscal)', fr: 'NIF (numéro d’identification fiscale)' };
+
 export function legalNotice(ctx) {
   const { site } = ctx;
   const l = site.legal;
-  const address = html`<address>${l.name}<br>${l.status}<br>${ctx.lang === 'pt' ? 'NIF' : 'NIF (tax number)'} ${l.nif}<br>${l.address.map((line, i) => html`${i ? raw('<br>') : ''}${line}`)}</address>`;
-  if (ctx.lang === 'pt') {
-    return legalPage(ctx, {
-      path: '/legal-notice/',
+  const address = html`<address>${l.name}<br>${l.status}<br>${NIF_LABEL[ctx.lang]} ${l.nif}<br>${l.address.map((line, i) => html`${i ? raw('<br>') : ''}${line}`)}</address>`;
+  const mail = html`<a href="mailto:${site.email}">${site.email}</a>`;
+  const text = {
+    pt: () => ({
       title: 'Aviso legal',
       description: 'Quem gere a Picnic Club: identificação, contactos, marca, livro de reclamações e resolução de litígios.',
       sections: html`
 <h2>Quem somos</h2>
 <p>Este site e as experiências PICNIC CLUB são prestados por:</p>
 ${address}
-<p>Email: <a href="mailto:${site.email}">${site.email}</a><br>Telefone: ${phone(ctx)}</p>
+<p>Email: ${mail}<br>Telefone: ${phone(ctx)}</p>
 <h2>Marca</h2>
 <p>${l.trademark}</p>
 <h2>Livro de Reclamações</h2>
 <p>Pode apresentar uma reclamação no Livro de Reclamações Eletrónico: <a href="${COMPLAINTS_BOOK}">livroreclamacoes.pt</a>.</p>
 <h2>Resolução alternativa de litígios</h2>
 <p>Se um litígio não puder ser resolvido diretamente connosco, pode recorrer a uma entidade de resolução alternativa de litígios (RAL). A entidade competente depende do local onde vive e pode encontrá-la em <a href="https://www.consumidor.gov.pt">consumidor.gov.pt</a>. Quando nenhum centro regional se aplica, a entidade competente é o CNIACC, Centro Nacional de Informação e Arbitragem de Conflitos de Consumo (<a href="https://www.cniacc.pt">cniacc.pt</a>).</p>`,
-    });
-  }
-  return legalPage(ctx, {
-    path: '/legal-notice/',
-    title: 'Legal notice',
-    description: 'Who runs Picnic Club: identification, contacts, trademark, complaints book and dispute resolution.',
-    sections: html`
+    }),
+    en: () => ({
+      title: 'Legal notice',
+      description: 'Who runs Picnic Club: identification, contacts, trademark, complaints book and dispute resolution.',
+      sections: html`
 <h2>Who we are</h2>
 <p>This website and the PICNIC CLUB experiences are provided by:</p>
 ${address}
-<p>Email: <a href="mailto:${site.email}">${site.email}</a><br>Phone: ${phone(ctx)}</p>
+<p>Email: ${mail}<br>Phone: ${phone(ctx)}</p>
 <h2>Trademark</h2>
 <p>${l.trademark}</p>
 <h2>Complaints book</h2>
 <p>You can file a complaint in the electronic complaints book: <a href="${COMPLAINTS_BOOK}">livroreclamacoes.pt</a>.</p>
 <h2>Alternative dispute resolution</h2>
 <p>If a dispute cannot be settled with us directly, you can turn to an alternative dispute resolution (ADR) entity. The competent entity depends on where you live; you can find it at <a href="https://www.consumidor.gov.pt">consumidor.gov.pt</a>. Where no regional centre applies, the competent entity is CNIACC, the National Centre for Information and Arbitration of Consumer Disputes (<a href="https://www.cniacc.pt">cniacc.pt</a>).</p>`,
-  });
+    }),
+    es: () => ({
+      title: 'Aviso legal',
+      description: 'Quién gestiona Picnic Club: identificación, contacto, marca, libro de reclamaciones y resolución de litigios.',
+      sections: html`
+<h2>Quiénes somos</h2>
+<p>Este sitio web y las experiencias PICNIC CLUB los presta:</p>
+${address}
+<p>Email: ${mail}<br>Teléfono: ${phone(ctx)}</p>
+<h2>Marca</h2>
+<p>${l.trademark}</p>
+<h2>Libro de reclamaciones</h2>
+<p>Puede presentar una reclamación en el libro de reclamaciones electrónico portugués (Livro de Reclamações Eletrónico): <a href="${COMPLAINTS_BOOK}">livroreclamacoes.pt</a>.</p>
+<h2>Resolución alternativa de litigios</h2>
+<p>Si un litigio no puede resolverse directamente con nosotros, puede recurrir a una entidad de resolución alternativa de litigios. La entidad competente depende del lugar donde viva y puede encontrarla en <a href="https://www.consumidor.gov.pt">consumidor.gov.pt</a>. Cuando no se aplica ningún centro regional, la entidad competente es el CNIACC, Centro Nacional de Información y Arbitraje de Conflictos de Consumo (<a href="https://www.cniacc.pt">cniacc.pt</a>).</p>`,
+    }),
+    fr: () => ({
+      title: 'Mentions légales',
+      description: 'Qui gère Picnic Club : identification, contacts, marque, livre de réclamations et règlement des litiges.',
+      sections: html`
+<h2>Qui sommes-nous</h2>
+<p>Ce site et les expériences PICNIC CLUB sont proposés par :</p>
+${address}
+<p>E-mail : ${mail}<br>Téléphone : ${phone(ctx)}</p>
+<h2>Marque</h2>
+<p>${l.trademark}</p>
+<h2>Livre de réclamations</h2>
+<p>Vous pouvez déposer une réclamation dans le livre de réclamations électronique portugais (Livro de Reclamações Eletrónico) : <a href="${COMPLAINTS_BOOK}">livroreclamacoes.pt</a>.</p>
+<h2>Règlement extrajudiciaire des litiges</h2>
+<p>Si un litige ne peut pas être réglé directement avec nous, vous pouvez vous adresser à un organisme de règlement extrajudiciaire des litiges. L’organisme compétent dépend de votre lieu de résidence ; vous le trouverez sur <a href="https://www.consumidor.gov.pt">consumidor.gov.pt</a>. Lorsqu’aucun centre régional ne s’applique, l’organisme compétent est le CNIACC, Centre national d’information et d’arbitrage des litiges de consommation (<a href="https://www.cniacc.pt">cniacc.pt</a>).</p>`,
+    }),
+  }[ctx.lang]();
+  return legalPage(ctx, { path: '/legal-notice/', ...text });
 }
 
 export function terms(ctx) {
   const c = ctx.content.policies.cancellation;
   const rules = html`<dl class="rules">${c.rules.map((r) => html`<div><dt>${r.when}</dt><dd>${r.what}</dd></div>`)}</dl>`;
-  if (ctx.lang === 'pt') {
-    return legalPage(ctx, {
-      path: '/terms/',
+  const text = {
+    pt: () => ({
       title: 'Termos e cancelamentos',
       description: 'Como funciona a reserva de uma experiência Picnic Club, e a nossa política de cancelamento e de alteração de data.',
       sections: html`
@@ -600,13 +631,11 @@ ${rules}
 ${paragraphs(c.rescheduling)}
 <p>${c.exceptional}</p>
 <p>Obrigado pela compreensão: cada experiência PICNIC CLUB implica planeamento antecipado, preparação e compromissos com a equipa e com os fornecedores.</p>`,
-    });
-  }
-  return legalPage(ctx, {
-    path: '/terms/',
-    title: 'Terms & cancellations',
-    description: 'How booking a Picnic Club experience works, and our cancellation and rescheduling policy.',
-    sections: html`
+    }),
+    en: () => ({
+      title: 'Terms & cancellations',
+      description: 'How booking a Picnic Club experience works, and our cancellation and rescheduling policy.',
+      sections: html`
 <h2>How booking works</h2>
 <p>Every PICNIC CLUB experience is tailored. Once you tell us about your plans, we send you a written proposal with the details and the total price, VAT included. Your experience is confirmed once you accept the proposal and make the payment it sets out.</p>
 <h2>Cancellation policy</h2>
@@ -616,15 +645,45 @@ ${rules}
 ${paragraphs(c.rescheduling)}
 <p>${c.exceptional}</p>
 <p>Thank you for understanding that every PICNIC CLUB experience involves advance planning, preparation, staff and supplier commitments.</p>`,
-  });
+    }),
+    es: () => ({
+      title: 'Condiciones y cancelaciones',
+      description: 'Cómo funciona la reserva de una experiencia Picnic Club, y nuestra política de cancelación y de cambio de fecha.',
+      sections: html`
+<h2>Cómo funciona la reserva</h2>
+<p>Cada experiencia PICNIC CLUB se hace a medida. Cuando nos cuente sus planes, le enviaremos una propuesta por escrito con los detalles y el precio total, IVA incluido. Su experiencia queda confirmada cuando acepta la propuesta y realiza el pago que en ella se indica.</p>
+<h2>Política de cancelación</h2>
+<p>${c.intro}</p>
+${rules}
+<h2>Cambio de fecha</h2>
+${paragraphs(c.rescheduling)}
+<p>${c.exceptional}</p>
+<p>Gracias por su comprensión: cada experiencia PICNIC CLUB implica una planificación anticipada, preparación y compromisos con el equipo y con los proveedores.</p>`,
+    }),
+    fr: () => ({
+      title: 'Conditions et annulations',
+      description: 'Comment se déroule la réservation d’une expérience Picnic Club, et notre politique d’annulation et de changement de date.',
+      sections: html`
+<h2>Comment se déroule la réservation</h2>
+<p>Chaque expérience PICNIC CLUB est conçue sur mesure. Une fois que vous nous avez parlé de vos projets, nous vous envoyons une proposition écrite avec les détails et le prix total, TVA comprise. Votre expérience est confirmée lorsque vous acceptez la proposition et effectuez le paiement qui y est indiqué.</p>
+<h2>Politique d’annulation</h2>
+<p>${c.intro}</p>
+${rules}
+<h2>Changement de date</h2>
+${paragraphs(c.rescheduling)}
+<p>${c.exceptional}</p>
+<p>Merci de votre compréhension : chaque expérience PICNIC CLUB implique une planification en amont, une préparation et des engagements auprès de l’équipe et des fournisseurs.</p>`,
+    }),
+  }[ctx.lang]();
+  return legalPage(ctx, { path: '/terms/', ...text });
 }
 
 export function privacy(ctx) {
   const { site } = ctx;
   const mail = html`<a href="mailto:${site.email}">${site.email}</a>`;
-  if (ctx.lang === 'pt') {
-    return legalPage(ctx, {
-      path: '/privacy/',
+  const cookiesLink = html`<a href="${localize(ctx, '/cookies/')}">Cookies</a>`;
+  const text = {
+    pt: () => ({
       title: 'Privacidade',
       description: 'Como a Picnic Club usa os dados pessoais que partilha através deste site.',
       sections: html`
@@ -641,14 +700,12 @@ export function privacy(ctx) {
 <h2>Os seus direitos</h2>
 <p>Pode pedir o acesso aos seus dados, a sua retificação ou o seu apagamento, a limitação do tratamento ou opor-se a ele, e recebê-los num formato portável, escrevendo para ${mail}. Pode também apresentar reclamação à Comissão Nacional de Proteção de Dados, a CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
 <h2>Cookies</h2>
-<p>Este site não usa cookies. Veja <a href="${localize(ctx, '/cookies/')}">Cookies</a>.</p>`,
-    });
-  }
-  return legalPage(ctx, {
-    path: '/privacy/',
-    title: 'Privacy',
-    description: 'How Picnic Club uses the personal data you share through this website.',
-    sections: html`
+<p>Este site não usa cookies. Veja ${cookiesLink}.</p>`,
+    }),
+    en: () => ({
+      title: 'Privacy',
+      description: 'How Picnic Club uses the personal data you share through this website.',
+      sections: html`
 <h2>Who is responsible</h2>
 <p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, contactable at ${mail}, is responsible for your personal data.</p>
 <h2>What we collect, and why</h2>
@@ -662,38 +719,95 @@ export function privacy(ctx) {
 <h2>Your rights</h2>
 <p>You can ask to access, correct or delete your data, to restrict or object to its use, and to receive it in a portable format, by writing to ${mail}. You can also complain to the Portuguese data protection authority, CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
 <h2>Cookies</h2>
-<p>This website uses no cookies. See <a href="${localize(ctx, '/cookies/')}">Cookies</a>.</p>`,
-  });
+<p>This website uses no cookies. See ${cookiesLink}.</p>`,
+    }),
+    es: () => ({
+      title: 'Privacidad',
+      description: 'Cómo usa Picnic Club los datos personales que comparte a través de este sitio web.',
+      sections: html`
+<h2>Responsable del tratamiento</h2>
+<p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, con quien puede contactar en ${mail}, es la responsable del tratamiento de sus datos personales.</p>
+<h2>Qué datos recogemos y por qué</h2>
+<p><strong>Solicitudes de propuesta.</strong> Cuando envía el formulario «Solicitar propuesta», recibimos su nombre, su email, su teléfono si lo indica, y lo que nos cuenta sobre sus planes (tipo de experiencia, fecha, lugar, número de invitados y cómo nos conoció). Usamos estos datos solo para responderle y preparar su propuesta: medidas precontractuales aplicadas a petición suya (RGPD, art. 6, apartado 1, letra b)).</p>
+<p><strong>Opiniones.</strong> Cuando escribe una opinión, recibimos sus nombres, de dónde son, la experiencia, cuándo fue, el texto y su email. Solo publicamos los nombres, el lugar y el texto con su consentimiento (art. 6, apartado 1, letra a)), que puede retirar en cualquier momento. El email nunca se publica: lo usamos para confirmar que la opinión es suya.</p>
+<p><strong>WhatsApp, email y teléfono.</strong> Si nos contacta directamente, usamos sus mensajes para responderle.</p>
+<h2>Durante cuánto tiempo los conservamos</h2>
+<p>Las solicitudes que no dan lugar a una reserva se borran al cabo de 12 meses. Los registros de las reservas se conservan durante el tiempo que exige la ley. Las opiniones permanecen publicadas hasta que nos pida que las retiremos. Una opinión que no publicamos se borra cuando la rechazamos, o al cabo de 90 días.</p>
+<h2>Quién nos ayuda</h2>
+<p>El sitio web está alojado en GitHub Pages (GitHub, Inc., Estados Unidos), los formularios los gestiona Cloudflare (Cloudflare, Inc.) y nuestro email lo proporciona Hostinger. Las transferencias fuera de la UE se basan en el Marco de Privacidad de Datos UE-EE. UU. y en las cláusulas contractuales tipo de la Comisión Europea. Si nos escribe por WhatsApp o Instagram, Meta Platforms Ireland trata esos mensajes según sus propias condiciones.</p>
+<h2>Sus derechos</h2>
+<p>Puede solicitar el acceso a sus datos, su rectificación o su supresión, la limitación del tratamiento u oponerse a él, y recibirlos en un formato portable, escribiendo a ${mail}. También puede presentar una reclamación ante la autoridad portuguesa de protección de datos, la CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
+<h2>Cookies</h2>
+<p>Este sitio web no usa cookies. Consulte ${cookiesLink}.</p>`,
+    }),
+    fr: () => ({
+      title: 'Confidentialité',
+      description: 'Comment Picnic Club utilise les données personnelles que vous partagez sur ce site.',
+      sections: html`
+<h2>Responsable du traitement</h2>
+<p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, joignable à l’adresse ${mail}, est responsable du traitement de vos données personnelles.</p>
+<h2>Les données que nous recueillons, et pourquoi</h2>
+<p><strong>Demandes de proposition.</strong> Lorsque vous envoyez le formulaire « Demander une proposition », nous recevons votre nom, votre e-mail, votre téléphone si vous l’indiquez, et ce que vous nous dites de vos projets (type d’expérience, date, lieu, nombre d’invités et comment vous nous avez connus). Nous les utilisons uniquement pour vous répondre et préparer votre proposition : mesures précontractuelles prises à votre demande (RGPD, art. 6, paragraphe 1, point b)).</p>
+<p><strong>Avis.</strong> Lorsque vous écrivez un avis, nous recevons vos prénoms, votre provenance, l’expérience, sa date, votre texte et votre e-mail. Nous ne publions les prénoms, le lieu et le texte qu’avec votre consentement (art. 6, paragraphe 1, point a)), que vous pouvez retirer à tout moment. L’e-mail n’est jamais publié : nous l’utilisons pour confirmer que l’avis est bien le vôtre.</p>
+<p><strong>WhatsApp, e-mail et téléphone.</strong> Si vous nous contactez directement, nous utilisons vos messages pour vous répondre.</p>
+<h2>Durée de conservation</h2>
+<p>Les demandes qui n’aboutissent pas à une réservation sont supprimées au bout de 12 mois. Les dossiers de réservation sont conservés pendant la durée exigée par la loi. Les avis restent publiés jusqu’à ce que vous nous demandiez de les retirer. Un avis que nous ne publions pas est supprimé lorsque nous le refusons, ou au bout de 90 jours.</p>
+<h2>Nos prestataires</h2>
+<p>Le site est hébergé par GitHub Pages (GitHub, Inc., États-Unis), les formulaires sont traités par Cloudflare (Cloudflare, Inc.) et notre messagerie est fournie par Hostinger. Les transferts hors de l’UE reposent sur le cadre de protection des données UE–États-Unis et sur les clauses contractuelles types de la Commission européenne. Si vous nous écrivez sur WhatsApp ou Instagram, Meta Platforms Ireland traite ces messages selon ses propres conditions.</p>
+<h2>Vos droits</h2>
+<p>Vous pouvez demander l’accès à vos données, leur rectification ou leur effacement, la limitation de leur traitement ou vous y opposer, et les recevoir dans un format portable, en écrivant à ${mail}. Vous pouvez aussi introduire une réclamation auprès de l’autorité portugaise de protection des données, la CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
+<h2>Cookies</h2>
+<p>Ce site n’utilise aucun cookie. Voir ${cookiesLink}.</p>`,
+    }),
+  }[ctx.lang]();
+  return legalPage(ctx, { path: '/privacy/', ...text });
 }
 
-// The language a visitor chooses with the PT/EN switch is the one thing kept on their device
+// The language a visitor chooses with the language switch is the one thing kept on their device
 // (site.js). It never leaves it, so it needs no consent; this page has to say so.
 export function cookies(ctx) {
-  if (ctx.lang === 'pt') {
-    return legalPage(ctx, {
-      path: '/cookies/',
+  const text = {
+    pt: () => ({
       title: 'Cookies',
       description: 'O site da Picnic Club não usa cookies nem rastreamento.',
       sections: html`
 <h2>Sem cookies, sem rastreamento</h2>
 <p>Este site não usa cookies, ferramentas de análise, píxeis de publicidade nem qualquer outra tecnologia de rastreamento. É por isso que não vê nenhum aviso de cookies.</p>
-<p>A única coisa que pode guardar no seu aparelho é a língua que escolher, e só se a escolher no botão PT/EN: o seu browser lembra-se dela para que o site abra nessa língua da próxima vez. Essa escolha nunca sai do seu aparelho, e apagar os dados do site no browser remove-a.</p>
+<p>A única coisa que pode guardar no seu aparelho é a língua que escolher, e só se a escolher no seletor de línguas (EN · PT · ES · FR): o seu browser lembra-se dela para que o site abra nessa língua da próxima vez. Essa escolha nunca sai do seu aparelho, e apagar os dados do site no browser remove-a.</p>
 <p>Os tipos de letra e as imagens são servidos pelo nosso próprio site. As ligações para o Instagram, o Facebook e o WhatsApp só o levam a esses serviços quando decide segui-las; a partir daí aplicam-se as políticas deles.</p>`,
-    });
-  }
-  return legalPage(ctx, {
-    path: '/cookies/',
-    title: 'Cookies',
-    description: 'Picnic Club’s website uses no cookies and no tracking.',
-    sections: html`
+    }),
+    en: () => ({
+      title: 'Cookies',
+      description: 'Picnic Club’s website uses no cookies and no tracking.',
+      sections: html`
 <h2>No cookies, no tracking</h2>
 <p>This website does not use cookies, analytics, advertising pixels or any other tracking technology. That is why you see no cookie banner.</p>
-<p>The only thing it can keep on your device is your choice of language, and only if you make one with the PT/EN switch: your browser remembers it so the site opens in that language next time. It never leaves your device, and clearing your browser’s data for this site removes it.</p>
+<p>The only thing it can keep on your device is your choice of language, and only if you make one with the language switch (EN · PT · ES · FR): your browser remembers it so the site opens in that language next time. It never leaves your device, and clearing your browser’s data for this site removes it.</p>
 <p>Our fonts and images are served from our own website. Links to Instagram, Facebook and WhatsApp only take you to those services when you choose to follow them; from then on their own policies apply.</p>`,
-  });
+    }),
+    es: () => ({
+      title: 'Cookies',
+      description: 'El sitio web de Picnic Club no usa cookies ni seguimiento.',
+      sections: html`
+<h2>Sin cookies, sin seguimiento</h2>
+<p>Este sitio web no usa cookies, herramientas de análisis, píxeles publicitarios ni ninguna otra tecnología de seguimiento. Por eso no ve ningún aviso de cookies.</p>
+<p>Lo único que puede guardar en su dispositivo es el idioma que elija, y solo si lo elige en el selector de idiomas (EN · PT · ES · FR): su navegador lo recuerda para que el sitio se abra en ese idioma la próxima vez. Esa elección nunca sale de su dispositivo, y borrar los datos del sitio en el navegador la elimina.</p>
+<p>Las fuentes y las imágenes las sirve nuestro propio sitio web. Los enlaces a Instagram, Facebook y WhatsApp solo le llevan a esos servicios cuando decide seguirlos; a partir de ahí se aplican sus políticas.</p>`,
+    }),
+    fr: () => ({
+      title: 'Cookies',
+      description: 'Le site de Picnic Club n’utilise ni cookies ni traceurs.',
+      sections: html`
+<h2>Ni cookies, ni traceurs</h2>
+<p>Ce site n’utilise ni cookies, ni outils d’analyse, ni pixels publicitaires, ni aucune autre technologie de suivi. C’est pourquoi vous ne voyez aucun bandeau de cookies.</p>
+<p>La seule chose qu’il peut conserver sur votre appareil est la langue que vous choisissez, et seulement si vous la choisissez avec le sélecteur de langue (EN · PT · ES · FR) : votre navigateur s’en souvient pour que le site s’ouvre dans cette langue la prochaine fois. Ce choix ne quitte jamais votre appareil, et effacer les données du site dans votre navigateur le supprime.</p>
+<p>Nos polices et nos images sont servies par notre propre site. Les liens vers Instagram, Facebook et WhatsApp ne vous mènent vers ces services que si vous choisissez de les suivre ; leurs propres politiques s’appliquent alors.</p>`,
+    }),
+  }[ctx.lang]();
+  return legalPage(ctx, { path: '/cookies/', ...text });
 }
 
-// GitHub Pages serves one 404 page for every address, so it speaks both languages.
+// GitHub Pages serves one 404 page for every address, so it speaks all four languages.
 export function notFound(ctx) {
   const body = html`
 <section class="wrap page-head page-head--centre" aria-labelledby="page-title">
@@ -702,6 +816,8 @@ export function notFound(ctx) {
   <p class="page-head__lead">${t(ctx, 'notFound.lead')}</p>
   <p><a class="button button--dark" href="${localize(ctx, '/')}">${t(ctx, 'notFound.back')}</a></p>
   <p class="page-head__other" lang="pt-PT">A página que procura não existe. <a href="/pt/">Ir para a página inicial em português</a>.</p>
+  <p class="page-head__other" lang="es">La página que busca no existe. <a href="/es/">Ir a la página de inicio en español</a>.</p>
+  <p class="page-head__other" lang="fr">La page que vous cherchez n’existe pas. <a href="/fr/">Aller à l’accueil en français</a>.</p>
 </section>`;
   return { path: '/404.html', title: t(ctx, 'notFound.seoTitle'), description: t(ctx, 'notFound.seoDescription'), image: shareImage(ctx, 'proposal-sunset-sails'), body, noIndex: true };
 }

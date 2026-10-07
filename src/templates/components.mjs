@@ -92,10 +92,25 @@ function navLinks(ctx, items, current) {
   });
 }
 
-/** The way to the same page in the other language. The choice is remembered by site.js. */
-function langSwitch(ctx, page, className) {
-  const other = ctx.lang === 'en' ? 'pt' : 'en';
-  return html`<a class="${className}" href="${page.alternates[other]}" hreflang="${LOCALE[other].hreflang}" lang="${LOCALE[other].html}" data-lang="${other}"><span aria-hidden="true">${other.toUpperCase()}</span><span class="visually-hidden">${t(ctx, 'lang.switch')}</span></a>`;
+/** The four languages in the menu, the page's own marked: each link goes to the same page in that
+ *  language, and site.js remembers the choice (data-lang). The codes are what shows; a screen reader
+ *  hears each language's name in that language. */
+function languages(ctx, page) {
+  return html`<ul class="langs" aria-label="${t(ctx, 'lang.label')}">${LANGS.map((l) => (l === ctx.lang
+    ? html`<li><span class="langs__current" aria-current="true"><span aria-hidden="true">${l.toUpperCase()}</span><span class="visually-hidden" lang="${LOCALE[l].html}">${LOCALE[l].name}</span></span></li>`
+    : html`<li><a href="${page.alternates[l]}" hreflang="${LOCALE[l].hreflang}" lang="${LOCALE[l].html}" data-lang="${l}"><span aria-hidden="true">${l.toUpperCase()}</span><span class="visually-hidden">${LOCALE[l].name}</span></a></li>`))}</ul>`;
+}
+
+/** The bar has room for one language, not four (the four overlapped the logo on a 1280px laptop):
+ *  the page's own, which opens the list of names. A <details>, so it opens without the script too;
+ *  site.js closes it on Escape, on a click elsewhere and when the focus leaves it. */
+function languageDrop(ctx, page) {
+  return html`<details class="lang-drop">
+      <summary class="lang-drop__button"><span aria-hidden="true">${ctx.lang.toUpperCase()}</span><span class="visually-hidden">${t(ctx, 'lang.current', { name: LOCALE[ctx.lang].name })}</span><span class="nav__chevron" aria-hidden="true"></span></summary>
+      <ul class="lang-drop__list">${LANGS.map((l) => (l === ctx.lang
+        ? html`<li><span class="lang-drop__current" aria-current="true">${LOCALE[l].name}</span></li>`
+        : html`<li><a href="${page.alternates[l]}" hreflang="${LOCALE[l].hreflang}" lang="${LOCALE[l].html}" data-lang="${l}">${LOCALE[l].name}</a></li>`))}</ul>
+    </details>`;
 }
 
 /**
@@ -135,7 +150,7 @@ export function header(ctx, page) {
       <img class="brand__gold" src="/assets/brand/wordmark-gold.png" width="900" height="193" alt="">
       <img class="brand__white" src="/assets/brand/wordmark-white.png" width="900" height="193" alt="">
     </a>
-    <nav class="nav nav--right" aria-label="${t(ctx, 'nav.right')}">${navLinks(ctx, NAV_RIGHT, current)}${langSwitch(ctx, page, 'lang-switch')}</nav>
+    <nav class="nav nav--right" aria-label="${t(ctx, 'nav.right')}">${navLinks(ctx, NAV_RIGHT, current)}${languageDrop(ctx, page)}</nav>
     <button class="menu-button" type="button" aria-haspopup="dialog" aria-controls="menu">
       <span class="menu-button__lines" aria-hidden="true"></span><span class="visually-hidden">${t(ctx, 'menu.open')}</span>
     </button>
@@ -143,7 +158,6 @@ export function header(ctx, page) {
 </header>
 <dialog class="menu" id="menu" aria-label="${t(ctx, 'menu.open')}" tabindex="-1">
   <div class="menu__top">
-    ${langSwitch(ctx, page, 'lang-switch menu__lang')}
     <a class="brand" href="${localize(ctx, '/')}" aria-label="${t(ctx, 'brand.home')}"><img src="/assets/brand/wordmark-gold.png" width="900" height="193" alt=""></a>
     <button class="menu__close" type="button" data-close><span aria-hidden="true">×</span><span class="visually-hidden">${t(ctx, 'menu.close')}</span></button>
   </div>
@@ -157,6 +171,7 @@ export function header(ctx, page) {
   </nav>
   <a class="button button--dark" href="${localize(ctx, '/plan-your-experience/')}">${t(ctx, 'nav.plan')}</a>
   <p class="menu__contact"><a href="${whatsappHref(ctx.site)}">WhatsApp</a> · <a href="${ctx.site.instagram.url}">Instagram</a> · <a href="mailto:${ctx.site.email}">${ctx.site.email}</a></p>
+  ${languages(ctx, page)}
 </dialog>`;
 }
 
@@ -267,17 +282,19 @@ export function website(ctx) {
 }
 
 /**
- * On the first page of a visit, an English page sends to its Portuguese twin only whoever chose
- * Portuguese with the PT switch before. A first visit is always in English, whatever language the
- * device is set to (Ana's decision, 5 Oct 2026: the clients see English first and switch if they want).
- * It runs before anything is drawn. A Portuguese address is always left alone, a page reached from
- * another page of the site too (so «Back» never gets stuck), and nothing is written on the device
- * here: site.js keeps the choice only when someone uses the switch.
+ * On the first page of a visit, an English page sends to its twin in Portuguese, Spanish or French
+ * only whoever chose that language with the language switch before. A first visit is always in
+ * English, whatever language the device is set to (Ana's decision, 5 Oct 2026: the clients see English
+ * first and switch if they want). It runs before anything is drawn. An address in another language is
+ * always left alone, a page reached from another page of the site too (so «Back» never gets stuck),
+ * and nothing is written on the device here: site.js keeps the choice only when someone uses the switch.
  */
-function languageRedirect(enPath, ptPath) {
+function languageRedirect(alternates) {
   // The twin's address is worked out from this one (whatever folder the site is served from:
   // the preview's /picnic-club, nothing on the domain), never from the site's configured URL.
-  return raw(`<script>(function(){var p;try{p=localStorage.getItem('picnic-lang')}catch(e){}if(p!=='pt')return;var r=document.referrer,o=location.origin;if(r&&r.slice(0,o.length)===o)return;var en=${JSON.stringify(enPath)},h=location.pathname;if(h.slice(-en.length)!==en)return;location.replace(h.slice(0,h.length-en.length)+${JSON.stringify(ptPath)}+location.search+location.hash)})()</script>`);
+  // hasOwnProperty, never «in»: a stored «constructor» would be found on the prototype.
+  const twins = Object.fromEntries(LANGS.filter((l) => l !== 'en').map((l) => [l, alternates[l]]));
+  return raw(`<script>(function(){var p;try{p=localStorage.getItem('picnic-lang')}catch(e){}var w=${JSON.stringify(twins)};if(!p||!Object.prototype.hasOwnProperty.call(w,p))return;var r=document.referrer,o=location.origin;if(r&&r.slice(0,o.length)===o)return;var en=${JSON.stringify(alternates.en)},h=location.pathname;if(h.slice(-en.length)!==en)return;location.replace(h.slice(0,h.length-en.length)+w[p]+location.search+location.hash)})()</script>`);
 }
 
 /** The page shell. `page` = { path, alternates, title, description, image, body, hero, schema }. */
@@ -285,26 +302,25 @@ export function layout(ctx, page) {
   const { site } = ctx;
   const url = site.url + page.path;
   const hasHero = Boolean(page.hero);
-  const other = ctx.lang === 'en' ? 'pt' : 'en';
   return html`<!doctype html>
 <html lang="${LOCALE[ctx.lang].html}"${attrs({ 'data-hero': hasHero ? 'on' : false })}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-${ctx.lang === 'en' && !page.noIndex ? languageRedirect(page.alternates.en, page.alternates.pt) : ''}
+${ctx.lang === 'en' && !page.noIndex ? languageRedirect(page.alternates) : ''}
 <title>${page.title}</title>
 <meta name="description" content="${page.description}">
 <link rel="canonical" href="${url}">
-${page.noIndex ? '' : html`<link rel="alternate" hreflang="en" href="${site.url + page.alternates.en}">
-<link rel="alternate" hreflang="pt-PT" href="${site.url + page.alternates.pt}">
-<link rel="alternate" hreflang="x-default" href="${site.url + page.alternates.en}">`}
+${page.noIndex ? '' : html`${LANGS.map((l) => html`<link rel="alternate" hreflang="${LOCALE[l].hreflang}" href="${site.url + page.alternates[l]}">
+`)}<link rel="alternate" hreflang="x-default" href="${site.url + page.alternates.en}">`}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Picnic Club">
 <meta property="og:title" content="${page.title}">
 <meta property="og:description" content="${page.description}">
 <meta property="og:url" content="${url}">
 <meta property="og:locale" content="${LOCALE[ctx.lang].og}">
-<meta property="og:locale:alternate" content="${LOCALE[other].og}">
+${LANGS.filter((l) => l !== ctx.lang).map((l) => html`<meta property="og:locale:alternate" content="${LOCALE[l].og}">
+`)}
 <meta property="og:image" content="${page.image.url}">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">

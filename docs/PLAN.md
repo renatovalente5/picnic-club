@@ -64,21 +64,38 @@ Written 2 Oct 2026. Client material and every decision behind this plan live in
    stored on the device is that explicit choice.
    The build stops on a Portuguese page linking to English, a missing Portuguese text, or a photo
    without a Portuguese alt text.
+6. **Spanish and French** (7 Oct 2026, Ana asked for them): `/es/` and `/fr/` with addresses in their
+   language (`/es/experiencias/picnics-de-lujo/`, `/fr/experiences/pique-niques-de-luxe/`…: ROUTES and
+   EXPERIENCE_SLUGS in `src/templates/i18n.mjs`), translated by the panel's Worker like the English
+   (Spain's Spanish with «usted», French with «vous»). The fixed texts and the legal pages are written
+   in the templates in the four languages. The switch: in the bar, the page's language («EN ⌄») opens
+   the list of the four — four codes side by side overlapped the logo on a 1280px laptop; in the phone
+   menu, EN · PT · ES · FR in a row under the contacts. `hreflang` for the four and x-default
+   (English). The first-visit rule above holds for every language: only a choice made with the switch
+   sends an English page to its twin. The forms send `lang` es or fr, and the panel tells Ana which
+   language the client wrote in.
 
-## Two languages, one source (5 Oct 2026)
+## One source, translated (5 Oct 2026; Spanish and French on 7 Oct)
 
 - `content/` is **Portuguese**: what Ana writes in the panel. Photos are described in
   `content/photos.json` (the alt text in Portuguese, the focus point).
-- `content/i18n/en/<same path>` is the **English**: one entry per translated field,
+- `content/i18n/<en|es|fr>/<same path>` is the **translation**: one entry per translated field,
   `{ "t": translation, "h": digest of the Portuguese it came from }`. Which fields are translated, how
   a translation is checked (numbers, the brand, markup, length) and how it is applied are in
   `src/lib/traduziveis.mjs`. A list item's translation is found by its digest, so reordering a list
   never pairs a text with another's translation.
 - The panel's Worker translates what changed (Workers AI, Gemma 4, Mistral as a reserve) after each
-  save and every 10 minutes, and commits `content/i18n/en/`. Until it does, the English page keeps the
-  previous translation if it still fits, or shows the Portuguese.
+  save and every 10 minutes, and commits `content/i18n/<language>/`. Until it does, the page keeps the
+  previous translation if it still fits, or shows the Portuguese. The languages it translates into are
+  LINGUAS_ALVO in `src/lib/traduziveis.mjs`; it spends at most 2000 neurons a day (the account's
+  10 000 free ones are shared with ithos). Spanish and French together took about an hour (7 Oct
+  2026, once the brand stopped failing: see the panel's PLANO.md), each pass of 10 minutes doing a
+  few files. The build sets the French spaces (before : ; ? ! % and inside « ») and the
+  typographic apostrophe on every translation (`typeset` in `scripts/build.mjs`).
 - The addresses do not change: English at the root (`/experiences/luxury-picnics/`, the file's name),
-  Portuguese under `/pt/` (`/pt/experiencias/piqueniques-de-luxo/`, the experience's `slug`).
+  Portuguese under `/pt/` (`/pt/experiencias/piqueniques-de-luxo/`, the experience's `slug`), Spanish
+  and French under `/es/` and `/fr/` (fixed in `src/templates/i18n.mjs`: a new experience needs its
+  two addresses there, or the build stops).
 - `src/lib/regras.mjs` holds the content rules: the build stops on a «bloqueia», the panel says so
   before saving, and its Worker refuses a save that brings a new one. Both shared files have
   byte-for-byte copies in the panel.
