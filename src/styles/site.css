@@ -311,15 +311,19 @@ html[data-hero="on"][data-scrolled="no"] .nav .nav__cta:hover { background: var(
   height: 100%;
   max-height: none;
   margin: 0;
-  padding: 0 var(--gutter) 0.5rem;
+  padding: 0 var(--gutter) 1rem;
   border: 0;
   background: var(--ivory);
   color: var(--olive);
   flex-direction: column;
   align-items: center;
-  gap: 0.65rem; /* everything on one screen, the languages above Safari's bar (Renato, 7 Oct 2026); more air on taller phones, below */
+  gap: 0.65rem; /* everything on one screen, the languages above Safari's bar (Renato, 7 Oct 2026) */
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
+/* While the menu is open the page behind stays still: once the menu fitted, a swipe on it had nothing
+   to scroll and went through to the page (Renato, 7 Oct 2026). */
+html:has(.menu[open]) { overflow: hidden; }
 .menu[open] { display: flex; }
 .menu::backdrop { background: var(--ivory); }
 .menu:focus { outline: none; } /* the menu itself holds the focus when it opens (site.js); its links keep their ring */
@@ -327,7 +331,7 @@ html[data-hero="on"][data-scrolled="no"] .nav .nav__cta:hover { background: var(
 .menu__top .brand { grid-column: 2; justify-self: center; }
 .menu__top .brand img { height: 34px; }
 .menu__close { grid-column: 3; width: 48px; height: 48px; margin-right: -8px; background: none; border: 0; font: 300 2.2rem/1 var(--font-text); color: inherit; cursor: pointer; }
-.menu__nav { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; width: 100%; }
+.menu__nav { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; width: 100%; margin-block: auto; } /* the room left over goes above and below it: the logo at the top, the button and the languages at the foot */
 /* the three pages, one size (Renato, 7 Oct 2026): the longest, «NUESTRA HISTORIA», still fits one line at 320px */
 .menu__nav a { font: 400 clamp(1.45rem, 6.6vw, 1.7rem)/1.35 var(--font-display); text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; padding: 0.15rem 0.5rem; }
 .menu__nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.25em; }
@@ -339,9 +343,9 @@ html[data-hero="on"][data-scrolled="no"] .nav .nav__cta:hover { background: var(
 .menu__sub img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: var(--sand); }
 .menu__rule { display: block; width: 44px; height: 1px; margin: 0.7rem auto 0.35rem; background: var(--gold); }
 .menu > .button { min-height: 44px; padding-block: 0.7rem; }
-/* a short phone (an SE): the photos become strips; a tall one: more air between the parts */
-@media (max-height: 680px) { .menu__sub img { aspect-ratio: 3 / 1; } }
-@media (min-height: 790px) { .menu { gap: 1rem; } .menu__nav { margin-top: 0.6rem; } }
+/* a short phone (an SE): the photos become strips; a tall one (a Pro Max) takes the room for them */
+@media (max-height: 640px) { .menu__sub img { aspect-ratio: 3 / 1; } }
+@media (min-height: 760px) { .menu__sub img { aspect-ratio: 4 / 3; } }
 .menu__contact { margin: 0; font-size: 0.9rem; line-height: 1.4; color: var(--olive-soft); text-align: center; }
 
 /* THE FOUR LANGUAGES at the foot of the phone menu, EN PT ES FR, the page's own underlined (the full
