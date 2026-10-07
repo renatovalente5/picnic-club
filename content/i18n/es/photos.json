@@ -1,10 +1,10 @@
 {
   "proposal-sunset-waiting.alt": {
-    "t": "Él espera en la playa al atardecer, junto a un escenario de pedida con velas de lino, flores blancas y velas",
+    "t": "Él espera en la playa al atardecer, junto a un escenario de pedida con telas de lino, flores blancas y velas",
     "h": "35c5f76cdb22"
   },
   "proposal-sunset-sails.alt": {
-    "t": "Un escenario de pedida en la arena al atardecer, entre velas de lino y pétalos blancos",
+    "t": "Un escenario de pedida en la arena al atardecer, entre telas de lino y pétalos blancos",
     "h": "1ec8f276f4d0"
   },
   "proposal-cliff-candles.alt": {
@@ -16,11 +16,11 @@
     "h": "a2a41e2f6092"
   },
   "proposal-linen-sail-flowers.alt": {
-    "t": "Una vela de lino, hortensias blancas y velas en una playa preparada para una pedida",
+    "t": "Una tela de lino, hortensias blancas y velas en una playa preparada para una pedida",
     "h": "23a3c9be97af"
   },
   "proposal-two-sails-sea.alt": {
-    "t": "Dos velas de lino en la arena y una mesa baja decorada con flores, orientada hacia el mar",
+    "t": "Dos telas de lino en la arena y una mesa baja decorada con flores, orientada hacia el mar",
     "h": "433fe456ea53"
   },
   "proposal-beach-table.alt": {
@@ -40,7 +40,7 @@
     "h": "c228e58e5276"
   },
   "proposal-one-knee-beach.alt": {
-    "t": "De rodillas en la playa, junto a la mesa de la pedida",
+    "t": "Con una rodilla en la arena, junto a la mesa de la pedida",
     "h": "05e01c4c853f"
   },
   "proposal-ring-hand.alt": {
@@ -64,7 +64,7 @@
     "h": "869a40f62982"
   },
   "proposal-one-knee-petals.alt": {
-    "t": "De rodillas en un camino de pétalos blancos",
+    "t": "Con una rodilla en el suelo, sobre un camino de pétalos blancos",
     "h": "30f280c74f5a"
   },
   "picnic-under-the-tree.alt": {
@@ -108,7 +108,7 @@
     "h": "e883fdb625b4"
   },
   "event-beach-stripes.alt": {
-    "t": "Un pícnic en la playa para una celebración privada, con cojines de rayas bajo un sombrero",
+    "t": "Un pícnic en la playa para una celebración privada, con cojines de rayas bajo una sombrilla",
     "h": "51de92f8ed17"
   },
   "behind-the-scenes.alt": {
@@ -116,15 +116,15 @@
     "h": "79a634fa6c35"
   },
   "event-beach-long-table.alt": {
-    "t": "Una mesa larga y baja preparada para una celebración privada en la playa, bajo sombreros de paja",
+    "t": "Una mesa larga y baja preparada para una celebración privada en la playa, bajo sombrillas de paja",
     "h": "7b54093b41b0"
   },
   "event-beach-parasols.alt": {
-    "t": "La mesa puesta con caminos de mesa blancos, flores silvestres y cojines, bajo sombreros de paja",
+    "t": "La mesa puesta con caminos de mesa blancos, flores silvestres y cojines, bajo sombrillas de paja",
     "h": "4b08f77debf5"
   },
   "event-table-details.alt": {
-    "t": "Lugares puestos con platos en forma de concha, menús impresos y flores blancas",
+    "t": "Mesa puesta con platos en forma de concha, menús impresos y flores blancas",
     "h": "9b8dbfe1cacd"
   },
   "picnic-shoreline-table.alt": {
