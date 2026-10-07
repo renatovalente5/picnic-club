@@ -331,8 +331,9 @@ html[data-hero="on"][data-scrolled="no"] .nav .nav__cta:hover { background: var(
 .menu__nav a { font: 400 clamp(1.7rem, 7vw, 2.4rem)/1.5 var(--font-display); text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; padding: 0.15rem 0.5rem; }
 .menu__nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.25em; }
 /* the four experiences under «Experiences» in the phone menu */
-.menu__sub { display: grid; justify-items: center; gap: 0.15rem; margin: -0.2rem 0 0.6rem; }
+.menu__sub { display: grid; justify-items: start; gap: 0.15rem; margin: -0.2rem 0 0.6rem; } /* the four experiences: one column, a gold dot before each (Renato, 7 Oct 2026); the block stays centred */
 .menu__nav .menu__sub a { font: 400 0.8rem/1.5 var(--font-text); letter-spacing: 0.18em; color: var(--olive-soft); padding: 0.45rem 0.5rem; }
+.menu__nav .menu__sub a::before { content: ""; display: inline-block; width: 5px; height: 5px; margin-right: 0.9em; border-radius: 50%; background: var(--gold); vertical-align: middle; position: relative; top: -1px; }
 .menu__contact { font-size: 0.9rem; color: var(--olive-soft); text-align: center; }
 
 /* THE FOUR LANGUAGES at the foot of the phone menu, EN PT ES FR, the page's own underlined (the full
