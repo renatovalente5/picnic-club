@@ -496,12 +496,16 @@ main.has-hero { padding-top: 0; }
   .cards {
     display: flex; gap: 14px;
     margin-inline: calc(-1 * var(--gutter)); padding: 0 var(--gutter) 0.5rem;
-    overflow-x: auto; overscroll-behavior-x: contain;
+    overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
     scrollbar-width: none;
   }
   .cards::-webkit-scrollbar { display: none; }
   .card { flex: 0 0 78%; scroll-snap-align: start; }
+  /* A card off to the right is not «in view» until it is swiped in, so it waited 24px low (the reveal):
+     the strip grew taller than itself, and a swipe moved it up and down too, cutting the text (Renato,
+     7 Oct 2026). In the strip the cards show as they are, and the strip only ever scrolls sideways. */
+  html.reveal-on .cards > [data-reveal]:not(.is-in) { opacity: 1; transform: none; }
 }
 @media (min-width: 640px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cards > :nth-child(even) { margin-top: 4rem; } }
 @media (min-width: 1100px) { .cards { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; } .cards > :nth-child(even) { margin-top: 5.5rem; } }
