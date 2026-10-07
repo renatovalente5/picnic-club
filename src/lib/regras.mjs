@@ -18,7 +18,7 @@ export const CODIGOS_EXPERIENCIA = ['luxury-picnic', 'marriage-proposal', 'elope
    legal pages, the press, the reviews and the enquiry, and the cover of the experiences page).
    They can be described again but never leave the library. scripts/test-content.mjs checks this
    list against the templates. */
-export const FOTOS_DO_DESENHO = ['proposal-sunset-sails', 'proposal-two-sails-sea', 'proposal-white-roses', 'proposal-embrace', 'proposal-candlelit-night'];
+export const FOTOS_DO_DESENHO = ['proposal-sunset-sails', 'proposal-two-sails-sea'];
 export const LINGUAS_ARTIGO = ['pt', 'en', 'es', 'fr', 'de', 'it'];
 
 const MAX_CURTO = 300;
@@ -138,7 +138,7 @@ export function problemas(ficheiros, { fotos = new Set(), filmes = new Set() } =
   /* --- photos (photos.json) --- */
   const p = ler('photos.json');
   if (p) {
-    for (const nome of FOTOS_DO_DESENHO) if (!fotoExiste(nome)) bloqueia('photos.json', nome, 'desenho', `A fotografia «${nome}» é usada pelo desenho do site (nos cartões de partilha): não pode sair da biblioteca.`);
+    for (const nome of FOTOS_DO_DESENHO) if (!fotoExiste(nome)) bloqueia('photos.json', nome, 'desenho', `A fotografia «${nome}» é usada pelo desenho do site (a capa das experiências, os dados que o Google lê): não pode sair da biblioteca.`);
     for (const [nome, m] of Object.entries(p)) {
       if (!eObjecto(m)) { bloqueia('photos.json', nome, 'ilegivel', `A fotografia «${nome}» está mal gravada. Avise o Renato.`); continue; }
       if (vazio(m.alt)) bloqueia('photos.json', `${nome}.alt`, 'vazio', `Fotografia «${nome}»: descreva o que se vê (é o que ouve quem não vê a imagem, e o que o Google lê).`);

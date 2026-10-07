@@ -49,7 +49,8 @@ export function picture(ctx, name, { sizes = '100vw', className = '', eager = fa
   return html`<picture${attrs({ class: className || false })}>${formats.map((ext) => html`<source type="image/${ext}" srcset="${set(ext)}" sizes="${sizes}">`)}<img src="/assets/img/${name}-${m.hash}-${fallback}.webp" width="${m.width}" height="${m.height}" alt="${alt ?? altFor(ctx, name)}" data-img="${name}"${attrs(eager ? { fetchpriority: 'high' } : { loading: 'lazy' })} decoding="async"></picture>`;
 }
 
-/** The card a link preview shows (scripts/images.py): the photo beside the logo, and words for it. */
+/** A photo beside the logo (scripts/images.py), and words for it: the image of the structured data
+ *  (the business, each experience). Link previews show logoShareImage. */
 export function shareImage(ctx, name) {
   const m = ctx.images[name];
   if (!m) throw new Error(`Unknown share image "${name}". Add it to media/photos/ and content/photos.json.`);
@@ -58,8 +59,9 @@ export function shareImage(ctx, name) {
   return { url: `${ctx.site.url}/assets/img/${m.share}`, alt: alt ? t(ctx, 'share.withLogo', { alt }) : t(ctx, 'share.logo') };
 }
 
-/** The card of the site's address (the home pages): the logo alone on ivory, no photo — when the
- *  site's link is shared on WhatsApp, only the logo (Renato, 6 Oct 2026). scripts/images.py makes it. */
+/** Every page's link preview: the logo alone on ivory, no photo — when a link of the site is shared
+ *  on WhatsApp, only the logo (Renato: the home pages on 6 Oct 2026, every page on 7 Oct).
+ *  scripts/images.py makes it. */
 export function logoShareImage(ctx) {
   const m = ctx.images['picnic-club-logo'];
   if (!m) throw new Error('No logo share card: run scripts/images.py.');

@@ -161,8 +161,8 @@ test('the photos the templates use by name are the ones the rules protect', () =
   }
   assert.deepEqual([...nomes].sort(), [...FOTOS_DO_DESENHO].sort());
   const f = files();
-  delete f['photos.json']['proposal-embrace'];
-  assert.ok(bloqueios(f).some((p) => p.chave === 'photos.json|proposal-embrace|desenho'));
+  delete f['photos.json']['proposal-two-sails-sea'];
+  assert.ok(bloqueios(f).some((p) => p.chave === 'photos.json|proposal-two-sails-sea|desenho'));
 });
 
 if (fs.existsSync(path.join(ROOT, '_site/assets/img'))) test('every photo a page shows is counted as used (and only those the build publishes are)', () => {

@@ -266,7 +266,7 @@ ${list.map((e, i) => html`<section class="${i % 2 ? 'split split--reverse wrap' 
     path: '/experiences/',
     title: t(ctx, 'experiences.seoTitle'),
     description: t(ctx, 'experiences.seoDescription'),
-    image: shareImage(ctx, 'proposal-two-sails-sea'),
+    image: logoShareImage(ctx),
     body,
   };
 }
@@ -319,12 +319,13 @@ ${e.howItWorks ? html`<section class="steps wrap" aria-labelledby="steps-${e.id}
 </section>
 ${related.length ? reviewFeature(ctx, related.find((r) => r.featured) || related[0]) : ''}`;
   const url = ctx.site.url + experienceHref(ctx, e);
-  const image = shareImage(ctx, e.hero);
+  // a link preview shows the logo alone (as on every page); the photo stays in the data search engines read
+  const photo = shareImage(ctx, e.hero);
   return {
     path: `/experiences/${e.id}/`,
     title: e.seo.title,
     description: e.seo.description,
-    image,
+    image: logoShareImage(ctx),
     body,
     // What the page offers, and where it sits in the site (Google shows the trail in results).
     schema: schemaGraph(
@@ -335,7 +336,7 @@ ${related.length ? reviewFeature(ctx, related.find((r) => r.featured) || related
         serviceType: e.name,
         description: e.seo.description,
         url,
-        image: image.url,
+        image: photo.url,
         provider: organisation(ctx),
         areaServed: e.locations.map((name) => ({ '@type': 'Place', name: `${place(ctx, name)}, Portugal` })),
       },
@@ -371,7 +372,7 @@ ${pageHero(ctx, { photo: s.photos[1], eyebrow: s.eyebrow, title: s.title, lead: 
   </figure>
 </section>
 ${pressFeature(ctx)}`;
-  return { path: '/our-story/', title: s.seo.title, description: s.seo.description, image: shareImage(ctx, s.photos[1]), body };
+  return { path: '/our-story/', title: s.seo.title, description: s.seo.description, image: logoShareImage(ctx), body };
 }
 
 function formatDate(ctx, iso) {
@@ -400,7 +401,7 @@ export function press(ctx) {
   </li>`)}</ul>
 </section>`;
   const cover = p.items.find((i) => i.image);
-  return { path: '/press/', title: p.seo.title, description: p.seo.description, image: shareImage(ctx, cover ? cover.image : 'proposal-white-roses'), body };
+  return { path: '/press/', title: p.seo.title, description: p.seo.description, image: logoShareImage(ctx), body };
 }
 
 /** A field people never see and never fill (it is off screen and out of the Tab order): a form that
@@ -468,7 +469,7 @@ export function reviews(ctx) {
     </form>
   </div>
 </section>`;
-  return { path: '/reviews/', title: r.seo.title, description: r.seo.description, image: shareImage(ctx, 'proposal-embrace'), body };
+  return { path: '/reviews/', title: r.seo.title, description: r.seo.description, image: logoShareImage(ctx), body };
 }
 
 // ---------------------------------------------------------------- enquiry
@@ -525,7 +526,7 @@ export function plan(ctx) {
     path: '/plan-your-experience/',
     title: t(ctx, 'plan.seoTitle'),
     description: t(ctx, 'plan.seoDescription'),
-    image: shareImage(ctx, 'proposal-candlelit-night'),
+    image: logoShareImage(ctx),
     body,
   };
 }
@@ -539,7 +540,7 @@ function legalPage(ctx, { path, title, description, sections }) {
   <h1 class="display" id="page-title">${title}</h1>
 </section>
 <article class="wrap legal prose">${sections}</article>`;
-  return { path, title: `${title} · Picnic Club`, description, image: shareImage(ctx, 'proposal-sunset-sails'), body };
+  return { path, title: `${title} · Picnic Club`, description, image: logoShareImage(ctx), body };
 }
 
 const NIF_LABEL = { en: 'NIF (tax number)', pt: 'NIF', es: 'NIF (número de identificación fiscal)', fr: 'NIF (numéro d’identification fiscale)' };
@@ -819,5 +820,5 @@ export function notFound(ctx) {
   <p class="page-head__other" lang="es">La página que busca no existe. <a href="/es/">Ir a la página de inicio en español</a>.</p>
   <p class="page-head__other" lang="fr">La page que vous cherchez n’existe pas. <a href="/fr/">Aller à l’accueil en français</a>.</p>
 </section>`;
-  return { path: '/404.html', title: t(ctx, 'notFound.seoTitle'), description: t(ctx, 'notFound.seoDescription'), image: shareImage(ctx, 'proposal-sunset-sails'), body, noIndex: true };
+  return { path: '/404.html', title: t(ctx, 'notFound.seoTitle'), description: t(ctx, 'notFound.seoDescription'), image: logoShareImage(ctx), body, noIndex: true };
 }
