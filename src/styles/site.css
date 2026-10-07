@@ -150,7 +150,7 @@ h3.display { font-size: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem); letter-spacing:
   gap: 1rem;
 }
 .nav { display: none; }
-.brand { display: grid; justify-self: center; grid-column: 2; }
+.brand { display: grid; justify-self: center; grid-column: 2; position: relative; top: 4px; } /* the name is the image's top half: 4px down puts it by the menu button's middle (Renato, 7 Oct 2026); the menu's logo moves with it */
 .brand img { grid-area: 1 / 1; height: 34px; width: auto; }
 .brand__white { visibility: hidden; }
 .menu-button {
@@ -195,6 +195,7 @@ h3.display { font-size: clamp(1.25rem, 1.08rem + 0.7vw, 1.6rem); letter-spacing:
   .nav a[aria-current] { text-decoration: underline; text-underline-offset: 0.9em; } /* the page you are on; «Experiences» on any of its pages */
   .nav .nav__cta { border: 1px solid currentColor; padding: 0 1.1rem; }
   .nav .nav__cta[aria-current="page"] { text-decoration: none; background: var(--olive); border-color: var(--olive); color: var(--on-dark); } /* on its own page: filled, not underlined */
+  .brand { top: 0; } /* the full bar: the logo centred among the links, as it was */
   .brand img { height: 44px; }
   .menu-button { display: none; }
 }
