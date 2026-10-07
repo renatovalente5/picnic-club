@@ -1,0 +1,134 @@
+{
+  "name": {
+    "t": "Pedidas de mano",
+    "h": "e9076c29fe3d"
+  },
+  "menu": {
+    "t": "Pedidas",
+    "h": "d86393bc38de"
+  },
+  "short": {
+    "t": "Todo lo que necesita para una pedida de mano íntima, sin preocupaciones e inolvidable.",
+    "h": "29a156611a35"
+  },
+  "statement": {
+    "t": "Para los momentos que lo cambian todo.",
+    "h": "703ab589ed50"
+  },
+  "intro.0": {
+    "t": "Desde la primera copa de champán hasta el momento de la pregunta, nos ocupamos de cada detalle.",
+    "h": "c8b4a4ce4540"
+  },
+  "intro.1": {
+    "t": "Lugares hermosos, flores frescas, una decoración cuidada y un escenario pensado en torno a su historia. Solo tiene que llegar: el resto ya le está esperando.",
+    "h": "4bda9f2e2b14"
+  },
+  "options.0.name": {
+    "t": "Lo esencial",
+    "h": "62f5ee263bf5"
+  },
+  "options.1.name": {
+    "t": "El arco decorado",
+    "h": "e74f21d98367"
+  },
+  "options.2.name": {
+    "t": "Pícnic & Arco",
+    "h": "f792c0a99bc1"
+  },
+  "options.3.name": {
+    "t": "La Experiencia Diamante",
+    "h": "86b0fbc2654a"
+  },
+  "options.0.text": {
+    "t": "Fruta de temporada, una manta cuidadosamente preparada, Moët & Chandon y un ramo de flores: todo lo que necesita para transformar un momento sencillo en una pedida inolvidable.",
+    "h": "93032739e1db"
+  },
+  "options.1.text": {
+    "t": "Un elegante arco floral con letras LED, pensado para destacar el momento y crear un ambiente romántico e atemporal. Varias frases disponibles.",
+    "h": "f611014b8d82"
+  },
+  "options.2.text": {
+    "t": "Un pícnic cuidadosamente preparado, con el arco floral y las letras LED, para una pedida o una celebración inolvidable.",
+    "h": "87d8e98ef94e"
+  },
+  "options.3.text": {
+    "t": "Para quienes buscan algo verdaderamente extraordinario. Una pedida diseñada desde cero en torno a su visión, con un concierge dedicado, chófer privado, lugares exclusivos, decoración a medida, experiencias gastronómicas y fotografía.",
+    "h": "c82b87d1302f"
+  },
+  "included.0": {
+    "t": "Una primera conversación para conocer su historia",
+    "h": "dfeaa1fb7116"
+  },
+  "included.1": {
+    "t": "Elección del lugar y la hora, para la mejor luz",
+    "h": "e7097f1bdd79"
+  },
+  "included.2": {
+    "t": "Decoración con flores, lino y velas",
+    "h": "e49e3e744a9b"
+  },
+  "included.3": {
+    "t": "Coordinación discreta el día del evento",
+    "h": "2561755a61e4"
+  },
+  "included.4": {
+    "t": "Champán para el momento posterior a la pregunta",
+    "h": "716544f9caa9"
+  },
+  "addOns.0": {
+    "t": "Fotografía",
+    "h": "693ad51426e0"
+  },
+  "addOns.1": {
+    "t": "Música en vivo",
+    "h": "2d0d6fe35b26"
+  },
+  "addOns.2": {
+    "t": "Cena privada",
+    "h": "fd64a7922183"
+  },
+  "addOns.3": {
+    "t": "Conductor privado",
+    "h": "33f41b9a5f04"
+  },
+  "addOns.4": {
+    "t": "Flores frescas",
+    "h": "b4f3d85a92a7"
+  },
+  "locations.0": {
+    "t": "Comporta",
+    "h": "b7daca606e62"
+  },
+  "locations.1": {
+    "t": "Carvalhal",
+    "h": "71cfb99ea54b"
+  },
+  "locations.2": {
+    "t": "Tróia",
+    "h": "66d55e10f25f"
+  },
+  "locations.3": {
+    "t": "Melides",
+    "h": "f62d3e3f5b0b"
+  },
+  "locations.4": {
+    "t": "Alcácer do Sal",
+    "h": "ed534abf639d"
+  },
+  "locations.5": {
+    "t": "Grândola",
+    "h": "f242657828f7"
+  },
+  "locations.6": {
+    "t": "Lisboa",
+    "h": "37b030b12460"
+  },
+  "seo.title": {
+    "t": "Pedidas de mano en Comporta y Lisboa · Picnic Club",
+    "h": "09b3750d12ca"
+  },
+  "seo.description": {
+    "t": "Pedidas de mano íntimas y sin preocupaciones en las playas de Comporta, Tróia, Melides y en Lisboa, con flores, lino y velas.",
+    "h": "3a52419b52b3"
+  }
+}

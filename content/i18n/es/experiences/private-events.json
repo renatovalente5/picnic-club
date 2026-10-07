@@ -1,0 +1,126 @@
+{
+  "name": {
+    "t": "Eventos Privados",
+    "h": "2c0154c47439"
+  },
+  "short": {
+    "t": "Celebraciones privadas, aniversarios y ocasiones especiales, preparadas con intención.",
+    "h": "e2d80cab8975"
+  },
+  "statement": {
+    "t": "Reúna a las personas que ama. Nosotros ponemos la mesa.",
+    "h": "5e144eed9f19"
+  },
+  "intro.0": {
+    "t": "Un escenario elegante y sin prisas, cuidado hasta el último detalle, para que sus invitados solo tengan que llegar.",
+    "h": "5e621089c94f"
+  },
+  "intro.1": {
+    "t": "Aniversarios, aniversarios de boda, despedidas de soltera y todas las ocasiones que merecen ser celebradas en conjunto, preparadas a la medida del momento y del lugar.",
+    "h": "9bf50de523a5"
+  },
+  "included.0": {
+    "t": "Un escenario pensado para sus invitados",
+    "h": "0b2c8529335e"
+  },
+  "included.1": {
+    "t": "Mesas largas o mesas bajas con cojines",
+    "h": "93b67d1efc42"
+  },
+  "included.2": {
+    "t": "Lino, vajilla, flores y velas",
+    "h": "5ba8f9e88f87"
+  },
+  "included.3": {
+    "t": "Comida y bebida seleccionadas para la ocasión",
+    "h": "b16ceec2207b"
+  },
+  "included.4": {
+    "t": "Montaje, coordinación el día del evento y recogida discreta",
+    "h": "49b96181076d"
+  },
+  "addOns.0": {
+    "t": "Menú de chef privado",
+    "h": "37cfa1ab67b3"
+  },
+  "addOns.1": {
+    "t": "Champán",
+    "h": "bb400464b758"
+  },
+  "addOns.2": {
+    "t": "Fotografía",
+    "h": "693ad51426e0"
+  },
+  "addOns.3": {
+    "t": "Música en vivo",
+    "h": "2d0d6fe35b26"
+  },
+  "addOns.4": {
+    "t": "Señalética y papelería personalizadas",
+    "h": "369cbb6be6d4"
+  },
+  "howItWorks.0.title": {
+    "t": "Comparta su idea.",
+    "h": "c09ecff2380d"
+  },
+  "howItWorks.1.title": {
+    "t": "Diseñamos el escenario.",
+    "h": "b16985a0e52a"
+  },
+  "howItWorks.2.title": {
+    "t": "Solo tiene que llegar.",
+    "h": "3d6d8391ccc0"
+  },
+  "howItWorks.0.text": {
+    "t": "Cuéntenos la ocasión, el lugar y las personas que va a celebrar.",
+    "h": "84b4c618774f"
+  },
+  "howItWorks.1.text": {
+    "t": "Una propuesta a medida, de la mesa al menú.",
+    "h": "b1d84aaf31c1"
+  },
+  "howItWorks.2.text": {
+    "t": "Lo montamos todo, cuidamos cada detalle y recogemos con discreción.",
+    "h": "ffbd64701225"
+  },
+  "locations.0": {
+    "t": "Comporta",
+    "h": "b7daca606e62"
+  },
+  "locations.1": {
+    "t": "Carvalhal",
+    "h": "71cfb99ea54b"
+  },
+  "locations.2": {
+    "t": "Tróia",
+    "h": "66d55e10f25f"
+  },
+  "locations.3": {
+    "t": "Melides",
+    "h": "f62d3e3f5b0b"
+  },
+  "locations.4": {
+    "t": "Alcácer do Sal",
+    "h": "ed534abf639d"
+  },
+  "locations.5": {
+    "t": "Grândola",
+    "h": "f242657828f7"
+  },
+  "locations.6": {
+    "t": "Lisboa",
+    "h": "37b030b12460"
+  },
+  "weather": {
+    "t": "Si el tiempo cambia, siempre tenemos una alternativa resguardada lista, para que el día transcurra según lo planeado.",
+    "h": "fde32e813c08"
+  },
+  "seo.title": {
+    "t": "Eventos privados y celebraciones en Comporta · Picnic Club",
+    "h": "7854f488d7d9"
+  },
+  "seo.description": {
+    "t": "Celebraciones privadas, cumpleaños, aniversarios de boda y despedidas de soltera en Comporta, en Tróia, en Melides y en Lisboa, preparados con intención.",
+    "h": "e011731be52c"
+  }
+}

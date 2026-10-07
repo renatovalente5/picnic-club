@@ -1,0 +1,98 @@
+{
+  "name": {
+    "t": "Bodas íntimas",
+    "h": "e011e56cb921"
+  },
+  "menu": {
+    "t": "Bodas",
+    "h": "865e25c9780c"
+  },
+  "short": {
+    "t": "Bodas íntimas para parejas que buscan algo profundamente personal y de una belleza sencilla.",
+    "h": "9a202cd8f574"
+  },
+  "statement": {
+    "t": "Su boda. A su manera.",
+    "h": "49175dc00b6d"
+  },
+  "intro.0": {
+    "t": "Un elopement es una boda íntima, pensada en torno a lo que realmente importa. Un lugar hermoso. La persona que ama. Sus seres más cercanos. Y un día que es enteramente suyo.",
+    "h": "855bb6849cf4"
+  },
+  "included.0": {
+    "t": "Elección del lugar a lo largo de la costa",
+    "h": "a84eb3af2afb"
+  },
+  "included.1": {
+    "t": "Decoración de la ceremonia: el arco, el pasillo y las flores",
+    "h": "c434f9b04760"
+  },
+  "included.2": {
+    "t": "Una mesa para la celebración posterior",
+    "h": "6333cb839abb"
+  },
+  "included.3": {
+    "t": "Los más pequeños detalles, desde las alianzas hasta la señalética",
+    "h": "bc01211374da"
+  },
+  "included.4": {
+    "t": "Coordinación el día del evento, para que usted pueda simplemente estar presente",
+    "h": "b47ffc20508b"
+  },
+  "addOns.0": {
+    "t": "Fotografía y vídeo",
+    "h": "c3aaff83fe56"
+  },
+  "addOns.1": {
+    "t": "Cena con chef privado",
+    "h": "4dfad89d4b53"
+  },
+  "addOns.2": {
+    "t": "Música en vivo",
+    "h": "2d0d6fe35b26"
+  },
+  "addOns.3": {
+    "t": "Peinado y maquillaje",
+    "h": "7c63ca4d7b0b"
+  },
+  "addOns.4": {
+    "t": "Transporte",
+    "h": "16ada6e661fd"
+  },
+  "locations.0": {
+    "t": "Comporta",
+    "h": "b7daca606e62"
+  },
+  "locations.1": {
+    "t": "Carvalhal",
+    "h": "71cfb99ea54b"
+  },
+  "locations.2": {
+    "t": "Tróia",
+    "h": "66d55e10f25f"
+  },
+  "locations.3": {
+    "t": "Melides",
+    "h": "f62d3e3f5b0b"
+  },
+  "locations.4": {
+    "t": "Alcácer do Sal",
+    "h": "ed534abf639d"
+  },
+  "locations.5": {
+    "t": "Grândola",
+    "h": "f242657828f7"
+  },
+  "locations.6": {
+    "t": "Lisboa",
+    "h": "37b030b12460"
+  },
+  "seo.title": {
+    "t": "Bodas íntimas y elopements en Portugal · Picnic Club",
+    "h": "4b54a52bb8cf"
+  },
+  "seo.description": {
+    "t": "Bodas íntimas (elopements) en Portugal: decoración de la ceremonia, flores, una celebración privada y todos los detalles cuidados hasta el último detalle, de Comporta a Lisboa.",
+    "h": "7656c3a0e9c1"
+  }
+}
