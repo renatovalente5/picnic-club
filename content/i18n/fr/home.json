@@ -1,4 +1,8 @@
 {
+  "seo.title": {
+    "t": "Picnic Club · Pique-niques de luxe, demandes en mariage et mariages au Portugal",
+    "h": "1f2f36b65a75"
+  },
   "seo.description": {
     "t": "Des expériences de luxe, sans se presser, au Portugal : pique-niques de luxe, demandes en mariage, mariages intimes et événements privés à Comporta et à Lisbonne.",
     "h": "2abb346ec712"
@@ -22,6 +26,10 @@
   "intro.title": {
     "t": "Des moments soignés dans les moindres détails, vécus sans effort.",
     "h": "5bf7b7073f11"
+  },
+  "intro.text.0": {
+    "t": "PICNIC CLUB crée des expériences inoubliables dans certains des plus beaux endroits du Portugal.",
+    "h": "e963553e8ef1"
   },
   "intro.link.label": {
     "t": "Notre histoire",
@@ -66,6 +74,10 @@
   "philosophy.lines.5": {
     "t": "Le temps de se remémorer.",
     "h": "dd95ebbe201c"
+  },
+  "philosophy.text": {
+    "t": "Chaque expérience PICNIC CLUB est pensée avec soin pour que vous n'ayez pas à vous soucier des détails. Il vous suffit d'arriver et de profiter de l'instant.",
+    "h": "17218c9f7d08"
   },
   "philosophy.link.label": {
     "t": "Rencontrer la fondatrice",

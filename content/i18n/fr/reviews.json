@@ -1,6 +1,18 @@
 {
+  "seo.title": {
+    "t": "Avis · Picnic Club",
+    "h": "373f49039189"
+  },
+  "seo.description": {
+    "t": "Les mots des couples et des familles ayant célébré avec Picnic Club : demandes en mariage, pique-niques de luxe et mariages intimes au Portugal.",
+    "h": "9d71d924c31a"
+  },
   "title": {
     "t": "Avis",
     "h": "fa7bb7a1908e"
+  },
+  "intro": {
+    "t": "Les avis sont rédigés par nos clients après l'expérience et approuvés par Picnic Club avant d'être publiés. Nous pouvons corriger les fautes d'orthographe ou retirer des données personnelles, sans en changer le sens.",
+    "h": "7b31d7407c5a"
   }
 }

@@ -115,6 +115,10 @@
     "t": "Montando la mesa en la arena antes de que lleguen los invitados",
     "h": "79a634fa6c35"
   },
+  "ana-founder-beach.alt": {
+    "t": "Ana, fundadora de Picnic Club, junto a un pícnic que preparó en la playa al atardecer",
+    "h": "94a432a64288"
+  },
   "event-beach-long-table.alt": {
     "t": "Una mesa larga y baja preparada para una celebración privada en la playa, bajo sombrillas de paja",
     "h": "7b54093b41b0"
@@ -130,6 +134,10 @@
   "picnic-shoreline-table.alt": {
     "t": "Una mesa baja con cojines en la playa, en la hora dorada, con el mar detrás",
     "h": "609f13797aff"
+  },
+  "ana-white-orchids.alt": {
+    "t": "Ana, fundadora de Picnic Club, entre orquídeas blancas en las dunas",
+    "h": "1e7fe8493519"
   },
   "picnic-com-chef-privado-na-ilha-1ec0c9.alt": {
     "t": "Pícnic con chef privado en la isla de Tróia",
