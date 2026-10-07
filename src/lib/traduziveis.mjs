@@ -27,8 +27,9 @@
 
 export const RESUMO_TAMANHO = 12;
 
-/** The languages the content is translated into. */
-export const LINGUAS_ALVO = ['en'];
+/** The languages the content is translated into (Spanish and French since 7 Oct 2026: automatic
+ *  only — Ana corrects the English in the panel, not these). */
+export const LINGUAS_ALVO = ['en', 'es', 'fr'];
 
 /* The translated fields of each content file (paths relative to content/). «#» is a position in a
    list; «*» is a key of an object (the name of a photo). Everything else in the files — photos,
