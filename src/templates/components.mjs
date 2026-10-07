@@ -167,7 +167,7 @@ export function header(ctx, page) {
     ${navLinks(ctx, NAV_LEFT.slice(0, 1), current)}
     <ul class="menu__sub">${ctx.content.experiences.map((e) => {
       const href = experienceHref(ctx, e);
-      return html`<li><a href="${href}"${attrs({ 'aria-current': current === href ? 'page' : false })}>${picture(ctx, e.hero, { sizes: '(min-width: 800px) 180px, 46vw', alt: '' })}<span>${e.menu || e.name}</span></a></li>`;
+      return html`<li><a href="${href}"${attrs({ 'aria-current': current === href ? 'page' : false })}>${picture(ctx, e.hero, { sizes: '56px', alt: '' })}<span>${e.menu || e.name}</span><span class="menu__arrow" aria-hidden="true">→</span></a></li>`;
     })}</ul>
     <span class="menu__rule" aria-hidden="true"></span>
     ${navLinks(ctx, [...NAV_LEFT.slice(1), ...NAV_RIGHT.filter((i) => !i.cta)], current)}
