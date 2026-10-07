@@ -1,0 +1,138 @@
+{
+  "proposal-sunset-waiting.alt": {
+    "t": "Il l'attend sur la plage au coucher du soleil, près d'un décor de demande avec des voiles de lin, des fleurs blanches et des bougies",
+    "h": "35c5f76cdb22"
+  },
+  "proposal-sunset-sails.alt": {
+    "t": "Un décor de demande sur le sable au coucher du soleil, entre voiles de lin et pétales blancs",
+    "h": "1ec8f276f4d0"
+  },
+  "proposal-cliff-candles.alt": {
+    "t": "Des bougies sur le sable près d'une falaise, alors que le soleil se couche sur la mer",
+    "h": "2e4294304bca"
+  },
+  "proposal-heart-arch-pool.alt": {
+    "t": "Une arche de fleurs blanches en forme de cœur près d'une piscine au crépuscule, avec une enseigne lumineuse indiquant Will you marry me",
+    "h": "a2a41e2f6092"
+  },
+  "proposal-linen-sail-flowers.alt": {
+    "t": "Un voile de lin, des hortensias blancs et des bougies sur une plage préparée pour une demande",
+    "h": "23a3c9be97af"
+  },
+  "proposal-two-sails-sea.alt": {
+    "t": "Deux voiles de lin sur le sable et une table basse décorée de fleurs, face à la mer",
+    "h": "433fe456ea53"
+  },
+  "proposal-beach-table.alt": {
+    "t": "Une table basse sur lin, avec des coussins, des fleurs blanches et du champagne sur le sable",
+    "h": "45bf0beee324"
+  },
+  "proposal-beach-table-waves.alt": {
+    "t": "La même table au bord de la mer, avec une vague qui déferle derrière",
+    "h": "948757aa6a26"
+  },
+  "proposal-ring-box.alt": {
+    "t": "Un écrin à bague ouvert entre ses mains",
+    "h": "444f72ceeace"
+  },
+  "proposal-ring-moment.alt": {
+    "t": "Le moment où il lui passe la bague au doigt",
+    "h": "c228e58e5276"
+  },
+  "proposal-one-knee-beach.alt": {
+    "t": "Un genou à terre sur la plage, près de la table de la demande",
+    "h": "05e01c4c853f"
+  },
+  "proposal-ring-hand.alt": {
+    "t": "Sa main avec la bague de fiançailles",
+    "h": "0911ed907865"
+  },
+  "proposal-one-knee-sunset.alt": {
+    "t": "Une demande au coucher du soleil, entourée de pétales et de bougies",
+    "h": "159a1f459dd8"
+  },
+  "proposal-candlelit-night.alt": {
+    "t": "Le couple à la lueur des bougies, après le coucher du soleil",
+    "h": "543965098b4d"
+  },
+  "proposal-white-roses.alt": {
+    "t": "Elle tient un bouquet de roses blanches après avoir dit oui",
+    "h": "fda559365f2a"
+  },
+  "proposal-embrace.alt": {
+    "t": "Une étreinte serrée dans la lumière dorée",
+    "h": "869a40f62982"
+  },
+  "proposal-one-knee-petals.alt": {
+    "t": "Un genou à terre sur un chemin de pétales blancs",
+    "h": "30f280c74f5a"
+  },
+  "picnic-under-the-tree.alt": {
+    "t": "Un pique-nique sur du lin blanc sous un chêne-liège, avec un voile transparent s'élevant au vent",
+    "h": "4888342bcadf"
+  },
+  "picnic-poolside-table.alt": {
+    "t": "Une table en bois près de la piscine, avec des fleurs roses, des verres colorés et des assiettes peintes",
+    "h": "636f92368a6f"
+  },
+  "picnic-poolside-toast.alt": {
+    "t": "Un verre levé sur la table près de la piscine",
+    "h": "bcaf725f3040"
+  },
+  "picnic-deck-pool.alt": {
+    "t": "Une table basse et des coussins sur un deck près de la piscine et des pins",
+    "h": "582b29d46c58"
+  },
+  "elopement-ceremony-arch.alt": {
+    "t": "Une cérémonie de mariage intime sur la plage, sous une arche de fleurs blanches en forme de cœur",
+    "h": "7ed4b4c78b3a"
+  },
+  "elopement-heart-arch.alt": {
+    "t": "L'arche de fleurs blanches en forme de cœur sur le sable, avant la cérémonie",
+    "h": "ef2daf45d5d6"
+  },
+  "elopement-rings-sand.alt": {
+    "t": "Les alliances posées dans un écrin de verre rempli de sable",
+    "h": "d439e1f52f5b"
+  },
+  "elopement-at-the-arch.alt": {
+    "t": "Les mariés se tenant la main près de l'arche de fleurs",
+    "h": "40cdaffcce2a"
+  },
+  "elopement-walk.alt": {
+    "t": "Les nouveaux mariés marchant ensemble sur la plage",
+    "h": "dd0b92248e4e"
+  },
+  "elopement-hands.alt": {
+    "t": "Les mains des deux époux, unies, après les vœux",
+    "h": "e883fdb625b4"
+  },
+  "event-beach-stripes.alt": {
+    "t": "Un pique-nique sur la plage pour une célébration privée, avec des coussins à rayures sous un parasol",
+    "h": "51de92f8ed17"
+  },
+  "behind-the-scenes.alt": {
+    "t": "L'installation de la table sur le sable avant l'arrivée des invités",
+    "h": "79a634fa6c35"
+  },
+  "event-beach-long-table.alt": {
+    "t": "Une longue table basse préparée pour une célébration privée sur la plage, sous des parasols de paille",
+    "h": "7b54093b41b0"
+  },
+  "event-beach-parasols.alt": {
+    "t": "La table dressée avec des chemins de table blancs, des fleurs sauvages et des coussins, sous des parasols de paille",
+    "h": "4b08f77debf5"
+  },
+  "event-table-details.alt": {
+    "t": "Les places dressées avec des assiettes en forme de coquillage, des menus imprimés et des fleurs blanches",
+    "h": "9b8dbfe1cacd"
+  },
+  "picnic-shoreline-table.alt": {
+    "t": "Une table basse avec des coussins sur la plage, à l'heure dorée, avec la mer en arrière-plan",
+    "h": "609f13797aff"
+  },
+  "picnic-com-chef-privado-na-ilha-1ec0c9.alt": {
+    "t": "Pique-nique avec chef privé sur l'île de Tróia",
+    "h": "7514ea8b2155"
+  }
+}

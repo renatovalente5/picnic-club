@@ -1,0 +1,50 @@
+{
+  "cancellation.intro": {
+    "t": "Nous savons que les plans peuvent changer. Notre politique d'annulation se veut juste tout en couvrant les coûts de préparation et de réalisation de chaque expérience.",
+    "h": "041794c0221d"
+  },
+  "cancellation.rules.0.when": {
+    "t": "Plus de 7 jours avant l'expérience",
+    "h": "1882fa93724d"
+  },
+  "cancellation.rules.1.when": {
+    "t": "Entre 7 jours et 48 heures avant",
+    "h": "46e84155c33f"
+  },
+  "cancellation.rules.2.when": {
+    "t": "Moins de 48 heures avant",
+    "h": "83c21fdd9e8d"
+  },
+  "cancellation.rules.3.when": {
+    "t": "Absence le jour J",
+    "h": "08075f8d4ee1"
+  },
+  "cancellation.rules.0.what": {
+    "t": "Remboursement total, à l'exclusion des frais non remboursables déjà engagés pour la préparation de l'expérience.",
+    "h": "d8c8874bf172"
+  },
+  "cancellation.rules.1.what": {
+    "t": "50% du montant total payé est remboursé.",
+    "h": "301170bd18e6"
+  },
+  "cancellation.rules.2.what": {
+    "t": "Les annulations ne sont pas remboursables.",
+    "h": "2f0c249fd877"
+  },
+  "cancellation.rules.3.what": {
+    "t": "L'absence le jour J n'est pas remboursable.",
+    "h": "07b0f78c7621"
+  },
+  "cancellation.rescheduling.0": {
+    "t": "Dans la mesure du possible, nous serons ravis de reporter votre expérience à une autre date disponible.",
+    "h": "a9082ebede07"
+  },
+  "cancellation.rescheduling.1": {
+    "t": "Le montant déjà payé peut être transféré à la nouvelle date. Des frais supplémentaires liés au changement peuvent s'appliquer, incluant les frais de prestataires ou de lieux.",
+    "h": "82da3d41a33a"
+  },
+  "cancellation.exceptional": {
+    "t": "Dans des circonstances exceptionnelles, nous pouvons réviser les conditions d'annulation ou de report de date au cas par cas.",
+    "h": "569b69ff4116"
+  }
+}

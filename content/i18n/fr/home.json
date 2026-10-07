@@ -66,5 +66,65 @@
   "philosophy.lines.5": {
     "t": "Le temps de se remémorer.",
     "h": "dd95ebbe201c"
+  },
+  "philosophy.link.label": {
+    "t": "Rencontrer la fondatrice",
+    "h": "0642920026f1"
+  },
+  "gallery.eyebrow": {
+    "t": "Galerie",
+    "h": "6660507dd646"
+  },
+  "gallery.title": {
+    "t": "Des moments, tels qu'ils se sont produits.",
+    "h": "b003d28170a6"
+  },
+  "gallery.text": {
+    "t": "Demandes au coucher du soleil, mariages sur le sable et longues après-midi au bord de la piscine : quelques-uns des jours que nous avons préparés.",
+    "h": "2d3dfc71667c"
+  },
+  "gallery.link.label": {
+    "t": "Demander une proposition",
+    "h": "307d8e7ce444"
+  },
+  "gallery.items.0.alt": {
+    "t": "Le couple près d'une arche de fleurs blanches en forme de cœur, sur la plage",
+    "h": "89b7fc56ccc5"
+  },
+  "gallery.items.2.alt": {
+    "t": "Une demande au coucher du soleil : le couple sur le point de s'embrasser entre les bougies",
+    "h": "106156c3f0e0"
+  },
+  "gallery.items.5.alt": {
+    "t": "L'anneau glissant sur son doigt",
+    "h": "dcdcc412ab77"
+  },
+  "gallery.items.7.alt": {
+    "t": "Un toast à la lueur des bougies, une fois la nuit tombée",
+    "h": "c5d62fc4e03f"
+  },
+  "gallery.items.8.alt": {
+    "t": "Vue de haut : une table à la lueur des bougies sur le sable, au crépuscule",
+    "h": "79c55b49903c"
+  },
+  "gallery.items.10.alt": {
+    "t": "Des bouteilles dans la glace à côté d'une table de pique-nique",
+    "h": "5100ed81ca3a"
+  },
+  "reviews.title": {
+    "t": "Avis",
+    "h": "fa7bb7a1908e"
+  },
+  "reviews.text": {
+    "t": "Écrits par nos clients après l'expérience et approuvés par Picnic Club avant d'être publiés.",
+    "h": "06638b1277af"
+  },
+  "reviews.link.label": {
+    "t": "Lire tous les avis",
+    "h": "52a15f77f7d4"
+  },
+  "instagram.title": {
+    "t": "Suivez notre histoire",
+    "h": "c5dff01acab8"
   }
 }
