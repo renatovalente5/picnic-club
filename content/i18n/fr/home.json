@@ -1,0 +1,70 @@
+{
+  "seo.description": {
+    "t": "Des expériences de luxe, sans se presser, au Portugal : pique-niques de luxe, demandes en mariage, mariages intimes et événements privés à Comporta et à Lisbonne.",
+    "h": "2abb346ec712"
+  },
+  "hero.title": {
+    "t": "Des moments à chérir.",
+    "h": "cb0135200125"
+  },
+  "hero.text": {
+    "t": "Des expériences de luxe, sans se presser, soignées dans les moindres détails au Portugal.",
+    "h": "f0f574f61273"
+  },
+  "hero.primary.label": {
+    "t": "Découvrir les expériences",
+    "h": "25c690645940"
+  },
+  "hero.secondary.label": {
+    "t": "Demander une proposition",
+    "h": "307d8e7ce444"
+  },
+  "intro.title": {
+    "t": "Des moments soignés dans les moindres détails, vécus sans effort.",
+    "h": "5bf7b7073f11"
+  },
+  "intro.link.label": {
+    "t": "Notre histoire",
+    "h": "a576234ee73b"
+  },
+  "experiences.title": {
+    "t": "Un aperçu de nos créations",
+    "h": "80f02c535691"
+  },
+  "experiences.text": {
+    "t": "Quatre façons de célébrer, chacune pensée sur mesure selon le lieu et les personnes que vous aimez le plus.",
+    "h": "6cb63250b31f"
+  },
+  "experiences.link.label": {
+    "t": "Toutes les expériences",
+    "h": "1a9c3b650eb7"
+  },
+  "philosophy.title": {
+    "t": "Nous nous occupons du reste.",
+    "h": "936ed21785e4"
+  },
+  "philosophy.lines.0": {
+    "t": "Nous croyons que le luxe ne réside pas dans l'excès.",
+    "h": "456f83da369d"
+  },
+  "philosophy.lines.1": {
+    "t": "Il réside dans le temps.",
+    "h": "b37171ff325d"
+  },
+  "philosophy.lines.2": {
+    "t": "Le temps de ralentir.",
+    "h": "2c8f618bfd2c"
+  },
+  "philosophy.lines.3": {
+    "t": "Le temps d'être ensemble.",
+    "h": "0e86f7da0c2e"
+  },
+  "philosophy.lines.4": {
+    "t": "Le temps de célébrer.",
+    "h": "7189cc738f82"
+  },
+  "philosophy.lines.5": {
+    "t": "Le temps de se remémorer.",
+    "h": "dd95ebbe201c"
+  }
+}

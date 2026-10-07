@@ -1,0 +1,126 @@
+{
+  "name": {
+    "t": "Événements privés",
+    "h": "2c0154c47439"
+  },
+  "short": {
+    "t": "Célébrations privées, anniversaires et occasions spéciales, préparés avec intention.",
+    "h": "e2d80cab8975"
+  },
+  "statement": {
+    "t": "Réunissez les personnes que vous aimez. Nous dressons la table.",
+    "h": "5e144eed9f19"
+  },
+  "intro.0": {
+    "t": "Un cadre élégant et sans se presser, soigné dans les moindres détails, pour que vos invités n'aient plus qu'à arriver.",
+    "h": "5e621089c94f"
+  },
+  "intro.1": {
+    "t": "Anniversaires, anniversaires de mariage, enterrements de vie de jeune fille et toutes les occasions qui méritent d'être célébrées ensemble, préparés sur mesure selon le moment et le lieu.",
+    "h": "9bf50de523a5"
+  },
+  "included.0": {
+    "t": "Un cadre pensé pour vos invités",
+    "h": "0b2c8529335e"
+  },
+  "included.1": {
+    "t": "Longues tables ou tables basses avec coussins",
+    "h": "93b67d1efc42"
+  },
+  "included.2": {
+    "t": "Lin, vaisselle, fleurs et bougies",
+    "h": "5ba8f9e88f87"
+  },
+  "included.3": {
+    "t": "Nourriture et boissons sélectionnées pour l'occasion",
+    "h": "b16ceec2207b"
+  },
+  "included.4": {
+    "t": "Installation, coordination le jour J et rangement discret",
+    "h": "49b96181076d"
+  },
+  "addOns.0": {
+    "t": "Menu de chef privé",
+    "h": "37cfa1ab67b3"
+  },
+  "addOns.1": {
+    "t": "Champagne",
+    "h": "bb400464b758"
+  },
+  "addOns.2": {
+    "t": "Photographie",
+    "h": "693ad51426e0"
+  },
+  "addOns.3": {
+    "t": "Musique live",
+    "h": "2d0d6fe35b26"
+  },
+  "addOns.4": {
+    "t": "Signalétique et papeterie personnalisées",
+    "h": "369cbb6be6d4"
+  },
+  "howItWorks.0.title": {
+    "t": "Partagez votre idée.",
+    "h": "c09ecff2380d"
+  },
+  "howItWorks.1.title": {
+    "t": "Nous dessinons le décor.",
+    "h": "b16985a0e52a"
+  },
+  "howItWorks.2.title": {
+    "t": "Vous n'avez plus qu'à arriver.",
+    "h": "3d6d8391ccc0"
+  },
+  "howItWorks.0.text": {
+    "t": "Dites-nous l'occasion, le lieu et les personnes que vous allez célébrer.",
+    "h": "84b4c618774f"
+  },
+  "howItWorks.1.text": {
+    "t": "Une proposition sur mesure, de la table au menu.",
+    "h": "b1d84aaf31c1"
+  },
+  "howItWorks.2.text": {
+    "t": "Nous installons tout, soignons chaque détail et rangeons avec discrétion.",
+    "h": "ffbd64701225"
+  },
+  "locations.0": {
+    "t": "Comporta",
+    "h": "b7daca606e62"
+  },
+  "locations.1": {
+    "t": "Carvalhal",
+    "h": "71cfb99ea54b"
+  },
+  "locations.2": {
+    "t": "Tróia",
+    "h": "66d55e10f25f"
+  },
+  "locations.3": {
+    "t": "Melides",
+    "h": "f62d3e3f5b0b"
+  },
+  "locations.4": {
+    "t": "Alcácer do Sal",
+    "h": "ed534abf639d"
+  },
+  "locations.5": {
+    "t": "Grândola",
+    "h": "f242657828f7"
+  },
+  "locations.6": {
+    "t": "Lisbonne",
+    "h": "37b030b12460"
+  },
+  "weather": {
+    "t": "Si la météo change, nous avons toujours une alternative abritée prête, pour que la journée se déroule comme prévu.",
+    "h": "fde32e813c08"
+  },
+  "seo.title": {
+    "t": "Événements privés et célébrations à Comporta · Picnic Club",
+    "h": "7854f488d7d9"
+  },
+  "seo.description": {
+    "t": "Célébrations privées, anniversaires, anniversaires de mariage et enterrements de vie de jeune fille à Comporta, Tróia, Melides et Lisbonne, préparés avec intention.",
+    "h": "e011731be52c"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "name": {
+    "t": "Pique-niques de luxe",
+    "h": "2de3182eb071"
+  },
+  "short": {
+    "t": "Des pique-niques soigneusement décorés, conçus sur mesure selon le lieu, l'occasion et les personnes que vous aimez le plus.",
+    "h": "0600f384abf6"
+  },
+  "statement": {
+    "t": "Une longue après-midi, une table en lin et aucun autre endroit où être.",
+    "h": "69a08bfe3264"
+  },
+  "intro.0": {
+    "t": "Un pique-nique élégant et intimiste, soigné dans les moindres détails.",
+    "h": "564191586f62"
+  },
+  "intro.1": {
+    "t": "Nous choisissons le lieu avec vous — un coin de plage tranquille, l'ombre d'un chêne-liège, le bord d'une piscine — et nous l'installons sur mesure selon l'occasion, pour que vous n'ayez plus qu'à venir avec les personnes que vous aimez.",
+    "h": "a566539db964"
+  },
+  "included.0": {
+    "t": "Décoration et installation sur le lieu de votre choix",
+    "h": "2b3fc8e6e7ef"
+  },
+  "included.1": {
+    "t": "Une table basse habillée de lin, avec coussins et couvertures",
+    "h": "d11cbf735aac"
+  },
+  "included.2": {
+    "t": "Vaisselle, verres et bougies",
+    "h": "752dfb9d1d2d"
+  },
+  "included.3": {
+    "t": "Fleurs fraîches ou séchées",
+    "h": "1994e730f04d"
+  },
+  "included.4": {
+    "t": "Nourriture et boissons choisies pour l'occasion",
+    "h": "97a0eac0d5f3"
+  },
+  "included.5": {
+    "t": "Tout est rangé à la fin",
+    "h": "8bad11c9956c"
+  },
+  "addOns.0": {
+    "t": "Fleurs fraîches",
+    "h": "b4f3d85a92a7"
+  },
+  "addOns.1": {
+    "t": "Champagne",
+    "h": "bb400464b758"
+  },
+  "addOns.2": {
+    "t": "Menu de chef privé",
+    "h": "37cfa1ab67b3"
+  },
+  "addOns.3": {
+    "t": "Photographie",
+    "h": "693ad51426e0"
+  },
+  "addOns.4": {
+    "t": "Musique live",
+    "h": "2d0d6fe35b26"
+  },
+  "locations.0": {
+    "t": "Comporta",
+    "h": "b7daca606e62"
+  },
+  "locations.1": {
+    "t": "Carvalhal",
+    "h": "71cfb99ea54b"
+  },
+  "locations.2": {
+    "t": "Tróia",
+    "h": "66d55e10f25f"
+  },
+  "locations.3": {
+    "t": "Melides",
+    "h": "f62d3e3f5b0b"
+  },
+  "locations.4": {
+    "t": "Alcácer do Sal",
+    "h": "ed534abf639d"
+  },
+  "locations.5": {
+    "t": "Grândola",
+    "h": "f242657828f7"
+  },
+  "locations.6": {
+    "t": "Lisbonne",
+    "h": "37b030b12460"
+  },
+  "seo.title": {
+    "t": "Pique-niques de luxe à Comporta et au Portugal · Picnic Club",
+    "h": "d9fafa31c2dc"
+  },
+  "seo.description": {
+    "t": "Des pique-niques de luxe soigneusement décorés sur la plage, à l'ombre des chênes-lièges ou au bord de la piscine, à Comporta, Tróia, Melides et Lisbonne.",
+    "h": "4ffec785276d"
+  }
+}

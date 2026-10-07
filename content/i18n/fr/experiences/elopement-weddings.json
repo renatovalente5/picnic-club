@@ -1,0 +1,98 @@
+{
+  "name": {
+    "t": "Mariages Intimes",
+    "h": "e011e56cb921"
+  },
+  "menu": {
+    "t": "Mariages",
+    "h": "865e25c9780c"
+  },
+  "short": {
+    "t": "Des mariages intimes pour les couples qui recherchent quelque chose de profondément personnel et d'une beauté simple.",
+    "h": "9a202cd8f574"
+  },
+  "statement": {
+    "t": "Votre mariage. À votre manière.",
+    "h": "49175dc00b6d"
+  },
+  "intro.0": {
+    "t": "Un elopement est un mariage intime, conçu autour de ce qui compte vraiment. Un lieu magnifique. La personne que vous aimez. Vos proches. Et une journée qui vous appartient entièrement.",
+    "h": "855bb6849cf4"
+  },
+  "included.0": {
+    "t": "Choix du lieu le long de la côte",
+    "h": "a84eb3af2afb"
+  },
+  "included.1": {
+    "t": "Décoration de la cérémonie : l'arche, l'allée et les fleurs",
+    "h": "c434f9b04760"
+  },
+  "included.2": {
+    "t": "Une table pour la célébration qui suit",
+    "h": "6333cb839abb"
+  },
+  "included.3": {
+    "t": "Les plus petits détails, des alliances à la signalétique",
+    "h": "bc01211374da"
+  },
+  "included.4": {
+    "t": "Coordination le jour J, pour que vous puissiez simplement être présents",
+    "h": "b47ffc20508b"
+  },
+  "addOns.0": {
+    "t": "Photographie et vidéo",
+    "h": "c3aaff83fe56"
+  },
+  "addOns.1": {
+    "t": "Dîner avec chef privé",
+    "h": "4dfad89d4b53"
+  },
+  "addOns.2": {
+    "t": "Musique live",
+    "h": "2d0d6fe35b26"
+  },
+  "addOns.3": {
+    "t": "Coiffure et maquillage",
+    "h": "7c63ca4d7b0b"
+  },
+  "addOns.4": {
+    "t": "Transport",
+    "h": "16ada6e661fd"
+  },
+  "locations.0": {
+    "t": "Comporta",
+    "h": "b7daca606e62"
+  },
+  "locations.1": {
+    "t": "Carvalhal",
+    "h": "71cfb99ea54b"
+  },
+  "locations.2": {
+    "t": "Tróia",
+    "h": "66d55e10f25f"
+  },
+  "locations.3": {
+    "t": "Melides",
+    "h": "f62d3e3f5b0b"
+  },
+  "locations.4": {
+    "t": "Alcácer do Sal",
+    "h": "ed534abf639d"
+  },
+  "locations.5": {
+    "t": "Grândola",
+    "h": "f242657828f7"
+  },
+  "locations.6": {
+    "t": "Lisbonne",
+    "h": "37b030b12460"
+  },
+  "seo.title": {
+    "t": "Mariages intimes et elopements au Portugal · Picnic Club",
+    "h": "4b54a52bb8cf"
+  },
+  "seo.description": {
+    "t": "Mariages intimes (elopements) au Portugal : décoration de la cérémonie, fleurs, une célébration privée et tous les détails soignés, de Comporta à Lisbonne.",
+    "h": "7656c3a0e9c1"
+  }
+}

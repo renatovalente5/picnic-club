@@ -1,0 +1,134 @@
+{
+  "name": {
+    "t": "Demandes en mariage",
+    "h": "e9076c29fe3d"
+  },
+  "menu": {
+    "t": "Demandes",
+    "h": "d86393bc38de"
+  },
+  "short": {
+    "t": "Tout ce dont vous avez besoin pour une demande en mariage intime, sans souci et inoubliable.",
+    "h": "29a156611a35"
+  },
+  "statement": {
+    "t": "Pour les moments qui changent tout.",
+    "h": "703ab589ed50"
+  },
+  "intro.0": {
+    "t": "De la première coupe de champagne au moment de la question, nous nous occupons de chaque détail.",
+    "h": "c8b4a4ce4540"
+  },
+  "intro.1": {
+    "t": "Des lieux magnifiques, des fleurs fraîches, une décoration soignée et un décor pensé autour de votre histoire. Il vous suffit d'arriver : le reste vous attend déjà.",
+    "h": "4bda9f2e2b14"
+  },
+  "options.0.name": {
+    "t": "L'Essentiel",
+    "h": "62f5ee263bf5"
+  },
+  "options.1.name": {
+    "t": "L'Arche Décorée",
+    "h": "e74f21d98367"
+  },
+  "options.2.name": {
+    "t": "Pique-nique & Arche",
+    "h": "f792c0a99bc1"
+  },
+  "options.3.name": {
+    "t": "L'Expérience Diamant",
+    "h": "86b0fbc2654a"
+  },
+  "options.0.text": {
+    "t": "Fruits de saison, une couverture soigneusement préparée, Moët & Chandon et un bouquet de fleurs : tout ce dont vous avez besoin pour transformer un moment simple en une demande inoubliable.",
+    "h": "93032739e1db"
+  },
+  "options.1.text": {
+    "t": "Une élégante arche florale avec lettres LED, pensée pour sublimer l'instant et créer une atmosphère romantique et intemporelle. Plusieurs phrases disponibles.",
+    "h": "f611014b8d82"
+  },
+  "options.2.text": {
+    "t": "Un pique-nique soigneusement préparé, avec l'arche florale et les lettres LED, pour une demande ou une célébration inoubliable.",
+    "h": "87d8e98ef94e"
+  },
+  "options.3.text": {
+    "t": "Pour ceux qui recherchent quelque chose de véritablement extraordinaire. Une demande conçue de A à Z autour de votre vision, avec un concierge dédié, chauffeur privé, lieux exclusifs, décoration sur mesure, expériences gastronomiques et photographie.",
+    "h": "c82b87d1302f"
+  },
+  "included.0": {
+    "t": "Une première conversation pour connaître votre histoire",
+    "h": "dfeaa1fb7116"
+  },
+  "included.1": {
+    "t": "Choix du lieu et de l'heure, pour la meilleure lumière",
+    "h": "e7097f1bdd79"
+  },
+  "included.2": {
+    "t": "Décoration avec fleurs, lin et bougies",
+    "h": "e49e3e744a9b"
+  },
+  "included.3": {
+    "t": "Coordination discrète le jour J",
+    "h": "2561755a61e4"
+  },
+  "included.4": {
+    "t": "Champagne pour le moment suivant la question",
+    "h": "716544f9caa9"
+  },
+  "addOns.0": {
+    "t": "Photographie",
+    "h": "693ad51426e0"
+  },
+  "addOns.1": {
+    "t": "Musique live",
+    "h": "2d0d6fe35b26"
+  },
+  "addOns.2": {
+    "t": "Dîner privé",
+    "h": "fd64a7922183"
+  },
+  "addOns.3": {
+    "t": "Chauffeur privé",
+    "h": "33f41b9a5f04"
+  },
+  "addOns.4": {
+    "t": "Fleurs fraîches",
+    "h": "b4f3d85a92a7"
+  },
+  "locations.0": {
+    "t": "Comporta",
+    "h": "b7daca606e62"
+  },
+  "locations.1": {
+    "t": "Carvalhal",
+    "h": "71cfb99ea54b"
+  },
+  "locations.2": {
+    "t": "Tróia",
+    "h": "66d55e10f25f"
+  },
+  "locations.3": {
+    "t": "Melides",
+    "h": "f62d3e3f5b0b"
+  },
+  "locations.4": {
+    "t": "Alcácer do Sal",
+    "h": "ed534abf639d"
+  },
+  "locations.5": {
+    "t": "Grândola",
+    "h": "f242657828f7"
+  },
+  "locations.6": {
+    "t": "Lisbonne",
+    "h": "37b030b12460"
+  },
+  "seo.title": {
+    "t": "Demandes en mariage à Comporta et à Lisbonne · Picnic Club",
+    "h": "09b3750d12ca"
+  },
+  "seo.description": {
+    "t": "Demandes en mariage intimes et sans souci sur les plages de Comporta, de Tróia, de Melides et à Lisbonne, avec fleurs, lin et bougies.",
+    "h": "3a52419b52b3"
+  }
+}
