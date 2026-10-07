@@ -1,0 +1,50 @@
+{
+  "cancellation.intro": {
+    "t": "Sabemos que los planes pueden cambiar. Nuestra política de cancelación busca ser justa y, al mismo tiempo, cubrir los costes de preparar y realizar cada experiencia.",
+    "h": "041794c0221d"
+  },
+  "cancellation.rules.0.when": {
+    "t": "Más de 7 días antes de la experiencia",
+    "h": "1882fa93724d"
+  },
+  "cancellation.rules.1.when": {
+    "t": "Entre 7 días y 48 horas antes",
+    "h": "46e84155c33f"
+  },
+  "cancellation.rules.2.when": {
+    "t": "Menos de 48 horas antes",
+    "h": "83c21fdd9e8d"
+  },
+  "cancellation.rules.3.when": {
+    "t": "No presentarse",
+    "h": "08075f8d4ee1"
+  },
+  "cancellation.rules.0.what": {
+    "t": "Reembolso total, excluyendo los costes no reembolsables ya asumidos en la preparación de la experiencia.",
+    "h": "d8c8874bf172"
+  },
+  "cancellation.rules.1.what": {
+    "t": "Se reembolsa el 50% del valor total pagado.",
+    "h": "301170bd18e6"
+  },
+  "cancellation.rules.2.what": {
+    "t": "Las cancelaciones no son reembolsables.",
+    "h": "2f0c249fd877"
+  },
+  "cancellation.rules.3.what": {
+    "t": "El no presentarse no es reembolsable.",
+    "h": "07b0f78c7621"
+  },
+  "cancellation.rescheduling.0": {
+    "t": "Siempre que sea posible, estaremos encantados de trasladar su experiencia a otra fecha disponible.",
+    "h": "a9082ebede07"
+  },
+  "cancellation.rescheduling.1": {
+    "t": "El valor ya pagado puede transferirse a la nueva fecha. Pueden aplicarse costes adicionales causados por el cambio, incluyendo tasas de proveedores o de espacios.",
+    "h": "82da3d41a33a"
+  },
+  "cancellation.exceptional": {
+    "t": "En circunstancias excepcionales, podemos revisar las condiciones de cancelación o de cambio de fecha caso por caso.",
+    "h": "569b69ff4116"
+  }
+}
