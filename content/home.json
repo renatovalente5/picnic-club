@@ -115,7 +115,7 @@
   },
   "reviews": {
     "title": "Testemunhos",
-    "text": "Escritos pelos nossos clientes depois da experiência e aprovados pela Picnic Club antes de serem publicados.",
+    "text": "Escritos pelos nossos clientes depois da experiência, e confirmados por nós.",
     "link": {
       "label": "Ler todos os testemunhos",
       "href": "/reviews/"
