@@ -1,6 +1,9 @@
 // Shared building blocks: images, links, header, footer and the page shell.
 import { html, raw, attrs } from './html.mjs';
 import { LANGS, LOCALE, localize, place, t } from './i18n.mjs';
+// The legal pieces every site of Renato's shares (legal-comum, installed by its instalar.mjs; the
+// copy and its version are in legal-comum/ and .legal-comum.json — never edited here).
+import { livroReclamacoes, notaChamada, numeroLegivel, telefoneHref, VERSAO } from '../../legal-comum/index.mjs';
 
 // The header: two links each side of the logo; the four experiences live in the panel under «Experiences».
 // Links are written with their English path; navLinks() puts them in the page's language.
@@ -27,7 +30,18 @@ export const LEGAL_LINKS = [
   { label: 'legal.privacy', href: '/privacy/' },
   { label: 'legal.cookies', href: '/cookies/' },
 ];
-export const COMPLAINTS_BOOK = 'https://www.livroreclamacoes.pt/inicio';
+/**
+ * The complaints-book button (Livro de Reclamações Electrónico, DL 156/2005, art. 5.º-B: the access
+ * «visible and prominent» on the site), drawn by legal-comum with its icon. Its wording is the
+ * page's. The library adds its own screen-reader note («abre numa nova janela»), in Portuguese; the
+ * build gives every external link the page's translated note instead (scripts/build.mjs,
+ * externalLinks), so the library's is dropped here to avoid two notes. The markers are the ones
+ * legal-comum's CLI writes, so a check on the live site can find the button.
+ */
+export function complaintsBook(ctx, { classe = 'lr-botao' } = {}) {
+  const button = livroReclamacoes({ classe, texto: t(ctx, 'legal.complaints'), lingua: LOCALE[ctx.lang].html });
+  return raw(`<!-- legal-comum:livro v${VERSAO} -->${button.replace(/<span class="lr-sr">[^<]*<\/span>/, '')}<!-- /legal-comum:livro -->`);
+}
 
 /** A photo's description in the page's language (content/photos.json, in Portuguese, and its
  *  translation). A film's poster has none of its own: the film's words go with it, or it is decoration. */
@@ -197,10 +211,22 @@ export function icon(name) {
   return raw(`<svg class="icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${ICONS[name].map((d) => `<path d="${d}"/>`).join('')}</svg>`);
 }
 
+/**
+ * The cost-of-call note the law wants next to every number (DL 59/2021, art. 3.º, n.º 3). The
+ * Portuguese wording comes from legal-comum, in the form Renato keeps («Chamada para a rede móvel
+ * nacional»). The other languages show a faithful translation followed by the Portuguese legal
+ * phrase, so the legal wording is on every page, whatever its language.
+ */
+export function callNote(ctx) {
+  const legal = notaChamada(ctx.site.phone, { frase: 'com-a' });
+  if (!legal) throw new Error(`No cost-of-call note for the number «${ctx.site.phone}» (legal-comum knows 2…, 9… and 800…).`);
+  if (ctx.lang === 'pt') return html`<span class="call-note">(${legal})</span>`;
+  return html`<span class="call-note">${t(ctx, 'call.note')} <span lang="pt-PT">(${legal})</span></span>`;
+}
+
 export function phone(ctx) {
   const { site } = ctx;
-  const tel = site.phone.replace(/\s+/g, '');
-  return html`<a href="tel:${tel}">${site.phone}</a> <span class="call-note">${t(ctx, 'call.note')}</span>`;
+  return html`<a href="${telefoneHref(site.phone)}">${numeroLegivel(site.phone)}</a> ${callNote(ctx)}`;
 }
 
 export function footer(ctx) {
@@ -220,17 +246,16 @@ export function footer(ctx) {
       <h2 class="site-footer__title">${t(ctx, 'footer.contact')}</h2>
       <ul class="site-footer__contact">
         <li><a href="mailto:${site.email}">${icon('mail')}<span>${site.email}</span></a></li>
-        <li><a href="tel:${site.phone.replace(/\s+/g, '')}">${icon('phone')}<span>${site.phone}</span></a><span class="call-note">${t(ctx, 'call.note')}</span></li>
+        <li><a href="${telefoneHref(site.phone)}">${icon('phone')}<span>${numeroLegivel(site.phone)}</span></a>${callNote(ctx)}</li>
         <li><a href="${whatsappHref(site)}">${icon('whatsapp')}<span>WhatsApp</span></a></li>
         <li><a href="${site.instagram.url}">${icon('instagram')}<span>Instagram</span></a></li>
         <li><a href="${site.facebook}">${icon('facebook')}<span>Facebook</span></a></li>
+        <li class="site-footer__livro-item">${complaintsBook(ctx, { classe: 'site-footer__livro' })}</li>
       </ul>
     </div>
     <nav class="site-footer__col" aria-label="${t(ctx, 'footer.legal')}">
       <h2 class="site-footer__title">${t(ctx, 'footer.legal')}</h2>
-      <ul>${LEGAL_LINKS.map((i) => html`<li><a href="${localize(ctx, i.href)}">${t(ctx, i.label)}</a></li>`)}
-        <li><a href="${COMPLAINTS_BOOK}">${t(ctx, 'legal.complaints')}</a></li>
-      </ul>
+      <ul>${LEGAL_LINKS.map((i) => html`<li><a href="${localize(ctx, i.href)}">${t(ctx, i.label)}</a></li>`)}</ul>
     </nav>
   </div>
   <div class="wrap site-footer__legal">

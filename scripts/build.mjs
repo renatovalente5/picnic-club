@@ -21,6 +21,7 @@ import { layout } from '../src/templates/components.mjs';
 import { LANGS, LOCALE, ROUTES, EXPERIENCE_SLUGS, langOfPath, t } from '../src/templates/i18n.mjs';
 import { LINGUAS_ALVO } from '../src/lib/traduziveis.mjs';
 import * as pages from '../src/templates/pages.mjs';
+import { livroCss } from '../legal-comum/index.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, '_site');
@@ -268,7 +269,10 @@ function main() {
   copyDir(path.join(ROOT, 'media', 'brand'), path.join(OUT, 'assets', 'brand'));
   copyDir(path.join(ROOT, 'media', 'video'), path.join(OUT, 'assets', 'video'), (f) => f.endsWith('.mp4'));
 
-  let css = fs.readFileSync(path.join(ROOT, 'src', 'styles', 'site.css'), 'utf8') + '\n/* focus points from content/photos.json */\n' + focusCss(images) + '\n';
+  // The complaints-book button (legal-comum): ivory on the footer's olive and, on the legal notice, olive on
+  // ivory. livroCss refuses a pair under 4.5:1; the footer's own overrides are in site.css (.site-footer__livro).
+  const livro = `${livroCss('site-footer__livro', { cor: '#2E3326', fundo: '#F5EFE4' })}\n${livroCss('lr-botao', { cor: '#F5EFE4', fundo: '#2E3326' })}`;
+  let css = fs.readFileSync(path.join(ROOT, 'src', 'styles', 'site.css'), 'utf8') + '\n/* Livro de Reclamações (legal-comum) */\n' + livro + '\n/* focus points from content/photos.json */\n' + focusCss(images) + '\n';
   if (BASE) css = css.replace(/url\("\/assets\//g, `url("${BASE}/assets/`);
   const js = fs.readFileSync(path.join(ROOT, 'src', 'scripts', 'site.js'), 'utf8');
 

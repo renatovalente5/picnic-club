@@ -1,8 +1,9 @@
 // Every page of the site. Each function returns { path, title, description, image, body, ... }.
 // `path` is the English address; the build gives the Portuguese page its own (src/templates/i18n.mjs).
 import { html, raw, attrs } from './html.mjs';
-import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, logoShareImage, organisation, website, schemaGraph, experienceHref, COMPLAINTS_BOOK } from './components.mjs';
+import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, logoShareImage, organisation, website, schemaGraph, experienceHref, complaintsBook } from './components.mjs';
 import { LOCALE, localize, place, t } from './i18n.mjs';
+import { ralHtml, FRASE_FOTOGRAFIAS } from '../../legal-comum/index.mjs';
 
 // What the forms send: the same values in every language, only the words shown change.
 const EXPERIENCE_CODES = ['luxury-picnic', 'marriage-proposal', 'elopement-wedding', 'private-event', 'bespoke-experience'];
@@ -494,6 +495,7 @@ export function plan(ctx) {
         <p><a href="mailto:${site.email}">${site.email}</a></p>
         <p>${phone(ctx)}</p>
         <p class="small">${areasLine(ctx)}. ${site.areasNote}</p>
+        <p class="contact-card__livro">${complaintsBook(ctx)}</p>
       </div>
     </div>
     <div class="plan__main">
@@ -545,11 +547,35 @@ function legalPage(ctx, { path, title, description, sections }) {
 
 const NIF_LABEL = { en: 'NIF (tax number)', pt: 'NIF', es: 'NIF (número de identificación fiscal)', fr: 'NIF (numéro d’identification fiscale)' };
 
+/**
+ * The alternative dispute resolution entities (Lei 144/2015, art. 18.º). Bookings are closed at a
+ * distance with clients from the whole country and from abroad, so the list is the national one: the
+ * ten centres, each with its website, plus the European Consumer Centres for clients elsewhere in the
+ * EU. The centres' names and sites are legal-comum's and the same in every language; only the framing
+ * words are translated (src/templates/i18n.mjs, «ral.*»). In Portuguese the library's own words show.
+ */
+function disputeResolution(ctx) {
+  const textos = ctx.lang === 'pt' ? {} : {
+    enquadramento: t(ctx, 'ral.intro'),
+    supletivoNacional: t(ctx, 'ral.national'),
+    lista: t(ctx, 'ral.list'),
+    portal: t(ctx, 'ral.portal'),
+    cec: t(ctx, 'ral.cec'),
+    cecLigacao: t(ctx, 'ral.cecLink'),
+  };
+  const block = ralHtml({ ambito: 'nacional', comCec: true, lingua: LOCALE[ctx.lang].html, textos });
+  if (ctx.lang === 'pt') return raw(block);
+  // the centres' names and areas are in Portuguese: say so, except on the national one, whose note is translated
+  return raw(block.replace(/<li>(.*?)<\/li>/g, (li, inner) => (inner.includes(textos.supletivoNacional) ? li : `<li lang="pt-PT">${inner}</li>`)));
+}
+
 export function legalNotice(ctx) {
   const { site } = ctx;
   const l = site.legal;
   const address = html`<address>${l.name}<br>${l.status}<br>${NIF_LABEL[ctx.lang]} ${l.nif}<br>${l.address.map((line, i) => html`${i ? raw('<br>') : ''}${line}`)}</address>`;
   const mail = html`<a href="mailto:${site.email}">${site.email}</a>`;
+  const book = html`<p>${complaintsBook(ctx)}</p>`;
+  const ral = disputeResolution(ctx);
   const text = {
     pt: () => ({
       title: 'Aviso legal',
@@ -562,9 +588,11 @@ ${address}
 <h2>Marca</h2>
 <p>${l.trademark}</p>
 <h2>Livro de Reclamações</h2>
-<p>Pode apresentar uma reclamação no Livro de Reclamações Eletrónico: <a href="${COMPLAINTS_BOOK}">livroreclamacoes.pt</a>.</p>
+<p>Pode apresentar uma reclamação no Livro de Reclamações Eletrónico:</p>
+${book}
 <h2>Resolução alternativa de litígios</h2>
-<p>Se um litígio não puder ser resolvido diretamente connosco, pode recorrer a uma entidade de resolução alternativa de litígios (RAL). A entidade competente depende do local onde vive e pode encontrá-la em <a href="https://www.consumidor.gov.pt">consumidor.gov.pt</a>. Quando nenhum centro regional se aplica, a entidade competente é o CNIACC, Centro Nacional de Informação e Arbitragem de Conflitos de Consumo (<a href="https://www.cniacc.pt">cniacc.pt</a>).</p>`,
+<p>Se um litígio não puder ser resolvido diretamente connosco, pode recorrer a uma entidade de resolução alternativa de litígios de consumo (RAL).</p>
+${ral}`,
     }),
     en: () => ({
       title: 'Legal notice',
@@ -577,9 +605,11 @@ ${address}
 <h2>Trademark</h2>
 <p>${l.trademark}</p>
 <h2>Complaints book</h2>
-<p>You can file a complaint in the electronic complaints book: <a href="${COMPLAINTS_BOOK}">livroreclamacoes.pt</a>.</p>
+<p>You can file a complaint in the Portuguese electronic complaints book (Livro de Reclamações Eletrónico):</p>
+${book}
 <h2>Alternative dispute resolution</h2>
-<p>If a dispute cannot be settled with us directly, you can turn to an alternative dispute resolution (ADR) entity. The competent entity depends on where you live; you can find it at <a href="https://www.consumidor.gov.pt">consumidor.gov.pt</a>. Where no regional centre applies, the competent entity is CNIACC, the National Centre for Information and Arbitration of Consumer Disputes (<a href="https://www.cniacc.pt">cniacc.pt</a>).</p>`,
+<p>If a dispute cannot be settled with us directly, you can turn to an alternative dispute resolution (ADR) entity for consumer disputes.</p>
+${ral}`,
     }),
     es: () => ({
       title: 'Aviso legal',
@@ -592,9 +622,11 @@ ${address}
 <h2>Marca</h2>
 <p>${l.trademark}</p>
 <h2>Libro de reclamaciones</h2>
-<p>Puede presentar una reclamación en el libro de reclamaciones electrónico portugués (Livro de Reclamações Eletrónico): <a href="${COMPLAINTS_BOOK}">livroreclamacoes.pt</a>.</p>
+<p>Puede presentar una reclamación en el libro de reclamaciones electrónico portugués (Livro de Reclamações Eletrónico):</p>
+${book}
 <h2>Resolución alternativa de litigios</h2>
-<p>Si un litigio no puede resolverse directamente con nosotros, puede recurrir a una entidad de resolución alternativa de litigios. La entidad competente depende del lugar donde viva y puede encontrarla en <a href="https://www.consumidor.gov.pt">consumidor.gov.pt</a>. Cuando no se aplica ningún centro regional, la entidad competente es el CNIACC, Centro Nacional de Información y Arbitraje de Conflictos de Consumo (<a href="https://www.cniacc.pt">cniacc.pt</a>).</p>`,
+<p>Si un litigio no puede resolverse directamente con nosotros, puede recurrir a una entidad de resolución alternativa de litigios de consumo.</p>
+${ral}`,
     }),
     fr: () => ({
       title: 'Mentions légales',
@@ -607,9 +639,11 @@ ${address}
 <h2>Marque</h2>
 <p>${l.trademark}</p>
 <h2>Livre de réclamations</h2>
-<p>Vous pouvez déposer une réclamation dans le livre de réclamations électronique portugais (Livro de Reclamações Eletrónico) : <a href="${COMPLAINTS_BOOK}">livroreclamacoes.pt</a>.</p>
+<p>Vous pouvez déposer une réclamation dans le livre de réclamations électronique portugais (Livro de Reclamações Eletrónico) :</p>
+${book}
 <h2>Règlement extrajudiciaire des litiges</h2>
-<p>Si un litige ne peut pas être réglé directement avec nous, vous pouvez vous adresser à un organisme de règlement extrajudiciaire des litiges. L’organisme compétent dépend de votre lieu de résidence ; vous le trouverez sur <a href="https://www.consumidor.gov.pt">consumidor.gov.pt</a>. Lorsqu’aucun centre régional ne s’applique, l’organisme compétent est le CNIACC, Centre national d’information et d’arbitrage des litiges de consommation (<a href="https://www.cniacc.pt">cniacc.pt</a>).</p>`,
+<p>Si un litige ne peut pas être réglé directement avec nous, vous pouvez vous adresser à un organisme de règlement extrajudiciaire des litiges de consommation.</p>
+${ral}`,
     }),
   }[ctx.lang]();
   return legalPage(ctx, { path: '/legal-notice/', ...text });
@@ -695,10 +729,13 @@ export function privacy(ctx) {
 <p><strong>Testemunhos.</strong> Quando escreve um testemunho, recebemos os vossos nomes, de onde são, a experiência, quando foi, o texto e o seu email. Só publicamos os nomes, o local e o texto com o seu consentimento (art. 6.º, n.º 1, alínea a)), que pode retirar a qualquer momento. O email nunca é publicado: usamo-lo para confirmar que o testemunho é seu. Podemos corrigir erros de escrita ou retirar dados pessoais, sem mudar o sentido.</p>
 <p><strong>Formulários dos nossos anúncios no Instagram e no Facebook.</strong> Se pedir uma proposta no formulário de um anúncio nosso no Instagram ou no Facebook, a Meta Platforms Ireland recolhe os dados que indicar (nome, telefone, email e as respostas ao formulário) e entrega-no-los. Guardamo-los numa folha de cálculo do Google, a que só acedem a Picnic Club e quem gere os nossos anúncios. Tratamo-los como os pedidos de proposta deste site: só para lhe responder e preparar a proposta (RGPD, art. 6.º, n.º 1, alínea b)), e apagamo-los nos mesmos prazos.</p>
 <p><strong>WhatsApp, email e telefone.</strong> Se nos contactar diretamente, usamos as suas mensagens para lhe responder.</p>
+<h2>Fotografias</h2>
+<p>${FRASE_FOTOGRAFIAS}</p>
 <h2>Durante quanto tempo os guardamos</h2>
 <p>Os pedidos que não dão origem a uma reserva são apagados ao fim de 12 meses. Os registos das reservas são guardados durante o tempo que a lei exige. Os testemunhos ficam publicados até nos pedir que os retiremos. Um testemunho que não publicamos é apagado quando o recusamos, ou ao fim de 90 dias.</p>
 <h2>Quem nos ajuda</h2>
 <p>O site está alojado no GitHub Pages (GitHub, Inc., Estados Unidos), os formulários são tratados pela Cloudflare (Cloudflare, Inc.), o nosso email é fornecido pela Hostinger e os pedidos dos formulários dos anúncios ficam numa folha de cálculo do Google (Google Ireland Limited). As transferências para fora da UE assentam no Quadro de Privacidade de Dados UE-EUA e nas cláusulas contratuais-tipo da Comissão Europeia. Se nos enviar mensagens por WhatsApp, Instagram ou Facebook, a Meta Platforms Ireland trata essas mensagens nos seus próprios termos.</p>
+<p>Os ficheiros deste site estão num repositório público (GitHub), e o histórico desse repositório guarda as versões anteriores das páginas. Por isso, o que nos envia pelo formulário «Pedir proposta» e o seu email nunca entram no repositório; dos testemunhos, só entra o que publicamos com o seu consentimento (os nomes, o local e o texto).</p>
 <h2>Os seus direitos</h2>
 <p>Pode pedir o acesso aos seus dados, a sua retificação ou o seu apagamento, a limitação do tratamento ou opor-se a ele, e recebê-los num formato portável, escrevendo para ${mail}. Pode também apresentar reclamação à Comissão Nacional de Proteção de Dados, a CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
 <h2>Cookies</h2>
@@ -715,10 +752,13 @@ export function privacy(ctx) {
 <p><strong>Reviews.</strong> When you write a review we receive your names, where you are from, the experience, when it was, your text and your email. We publish the names, the place and the text only with your consent (art. 6(1)(a)), which you can withdraw at any time. The email is never published; we use it to confirm the review is yours. We may correct typos or remove personal details, without changing what you say.</p>
 <p><strong>Forms in our Instagram and Facebook ads.</strong> If you ask for a proposal through the form in one of our Instagram or Facebook ads, Meta Platforms Ireland collects the details you give (name, phone, email and your answers) and passes them on to us. We keep them in a Google spreadsheet that only Picnic Club and the person who runs our ads can open. We treat them like the enquiries sent on this website: only to reply and prepare your proposal (GDPR art. 6(1)(b)), and we delete them on the same schedule.</p>
 <p><strong>WhatsApp, email and phone.</strong> If you contact us directly, we use your messages to reply.</p>
+<h2>Photographs</h2>
+<p>We publish photographs of clients and of their proposals only with written permission, given for that purpose; you can withdraw it at any time by email.</p>
 <h2>How long we keep it</h2>
 <p>Enquiries that do not become a booking are deleted after 12 months. Booking records are kept for as long as the law requires. Reviews stay published until you ask us to remove them. A review we do not publish is deleted when we decline it, or after 90 days.</p>
 <h2>Who helps us</h2>
 <p>The website is hosted by GitHub Pages (GitHub, Inc., United States), the forms are processed by Cloudflare (Cloudflare, Inc.), our email is provided by Hostinger, and the enquiries from our ad forms are kept in a Google spreadsheet (Google Ireland Limited). Transfers outside the EU rely on the EU–US Data Privacy Framework and the European Commission’s standard contractual clauses. If you message us on WhatsApp, Instagram or Facebook, Meta Platforms Ireland processes those messages under its own terms.</p>
+<p>The files of this website live in a public repository (GitHub), whose history keeps the earlier versions of the pages. For that reason, what you send us through the “Plan your experience” form and your email never enter the repository; of the reviews, only what we publish with your consent (the names, the place and the text) does.</p>
 <h2>Your rights</h2>
 <p>You can ask to access, correct or delete your data, to restrict or object to its use, and to receive it in a portable format, by writing to ${mail}. You can also complain to the Portuguese data protection authority, CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
 <h2>Cookies</h2>
@@ -735,10 +775,13 @@ export function privacy(ctx) {
 <p><strong>Opiniones.</strong> Cuando escribe una opinión, recibimos sus nombres, de dónde son, la experiencia, cuándo fue, el texto y su email. Solo publicamos los nombres, el lugar y el texto con su consentimiento (art. 6, apartado 1, letra a)), que puede retirar en cualquier momento. El email nunca se publica: lo usamos para confirmar que la opinión es suya. Podemos corregir errores de escritura o retirar datos personales, sin cambiar el sentido.</p>
 <p><strong>Formularios de nuestros anuncios en Instagram y Facebook.</strong> Si solicita una propuesta en el formulario de uno de nuestros anuncios en Instagram o Facebook, Meta Platforms Ireland recoge los datos que indique (nombre, teléfono, email y sus respuestas) y nos los entrega. Los guardamos en una hoja de cálculo de Google a la que solo acceden Picnic Club y quien gestiona nuestros anuncios. Los tratamos como las solicitudes enviadas en este sitio: solo para responderle y preparar su propuesta (RGPD, art. 6, apartado 1, letra b)), y los borramos en los mismos plazos.</p>
 <p><strong>WhatsApp, email y teléfono.</strong> Si nos contacta directamente, usamos sus mensajes para responderle.</p>
+<h2>Fotografías</h2>
+<p>Publicamos fotografías de clientes y de sus pedidas solo con autorización escrita, dada para este fin; puede retirarla en cualquier momento por email.</p>
 <h2>Durante cuánto tiempo los conservamos</h2>
 <p>Las solicitudes que no dan lugar a una reserva se borran al cabo de 12 meses. Los registros de las reservas se conservan durante el tiempo que exige la ley. Las opiniones permanecen publicadas hasta que nos pida que las retiremos. Una opinión que no publicamos se borra cuando la rechazamos, o al cabo de 90 días.</p>
 <h2>Quién nos ayuda</h2>
 <p>El sitio web está alojado en GitHub Pages (GitHub, Inc., Estados Unidos), los formularios los gestiona Cloudflare (Cloudflare, Inc.), nuestro email lo proporciona Hostinger y las solicitudes de los formularios de los anuncios se guardan en una hoja de cálculo de Google (Google Ireland Limited). Las transferencias fuera de la UE se basan en el Marco de Privacidad de Datos UE-EE. UU. y en las cláusulas contractuales tipo de la Comisión Europea. Si nos escribe por WhatsApp, Instagram o Facebook, Meta Platforms Ireland trata esos mensajes según sus propias condiciones.</p>
+<p>Los archivos de este sitio web están en un repositorio público (GitHub), cuyo historial guarda las versiones anteriores de las páginas. Por eso, lo que nos envía mediante el formulario «Solicitar propuesta» y su email nunca entran en el repositorio; de las opiniones, solo entra lo que publicamos con su consentimiento (los nombres, el lugar y el texto).</p>
 <h2>Sus derechos</h2>
 <p>Puede solicitar el acceso a sus datos, su rectificación o su supresión, la limitación del tratamiento u oponerse a él, y recibirlos en un formato portable, escribiendo a ${mail}. También puede presentar una reclamación ante la autoridad portuguesa de protección de datos, la CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
 <h2>Cookies</h2>
@@ -755,10 +798,13 @@ export function privacy(ctx) {
 <p><strong>Avis.</strong> Lorsque vous écrivez un avis, nous recevons vos prénoms, votre provenance, l’expérience, sa date, votre texte et votre e-mail. Nous ne publions les prénoms, le lieu et le texte qu’avec votre consentement (art. 6, paragraphe 1, point a)), que vous pouvez retirer à tout moment. L’e-mail n’est jamais publié : nous l’utilisons pour confirmer que l’avis est bien le vôtre. Nous pouvons corriger les fautes d’orthographe ou retirer des données personnelles, sans en changer le sens.</p>
 <p><strong>Formulaires de nos publicités sur Instagram et Facebook.</strong> Si vous demandez une proposition via le formulaire de l’une de nos publicités sur Instagram ou Facebook, Meta Platforms Ireland recueille les informations que vous indiquez (nom, téléphone, e-mail et vos réponses) et nous les transmet. Nous les conservons dans une feuille de calcul Google, à laquelle seuls Picnic Club et la personne qui gère nos publicités ont accès. Nous les traitons comme les demandes envoyées sur ce site : uniquement pour vous répondre et préparer votre proposition (RGPD, art. 6, paragraphe 1, point b)), et nous les supprimons dans les mêmes délais.</p>
 <p><strong>WhatsApp, e-mail et téléphone.</strong> Si vous nous contactez directement, nous utilisons vos messages pour vous répondre.</p>
+<h2>Photographies</h2>
+<p>Nous ne publions des photographies de clients et de leurs demandes qu’avec une autorisation écrite, donnée à cette fin ; vous pouvez la retirer à tout moment par e-mail.</p>
 <h2>Durée de conservation</h2>
 <p>Les demandes qui n’aboutissent pas à une réservation sont supprimées au bout de 12 mois. Les dossiers de réservation sont conservés pendant la durée exigée par la loi. Les avis restent publiés jusqu’à ce que vous nous demandiez de les retirer. Un avis que nous ne publions pas est supprimé lorsque nous le refusons, ou au bout de 90 jours.</p>
 <h2>Nos prestataires</h2>
 <p>Le site est hébergé par GitHub Pages (GitHub, Inc., États-Unis), les formulaires sont traités par Cloudflare (Cloudflare, Inc.), notre messagerie est fournie par Hostinger et les demandes issues des formulaires de nos publicités sont conservées dans une feuille de calcul Google (Google Ireland Limited). Les transferts hors de l’UE reposent sur le cadre de protection des données UE–États-Unis et sur les clauses contractuelles types de la Commission européenne. Si vous nous écrivez sur WhatsApp, Instagram ou Facebook, Meta Platforms Ireland traite ces messages selon ses propres conditions.</p>
+<p>Les fichiers de ce site se trouvent dans un dépôt public (GitHub), dont l’historique conserve les versions antérieures des pages. C’est pourquoi ce que vous nous envoyez par le formulaire « Demander une proposition » et votre e-mail n’entrent jamais dans le dépôt ; des avis, seul ce que nous publions avec votre consentement (les prénoms, le lieu et le texte) y entre.</p>
 <h2>Vos droits</h2>
 <p>Vous pouvez demander l’accès à vos données, leur rectification ou leur effacement, la limitation de leur traitement ou vous y opposer, et les recevoir dans un format portable, en écrivant à ${mail}. Vous pouvez aussi introduire une réclamation auprès de l’autorité portugaise de protection des données, la CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
 <h2>Cookies</h2>
