@@ -31,16 +31,18 @@ export const LEGAL_LINKS = [
   { label: 'legal.cookies', href: '/cookies/' },
 ];
 /**
- * The complaints-book button (Livro de Reclamações Electrónico, DL 156/2005, art. 5.º-B: the access
- * «visible and prominent» on the site), drawn by legal-comum with its icon. Its wording is the
- * page's. The library adds its own screen-reader note («abre numa nova janela»), in Portuguese; the
- * build gives every external link the page's translated note instead (scripts/build.mjs,
- * externalLinks), so the library's is dropped here to avoid two notes. The markers are the ones
- * legal-comum's CLI writes, so a check on the live site can find the button.
+ * The complaints-book link (Livro de Reclamações Electrónico, DL 156/2005, art. 5.º-B: the access
+ * «visible and prominent» on the site), drawn by legal-comum in its discreet form (.lr-discreto): a
+ * small book icon and the words, in the letter and colour of the links beside it, no box — the icon
+ * is what sets it apart. Its wording is the page's. The library adds its own screen-reader note
+ * («abre numa nova janela»), in Portuguese; the build gives every external link the page's
+ * translated note instead (scripts/build.mjs, externalLinks), so the library's is dropped here to
+ * avoid two notes. The markers are the ones legal-comum's CLI writes, so a check on the live site
+ * can find the link.
  */
-export function complaintsBook(ctx, { classe = 'lr-botao' } = {}) {
-  const button = livroReclamacoes({ classe, texto: t(ctx, 'legal.complaints'), lingua: LOCALE[ctx.lang].html });
-  return raw(`<!-- legal-comum:livro v${VERSAO} -->${button.replace(/<span class="lr-sr">[^<]*<\/span>/, '')}<!-- /legal-comum:livro -->`);
+export function complaintsBook(ctx) {
+  const link = livroReclamacoes({ texto: t(ctx, 'legal.complaints'), lingua: LOCALE[ctx.lang].html });
+  return raw(`<!-- legal-comum:livro v${VERSAO} -->${link.replace(/<span class="lr-sr">[^<]*<\/span>/, '')}<!-- /legal-comum:livro -->`);
 }
 
 /** A photo's description in the page's language (content/photos.json, in Portuguese, and its
@@ -250,12 +252,13 @@ export function footer(ctx) {
         <li><a href="${whatsappHref(site)}">${icon('whatsapp')}<span>WhatsApp</span></a></li>
         <li><a href="${site.instagram.url}">${icon('instagram')}<span>Instagram</span></a></li>
         <li><a href="${site.facebook}">${icon('facebook')}<span>Facebook</span></a></li>
-        <li class="site-footer__livro-item">${complaintsBook(ctx, { classe: 'site-footer__livro' })}</li>
       </ul>
     </div>
     <nav class="site-footer__col" aria-label="${t(ctx, 'footer.legal')}">
       <h2 class="site-footer__title">${t(ctx, 'footer.legal')}</h2>
-      <ul>${LEGAL_LINKS.map((i) => html`<li><a href="${localize(ctx, i.href)}">${t(ctx, i.label)}</a></li>`)}</ul>
+      <ul>${LEGAL_LINKS.map((i) => html`<li><a href="${localize(ctx, i.href)}">${t(ctx, i.label)}</a></li>`)}
+        <li>${complaintsBook(ctx)}</li>
+      </ul>
     </nav>
   </div>
   <div class="wrap site-footer__legal">

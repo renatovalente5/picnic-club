@@ -815,8 +815,10 @@ main.has-hero { padding-top: 0; }
 .legal .ral__lista { margin: 0 0 1.1em; }
 .legal .ral__lista li { padding-block: 0.6rem; border-top: 1px solid var(--sand); }
 .legal .ral__lista li:last-child { border-bottom: 1px solid var(--sand); }
-/* the complaints-book button on the legal notice and the contact card (legal-comum, livroCss): the site's button shape, letter never under 14 px */
-.legal .lr-botao, .contact-card .lr-botao { border-radius: 0; font-weight: 500; white-space: normal; text-align: left; }
+/* the complaints-book link (legal-comum, .lr-discreto: the letter and colour of the links beside it). Its names in
+   EN, ES and FR are long («… (Livro de Reclamações)»), so it wraps beside its icon instead of running out of the
+   footer column or off a phone (the library's nowrap would). */
+a.lr-discreto { white-space: normal; }
 .contact-card__livro { margin-top: 1.4rem; }
 
 /* ---------------------------------------------------------------- footer */
@@ -837,12 +839,6 @@ main.has-hero { padding-top: 0; }
 .site-footer__contact a { display: inline-flex; align-items: center; gap: 0.65rem; }
 .site-footer__contact .icon { width: 17px; height: 17px; flex: none; color: var(--gold); }
 .site-footer__contact .call-note { display: block; padding-left: calc(17px + 0.65rem); }
-/* the complaints-book button (legal-comum, livroCss writes .site-footer__livro): ivory on the olive, the site's
-   square shape; it may wrap on a narrow phone. `.site-footer a { color: inherit }` would paint it ivory on ivory,
-   hence the colour here, with more weight. */
-.site-footer__contact .site-footer__livro-item { padding-top: 0.75rem; }
-.site-footer .site-footer__livro { color: var(--olive); border-radius: 0; font-weight: 500; white-space: normal; text-align: left; gap: 0.65rem; }
-.site-footer .site-footer__livro svg { width: 1.3em; height: 1.3em; }
 .site-footer__legal { margin-top: 3.5rem; padding-top: 1.6rem; border-top: 1px solid rgba(245, 239, 228, 0.2); font-size: 0.82rem; color: #CFC6B5; }
 
 /* ---------------------------------------------------------------- motion */
