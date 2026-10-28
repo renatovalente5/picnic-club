@@ -819,7 +819,6 @@ main.has-hero { padding-top: 0; }
    EN, ES and FR are long («… (Livro de Reclamações)»), so it wraps beside its icon instead of running out of the
    footer column or off a phone (the library's nowrap would). */
 a.lr-discreto { white-space: normal; }
-.contact-card__livro { margin-top: 1.4rem; }
 
 /* ---------------------------------------------------------------- footer */
 

@@ -1,9 +1,9 @@
 // Every page of the site. Each function returns { path, title, description, image, body, ... }.
 // `path` is the English address; the build gives the Portuguese page its own (src/templates/i18n.mjs).
 import { html, raw, attrs } from './html.mjs';
-import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, logoShareImage, organisation, website, schemaGraph, experienceHref, complaintsBook } from './components.mjs';
+import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, logoShareImage, organisation, website, schemaGraph, experienceHref } from './components.mjs';
 import { LOCALE, localize, place, t } from './i18n.mjs';
-import { ralHtml, FRASE_FOTOGRAFIAS } from '../../legal-comum/index.mjs';
+import { ralHtml, FRASE_FOTOGRAFIAS, LIVRO_URL } from '../../legal-comum/index.mjs';
 
 // What the forms send: the same values in every language, only the words shown change.
 const EXPERIENCE_CODES = ['luxury-picnic', 'marriage-proposal', 'elopement-wedding', 'private-event', 'bespoke-experience'];
@@ -495,7 +495,6 @@ export function plan(ctx) {
         <p><a href="mailto:${site.email}">${site.email}</a></p>
         <p>${phone(ctx)}</p>
         <p class="small">${areasLine(ctx)}. ${site.areasNote}</p>
-        <p class="contact-card__livro">${complaintsBook(ctx)}</p>
       </div>
     </div>
     <div class="plan__main">
@@ -574,7 +573,8 @@ export function legalNotice(ctx) {
   const l = site.legal;
   const address = html`<address>${l.name}<br>${l.status}<br>${NIF_LABEL[ctx.lang]} ${l.nif}<br>${l.address.map((line, i) => html`${i ? raw('<br>') : ''}${line}`)}</address>`;
   const mail = html`<a href="mailto:${site.email}">${site.email}</a>`;
-  const book = html`<p>${complaintsBook(ctx)}</p>`;
+  // Aqui a ligação é simples: o Livro (o ícone) só aparece no rodapé.
+  const book = html`<p><a href="${LIVRO_URL}" target="_blank" rel="noopener">www.livroreclamacoes.pt</a></p>`;
   const ral = disputeResolution(ctx);
   const text = {
     pt: () => ({
