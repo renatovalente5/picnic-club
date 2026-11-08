@@ -3,7 +3,7 @@
 import { html, raw, attrs } from './html.mjs';
 import { picture, arrowLink, paragraphs, whatsappHref, phone, areasLine, icon, shareImage, logoShareImage, organisation, website, schemaGraph, experienceHref } from './components.mjs';
 import { LOCALE, localize, place, t } from './i18n.mjs';
-import { ralHtml, FRASE_FOTOGRAFIAS, LIVRO_URL } from '../../legal-comum/index.mjs';
+import { ralHtml, FRASE_FOTOGRAFIAS, FRASE_PAGINA_META, LIVRO_URL } from '../../legal-comum/index.mjs';
 
 // What the forms send: the same values in every language, only the words shown change.
 const EXPERIENCE_CODES = ['luxury-picnic', 'marriage-proposal', 'elopement-wedding', 'private-event', 'bespoke-experience'];
@@ -716,6 +716,8 @@ ${paragraphs(c.rescheduling)}
 export function privacy(ctx) {
   const { site } = ctx;
   const mail = html`<a href="mailto:${site.email}">${site.email}</a>`;
+  // The controller's address (GDPR art. 13(1)(a)): the one of the legal notice, on one line.
+  const postal = site.legal.address.join(', ');
   const cookiesLink = html`<a href="${localize(ctx, '/cookies/')}">Cookies</a>`;
   const text = {
     pt: () => ({
@@ -723,7 +725,7 @@ export function privacy(ctx) {
       description: 'Como a Picnic Club usa os dados pessoais que partilha através deste site.',
       sections: html`
 <h2>Responsável pelo tratamento</h2>
-<p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, contactável através de ${mail}, é a responsável pelo tratamento dos seus dados pessoais.</p>
+<p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, com morada em ${postal}, contactável através de ${mail}, é a responsável pelo tratamento dos seus dados pessoais.</p>
 <h2>Que dados recolhemos e porquê</h2>
 <p><strong>Pedidos de proposta.</strong> Quando envia o formulário «Pedir proposta», recebemos o seu nome, o seu email, o seu telefone se o indicar, e o que nos conta sobre os seus planos (tipo de experiência, data, local, número de convidados e como nos conheceu). Usamos estes dados apenas para lhe responder e preparar a sua proposta: diligências pré-contratuais a seu pedido (RGPD, art. 6.º, n.º 1, alínea b)).</p>
 <p><strong>Testemunhos.</strong> Quando escreve um testemunho, recebemos os vossos nomes, de onde são, a experiência, quando foi, o texto e o seu email. Só publicamos os nomes, o local e o texto com o seu consentimento (art. 6.º, n.º 1, alínea a)), que pode retirar a qualquer momento. O email nunca é publicado: usamo-lo para confirmar que o testemunho é seu. Podemos corrigir erros de escrita ou retirar dados pessoais, sem mudar o sentido.</p>
@@ -735,6 +737,7 @@ export function privacy(ctx) {
 <p>Os pedidos que não dão origem a uma reserva são apagados ao fim de 12 meses. Os registos das reservas são guardados durante o tempo que a lei exige. Os testemunhos ficam publicados até nos pedir que os retiremos. Um testemunho que não publicamos é apagado quando o recusamos, ou ao fim de 90 dias.</p>
 <h2>Quem nos ajuda</h2>
 <p>O site está alojado no GitHub Pages (GitHub, Inc., Estados Unidos), os formulários são tratados pela Cloudflare (Cloudflare, Inc.), o nosso email é fornecido pela Hostinger e os pedidos dos formulários dos anúncios ficam numa folha de cálculo do Google (Google Ireland Limited). As transferências para fora da UE assentam no Quadro de Privacidade de Dados UE-EUA e nas cláusulas contratuais-tipo da Comissão Europeia. Se nos enviar mensagens por WhatsApp, Instagram ou Facebook, a Meta Platforms Ireland trata essas mensagens nos seus próprios termos.</p>
+<p>${FRASE_PAGINA_META}</p>
 <p>Os ficheiros deste site estão num repositório público (GitHub), e o histórico desse repositório guarda as versões anteriores das páginas. Por isso, o que nos envia pelo formulário «Pedir proposta» e o seu email nunca entram no repositório; dos testemunhos, só entra o que publicamos com o seu consentimento (os nomes, o local e o texto).</p>
 <h2>Os seus direitos</h2>
 <p>Pode pedir o acesso aos seus dados, a sua retificação ou o seu apagamento, a limitação do tratamento ou opor-se a ele, e recebê-los num formato portável, escrevendo para ${mail}. Pode também apresentar reclamação à Comissão Nacional de Proteção de Dados, a CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
@@ -746,7 +749,7 @@ export function privacy(ctx) {
       description: 'How Picnic Club uses the personal data you share through this website.',
       sections: html`
 <h2>Who is responsible</h2>
-<p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, contactable at ${mail}, is responsible for your personal data.</p>
+<p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, with address at ${postal}, contactable at ${mail}, is responsible for your personal data.</p>
 <h2>What we collect, and why</h2>
 <p><strong>Enquiries.</strong> When you send the “Plan your experience” form we receive your name, email, phone number if you give it, and what you tell us about your plans (type of experience, date, place, number of guests, how you heard about us). We use them only to reply and to prepare your proposal: steps taken at your request before a contract (GDPR art. 6(1)(b)).</p>
 <p><strong>Reviews.</strong> When you write a review we receive your names, where you are from, the experience, when it was, your text and your email. We publish the names, the place and the text only with your consent (art. 6(1)(a)), which you can withdraw at any time. The email is never published; we use it to confirm the review is yours. We may correct typos or remove personal details, without changing what you say.</p>
@@ -758,6 +761,7 @@ export function privacy(ctx) {
 <p>Enquiries that do not become a booking are deleted after 12 months. Booking records are kept for as long as the law requires. Reviews stay published until you ask us to remove them. A review we do not publish is deleted when we decline it, or after 90 days.</p>
 <h2>Who helps us</h2>
 <p>The website is hosted by GitHub Pages (GitHub, Inc., United States), the forms are processed by Cloudflare (Cloudflare, Inc.), our email is provided by Hostinger, and the enquiries from our ad forms are kept in a Google spreadsheet (Google Ireland Limited). Transfers outside the EU rely on the EU–US Data Privacy Framework and the European Commission’s standard contractual clauses. If you message us on WhatsApp, Instagram or Facebook, Meta Platforms Ireland processes those messages under its own terms.</p>
+<p>We have a Facebook page and/or an Instagram profile. We and Meta Platforms Ireland Ltd. are joint controllers of the statistics of those pages (“Page Insights”), under Meta’s joint controller addendum: Meta is the primary controller, and it is to Meta that you can address requests about that data. What you post or send us on those platforms is also subject to Meta’s privacy policy.</p>
 <p>The files of this website live in a public repository (GitHub), whose history keeps the earlier versions of the pages. For that reason, what you send us through the “Plan your experience” form and your email never enter the repository; of the reviews, only what we publish with your consent (the names, the place and the text) does.</p>
 <h2>Your rights</h2>
 <p>You can ask to access, correct or delete your data, to restrict or object to its use, and to receive it in a portable format, by writing to ${mail}. You can also complain to the Portuguese data protection authority, CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
@@ -769,7 +773,7 @@ export function privacy(ctx) {
       description: 'Cómo usa Picnic Club los datos personales que comparte a través de este sitio web.',
       sections: html`
 <h2>Responsable del tratamiento</h2>
-<p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, con quien puede contactar en ${mail}, es la responsable del tratamiento de sus datos personales.</p>
+<p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, con domicilio en ${postal}, con quien puede contactar en ${mail}, es la responsable del tratamiento de sus datos personales.</p>
 <h2>Qué datos recogemos y por qué</h2>
 <p><strong>Solicitudes de propuesta.</strong> Cuando envía el formulario «Solicitar propuesta», recibimos su nombre, su email, su teléfono si lo indica, y lo que nos cuenta sobre sus planes (tipo de experiencia, fecha, lugar, número de invitados y cómo nos conoció). Usamos estos datos solo para responderle y preparar su propuesta: medidas precontractuales aplicadas a petición suya (RGPD, art. 6, apartado 1, letra b)).</p>
 <p><strong>Opiniones.</strong> Cuando escribe una opinión, recibimos sus nombres, de dónde son, la experiencia, cuándo fue, el texto y su email. Solo publicamos los nombres, el lugar y el texto con su consentimiento (art. 6, apartado 1, letra a)), que puede retirar en cualquier momento. El email nunca se publica: lo usamos para confirmar que la opinión es suya. Podemos corregir errores de escritura o retirar datos personales, sin cambiar el sentido.</p>
@@ -781,6 +785,7 @@ export function privacy(ctx) {
 <p>Las solicitudes que no dan lugar a una reserva se borran al cabo de 12 meses. Los registros de las reservas se conservan durante el tiempo que exige la ley. Las opiniones permanecen publicadas hasta que nos pida que las retiremos. Una opinión que no publicamos se borra cuando la rechazamos, o al cabo de 90 días.</p>
 <h2>Quién nos ayuda</h2>
 <p>El sitio web está alojado en GitHub Pages (GitHub, Inc., Estados Unidos), los formularios los gestiona Cloudflare (Cloudflare, Inc.), nuestro email lo proporciona Hostinger y las solicitudes de los formularios de los anuncios se guardan en una hoja de cálculo de Google (Google Ireland Limited). Las transferencias fuera de la UE se basan en el Marco de Privacidad de Datos UE-EE. UU. y en las cláusulas contractuales tipo de la Comisión Europea. Si nos escribe por WhatsApp, Instagram o Facebook, Meta Platforms Ireland trata esos mensajes según sus propias condiciones.</p>
+<p>Tenemos página en Facebook y/o perfil en Instagram. Las estadísticas de esas páginas («Page Insights») se tratan en régimen de corresponsabilidad con Meta Platforms Ireland Ltd., conforme al anexo de corresponsabilidad de Meta: Meta es la responsable principal y es a ella a quien puede dirigir las solicitudes sobre esos datos. Lo que publica o nos envía en esas plataformas se rige también por la política de privacidad de Meta.</p>
 <p>Los archivos de este sitio web están en un repositorio público (GitHub), cuyo historial guarda las versiones anteriores de las páginas. Por eso, lo que nos envía mediante el formulario «Solicitar propuesta» y su email nunca entran en el repositorio; de las opiniones, solo entra lo que publicamos con su consentimiento (los nombres, el lugar y el texto).</p>
 <h2>Sus derechos</h2>
 <p>Puede solicitar el acceso a sus datos, su rectificación o su supresión, la limitación del tratamiento u oponerse a él, y recibirlos en un formato portable, escribiendo a ${mail}. También puede presentar una reclamación ante la autoridad portuguesa de protección de datos, la CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
@@ -792,7 +797,7 @@ export function privacy(ctx) {
       description: 'Comment Picnic Club utilise les données personnelles que vous partagez sur ce site.',
       sections: html`
 <h2>Responsable du traitement</h2>
-<p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, joignable à l’adresse ${mail}, est responsable du traitement de vos données personnelles.</p>
+<p>${site.legal.name} (PICNIC CLUB), NIF ${site.legal.nif}, domiciliée ${postal}, joignable à l’adresse ${mail}, est responsable du traitement de vos données personnelles.</p>
 <h2>Les données que nous recueillons, et pourquoi</h2>
 <p><strong>Demandes de proposition.</strong> Lorsque vous envoyez le formulaire « Demander une proposition », nous recevons votre nom, votre e-mail, votre téléphone si vous l’indiquez, et ce que vous nous dites de vos projets (type d’expérience, date, lieu, nombre d’invités et comment vous nous avez connus). Nous les utilisons uniquement pour vous répondre et préparer votre proposition : mesures précontractuelles prises à votre demande (RGPD, art. 6, paragraphe 1, point b)).</p>
 <p><strong>Avis.</strong> Lorsque vous écrivez un avis, nous recevons vos prénoms, votre provenance, l’expérience, sa date, votre texte et votre e-mail. Nous ne publions les prénoms, le lieu et le texte qu’avec votre consentement (art. 6, paragraphe 1, point a)), que vous pouvez retirer à tout moment. L’e-mail n’est jamais publié : nous l’utilisons pour confirmer que l’avis est bien le vôtre. Nous pouvons corriger les fautes d’orthographe ou retirer des données personnelles, sans en changer le sens.</p>
@@ -804,6 +809,7 @@ export function privacy(ctx) {
 <p>Les demandes qui n’aboutissent pas à une réservation sont supprimées au bout de 12 mois. Les dossiers de réservation sont conservés pendant la durée exigée par la loi. Les avis restent publiés jusqu’à ce que vous nous demandiez de les retirer. Un avis que nous ne publions pas est supprimé lorsque nous le refusons, ou au bout de 90 jours.</p>
 <h2>Nos prestataires</h2>
 <p>Le site est hébergé par GitHub Pages (GitHub, Inc., États-Unis), les formulaires sont traités par Cloudflare (Cloudflare, Inc.), notre messagerie est fournie par Hostinger et les demandes issues des formulaires de nos publicités sont conservées dans une feuille de calcul Google (Google Ireland Limited). Les transferts hors de l’UE reposent sur le cadre de protection des données UE–États-Unis et sur les clauses contractuelles types de la Commission européenne. Si vous nous écrivez sur WhatsApp, Instagram ou Facebook, Meta Platforms Ireland traite ces messages selon ses propres conditions.</p>
+<p>Nous avons une page Facebook et/ou un profil Instagram. Les statistiques de ces pages (« Page Insights ») sont traitées en responsabilité conjointe avec Meta Platforms Ireland Ltd., selon l’addendum de responsabilité conjointe de Meta : Meta en est la responsable principale et c’est à elle que vous pouvez adresser vos demandes concernant ces données. Ce que vous publiez ou nous envoyez sur ces plateformes relève aussi de la politique de confidentialité de Meta.</p>
 <p>Les fichiers de ce site se trouvent dans un dépôt public (GitHub), dont l’historique conserve les versions antérieures des pages. C’est pourquoi ce que vous nous envoyez par le formulaire « Demander une proposition » et votre e-mail n’entrent jamais dans le dépôt ; des avis, seul ce que nous publions avec votre consentement (les prénoms, le lieu et le texte) y entre.</p>
 <h2>Vos droits</h2>
 <p>Vous pouvez demander l’accès à vos données, leur rectification ou leur effacement, la limitation de leur traitement ou vous y opposer, et les recevoir dans un format portable, en écrivant à ${mail}. Vous pouvez aussi introduire une réclamation auprès de l’autorité portugaise de protection des données, la CNPD (<a href="https://www.cnpd.pt">cnpd.pt</a>).</p>
